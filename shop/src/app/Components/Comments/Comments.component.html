@@ -1,0 +1,75 @@
+<div class="comments">
+    <div class="comments__wrap">
+        <div class="comments__form mb w-100" *ngIf="user?.is_auth">
+          <div class="w-100">
+              <div class="w-100">
+                <div class="w-100 ">
+                  <mat-form-field appearance="outline" color="accent" class="w-100">
+                    <mat-label>Ваш комментарий</mat-label>
+                    <textarea matInput [(ngModel)]="message"></textarea>
+                  </mat-form-field>
+                </div>
+
+                <div class="w-100">
+                  <mat-form-field appearance="outline" color="accent">
+                    <mat-label>Ваша оценка</mat-label>
+                    <mat-select on-selectionChange="rating=$event.value">
+                      <mat-option *ngFor="let star of [1,2,3,4,5]" [value]="star">
+                        {{star}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="w-100">
+                  <button mat-flat-button color="accent" on-click='click()'>Отправить</button>
+                </div>
+              </div>
+          </div>
+        </div>
+        <div class="comments__actions w-100 mb center justify-content-end" *ngIf="user.is_auth && comments.length">
+           <button mat-flat-button color="warn">Удалить комментарий/ии</button>
+        </div>
+        <div class="comments__items center flex-column" *ngIf="comments.length">
+            <div class="comments__item" *ngFor="let comment of comments">
+                  <div class="card">
+                      <div class="card-header card-author w-100 center justify-content-between">
+                          <span *ngIf="user.isSuperUser()">
+                            <mat-checkbox class="example-margin"
+                                          color="accent"
+                                          (change)="selectComment(comment.id, $event.checked)">
+                                          {{comment.sender.username}}
+                            </mat-checkbox>
+                          </span>
+                          <span *ngIf="!user.isSuperUser()">
+                            {{comment.sender.username}}
+                          </span>
+                      </div>
+                      <div class="card-body">
+                           <div class="card-text">
+                               {{comment.message}}
+                           </div>
+                      </div>
+                      <div class="rating">
+                          <div class="rating__content stars center">
+                                <div class="stars__container" *ngFor="let star of [1,2,3,4,5]">
+                                         <img src="{{star<=comment.rating ? '/assets/star.svg':'/assets/star_blank.svg'}}" alt="..." class="stars__img" style="height:15px;">
+                                </div>
+                           </div>
+                      </div>
+                  </div>
+            </div>
+            <div class="center w-100" *ngIf="!comments.length && !isSentRequest">
+                <mat-spinner class="bg-warn" style="background-color:white;" color="accent"></mat-spinner>
+            </div>
+            <div class="card center w-100" *ngIf="!comments.length && isSentRequest" hidden>
+                 <div class="card-body  wrap-md">
+                     <p class="mb-0 h6 text-center">Комментариев нет</p>
+                 </div>
+            </div>
+        </div>
+
+        <div class="comment__next-btn w-100 center" *ngIf="num_pages>1 && activePage<num_pages">
+           <button on-click="showMore()">Больше</button>
+        </div>
+    </div>
+</div>

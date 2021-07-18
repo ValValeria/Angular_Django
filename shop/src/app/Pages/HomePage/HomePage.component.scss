@@ -1,0 +1,13 @@
+@import "src/variables";
+
+.section{
+  min-height: 80vh !important;
+}
+
+.headline-md{
+  margin-bottom: $margin !important;
+}
+
+.mt-1-rem{
+  margin-top: $margin/2 !important;
+}

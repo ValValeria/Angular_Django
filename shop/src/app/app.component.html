@@ -1,0 +1,15 @@
+<div class="w-100 center position-relative align-items-start">
+  <app-admin-nav *ngIf="user.isSuperUser()"></app-admin-nav>
+
+  <div class="body-content w-100 position-relative" #body>
+    <app-header-top></app-header-top>
+
+    <app-header-main></app-header-main>
+
+    <div class="body-wrap w-100">
+      <router-outlet></router-outlet>
+    </div>
+
+    <app-footer></app-footer>
+  </div>
+</div>

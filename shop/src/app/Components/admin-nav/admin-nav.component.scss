@@ -1,0 +1,14 @@
+@import "src/variables";
+
+::ng-deep app-admin-nav{
+  height: 100vh;
+  width: 60px;
+  position: sticky;
+  left: 0;
+  top: 0;
+}
+
+.admin-nav{
+  background-color: $light-color;
+  height:100vh;
+}

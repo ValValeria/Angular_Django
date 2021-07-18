@@ -1,0 +1,26 @@
+<div class="add-characteristics p-all w-100 center">
+  <div class="add-characteristics__container center flex-column w-100">
+     <h4 class="text-center mb">Add a new characteristics</h4>
+     <div class="add-characteristics__form w-100 mt">
+        <form class="w-100" [formGroup]="formGroup">
+          <mat-form-field appearance="outline" class="w-100" color="accent">
+            <mat-label>Title</mat-label>
+            <input matInput formControlName="title">
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="w-100" color="accent">
+            <mat-label>Info</mat-label>
+            <textarea matInput formControlName="info"></textarea>
+          </mat-form-field>
+          <div class="w-100 center">
+            <button
+              mat-flat-button
+              color="accent"
+              class="w-100"
+              (click)="submit($event)"
+              [disabled]="formGroup.invalid"
+            >Submit</button>
+          </div>
+        </form>
+     </div>
+  </div>
+</div>

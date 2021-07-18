@@ -1,0 +1,11 @@
+<div class="carousel"  *ngIf="images.length">
+    <div class="carousel__content">
+        <ngb-carousel [interval]="1000" [pauseOnHover]="true">
+            <ng-template ngbSlide *ngFor="let image of images">
+                <div class="picsum-img-wrapper">
+                    <img [src]="image" alt="...">
+                </div>
+            </ng-template>
+        </ngb-carousel>
+    </div>
+</div>

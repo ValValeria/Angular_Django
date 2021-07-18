@@ -1,0 +1,37 @@
+.section__form{
+    width: 90%;
+    max-width: 800px;
+    border-radius: 15px;
+    padding: 2rem;
+    background-color:white;
+}
+
+mat-form-field{
+    width:100%;
+}
+
+section{
+    position: relative;
+}
+
+section::after{
+    content: "";
+    display: block;
+    position: absolute;
+    bottom: 3rem;
+    right: 0;
+    z-index: -1;
+    min-height: 50%;
+    width: 50%;
+
+}
+
+.section__field-errors{
+    width:100%;
+    margin-bottom: 20px;
+
+    button{
+        margin:5px 0;
+        width:100%;
+    }
+}

@@ -1,0 +1,113 @@
+@import "src/variables";
+
+.search{
+z-index: 99999999999;
+}
+
+.search__close{
+  top: $margin;
+  right: $margin;
+  position: absolute;
+}
+
+.search__field + .search__icon{
+  display: block!important;
+  position: static !important;
+  min-width: 90px!important;
+}
+
+.search__title{
+    font-size: 36px;
+    line-height: 1.07143;
+    letter-spacing: -0.005em;
+    text-transform: uppercase;
+}
+
+.search__form{
+    margin-top:30px;
+    background-color: rgba(255, 255, 255, 0.3);
+  padding: 20px;
+    border-radius: 5px;
+}
+
+.search__icon{
+    margin-left: $margin !important;
+    min-width: 150px;
+}
+
+.search__items{
+    padding-left:0;
+    margin-top:1rem;
+}
+
+.search__items li{
+    background-color: rgba(255, 255, 255, 0.3);
+    margin: 10px 0;
+    list-style: none;
+    padding-left: 0;
+    padding:20px;
+    border-radius:5px;
+    padding: 20px;
+    border-radius: 5px;
+    text-transform: capitalize;
+
+    :hover{
+        box-shadow:none;
+    }
+
+    a{
+        font-weight: 500;
+    }
+    a:hover{
+        color:inherit;
+    }
+}
+
+.search__field{
+    flex: 1 1 60%;
+}
+
+.search__item p{
+    margin-left:4px;
+}
+
+.search__item-chips mat-chip{
+    FONT-WEIGHT: 400;
+    font-size: 12px;
+}
+
+.mat-form-field-wrapper{
+    margin: 0 !important;
+    padding: 0 !important;
+    margin-right: 20px !important;
+}
+
+.search__input-container input{
+    outline: none;
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: 1px solid #EDEDED;
+    margin-right: 15px;
+    width:100%;
+}
+
+
+@media (max-width:380px){
+    .search__form{
+        flex-direction: column;
+
+        button{
+            width:100%;
+        }
+
+        input{
+             margin-right: 0 !important;
+             margin-bottom:10px;
+             width:100% !important;
+        }
+
+        .search__field{
+            width:100%;
+        }
+    }
+}

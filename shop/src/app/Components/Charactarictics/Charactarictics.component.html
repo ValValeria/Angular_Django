@@ -1,0 +1,26 @@
+<div [ngClass]="getClasses()">
+  <ul class="characteristics__items">
+    <ng-container *ngFor="let obj of fullData">
+      <li
+        *ngIf="obj[0].trim().length>0 && user.isSuperUser()"
+        (dblclick)="deleteCharacterictics(obj)"
+      >
+        <span matTooltip="Click two times to delete the item">{{obj[0]}}</span>
+        <span>{{obj[1]}}</span>
+      </li>
+
+      <li *ngIf="obj[0].trim().length>0 && !user.isSuperUser()">
+        <span>{{obj[0]}}</span>
+        <span>{{obj[1]}}</span>
+      </li>
+    </ng-container>
+  </ul>
+
+  <div class="characteristics__create-btn" *ngIf="user.isSuperUser()">
+    <div class="mb">
+      <button mat-mini-fab color="accent" class="shadow-none" (click)="addNewCharactarictics()">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>

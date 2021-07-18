@@ -1,0 +1,94 @@
+@import "src/base";
+
+footer{
+  color: white;
+}
+
+a, .footer__call-time li{
+  font-weight:400;
+}
+
+a{
+  border-bottom: 1px solid white;
+  padding-bottom: 0.6rem;
+}
+
+a:hover{
+  color: white;
+  border: none;
+}
+
+.footer__info, .footer__contacts{
+  width: 100% !important;
+  justify-content: space-between !important;
+  padding-left: 0;
+}
+
+.footer__link-active{
+  border-color: transparent !important;
+}
+
+.footer__info li, .footer__contacts ul li{
+  list-style:none;
+}
+
+.footer__call-time li{
+  padding-bottom: $margin/3;
+}
+
+.footer__contacts{
+  width: 100%;
+  margin-bottom : 0 !important;
+}
+
+.footer__contacts ul{
+  flex: 1 1 33%;
+  padding-left: 0;
+}
+
+.footer__phone{
+  flex: 1 1 24%;
+}
+
+
+:host ::ng-deep .footer__wrap{
+  padding: $margin*2 0 !important;
+}
+
+.footer__brand ::ng-deep .header__brand-name span, .footer__brand{
+  @extend .h6;
+}
+
+.footer__brand ::ng-deep .header__brand-name{
+  margin: 0 $margin/4;
+}
+
+.footer__brand{
+  color: white;
+}
+
+
+@media(max-width: $media){
+  .footer__info{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    grid-auto-rows: 50px;
+    grid-gap: $margin;
+    justify-items: center;
+
+    li{
+      width:100%;
+      height: 100%;
+    }
+
+    li a {
+      width:100%;
+      text-align: center;
+      height: 100%;
+      border:none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}

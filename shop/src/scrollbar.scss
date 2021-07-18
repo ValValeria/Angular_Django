@@ -1,0 +1,13 @@
+@import './base.scss';
+
+
+::-webkit-scrollbar-track, ::-webkit-scrollbar-track, ::-webkit-scrollbar {
+  background-color: $light-color !important;
+  box-shadow: inset 15px 15px 14px #e4e3e3  inset -15px -15px 14px #ffffff !important;
+}
+
+::-webkit-scrollbar-thumb, ::-webkit-scrollbar-thumb{
+  border-radius: 25px !important;
+  background: #bfbfc1 !important;
+  box-shadow:  15px 15px 14px #e4e3e3, -15px -15px 14px #ffffff !important;
+}
