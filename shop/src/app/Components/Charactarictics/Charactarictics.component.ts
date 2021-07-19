@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {UserService} from '../../Services/User.service';
 import {find, remove, isEqual} from 'lodash';
 import {MatDialog} from '@angular/material/dialog';
@@ -8,7 +8,6 @@ import {
 } from '../add-characteristics-dialog/add-characteristics-dialog.component';
 import {stringArray} from '../../Interfaces/Interfaces';
 
-
 @Component({
     selector: 'app-charactarictics',
     templateUrl: './Charactarictics.component.html',
@@ -17,17 +16,21 @@ import {stringArray} from '../../Interfaces/Interfaces';
 export class CharactaricticsComponent {
     fullData: stringArray;
     @Input('data') set data(value: stringArray){
-       value.forEach((v, index, array) => {
-         if (!find(this.fullData, v)){
-            this.fullData.push(v);
-         }
-       });
+       if(value){
+         value.forEach((v, index, array) => {
+           if (!find(this.fullData, v)){
+             this.fullData.push(v);
+           }
+         });
+       }
     }
+    @Output() changeData: EventEmitter<stringArray>;
 
     constructor(public user: UserService,
                 private dialog: MatDialog
                 ){
       this.fullData = [];
+      this.changeData = new EventEmitter();
     }
 
     getClasses(): string[]{
@@ -49,6 +52,7 @@ export class CharactaricticsComponent {
 
        const obj = ADD_CHARACTERISTICS_DIALOG$.subscribe(v => {
          this.fullData.push(v);
+         this.changeData.emit(this.fullData);
        });
 
        dialogRef.afterClosed().subscribe(v => {
@@ -58,11 +62,9 @@ export class CharactaricticsComponent {
 
     deleteCharacterictics(data: [string, string]): void{
        remove(this.fullData, (value) => {
-          if (isEqual(value, data)){
-            return true;
-          }
-
-          return false;
+          return !!isEqual(value, data);
        });
+
+       this.changeData.emit(this.fullData);
     }
 }

@@ -5,6 +5,10 @@
     background-color: white;
 }
 
+[contenteditable]{
+  outline: none;
+}
+
 p, .h6, h6{
     font-weight: 300 !important;
 }

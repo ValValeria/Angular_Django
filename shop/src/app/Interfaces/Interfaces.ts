@@ -11,6 +11,7 @@ export interface IAd{
     brand: string;
     status: 'limited'|'unlimited';
     characterictics: string;
+    rating?: number;
 }
 
 export type stringArray = [string, string][];

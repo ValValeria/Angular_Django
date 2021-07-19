@@ -16,7 +16,13 @@
                   <div class="mr">
                     <button mat-flat-button color="warn" (click)="deleteProduct()">Удалить товар</button>
                   </div>
-                  <button mat-flat-button color="accent" (click)="saveChanges()">Сохранить изменения</button>
+                  <div class="mr">
+                    <button mat-flat-button color="accent" (click)="saveChanges()">Сохранить изменения</button>
+                  </div>
+                  <div>
+                    <button mat-flat-button color="accent" (click)="file.click()">Загрузить изображение</button>
+                    <input type="file" hidden #file (change)="uploadImage(file.files)"/>
+                  </div>
                 </div>
                 <div class="product__container">
                   <div class="product__title h3 center" #editable data-role="title">{{post.title}}</div>
@@ -26,7 +32,7 @@
                   <div class="product__images center" (click)="showImages()" id="images">
                     <div class="w-100 center" style="min-height:70%;">
                       <div class="img-container w-100 position-relative" style="height:100%; width:100%;">
-                        <img src="{{post.image.startsWith('/')?(post.image) : ('/'+post.image)}}" alt="">
+                        <img src="{{post.image}}" alt="" #image>
                         <div (click)="$event.preventDefault()">
                           <app-like [id]="post.id"></app-like>
                         </div>
@@ -66,9 +72,15 @@
                       <div class="h4 text-center w-100">Описание</div>
                       <div class="w-100" (click)="$event.preventDefault()">
                         <mat-tab-group color="accent" dynamicHeight mat-align-tabs="center" class="product__tabs">
+                          <mat-tab label="О товаре" class="w-100">
+                             <div class="product__manufacter w-100 mt">
+                               <app-charactarictics [data]="manufactureInfo" (changeData)="manufactureInfo = $event"></app-charactarictics>
+                             </div>
+                          </mat-tab>
+
                           <mat-tab label="Характеристики">
                             <div class="product__tab-content  w-100">
-                              <app-charactarictics [data]="charactarictics"></app-charactarictics>
+                              <app-charactarictics [data]="charactarictics" (changeData)="charactarictics = $event"></app-charactarictics>
                             </div>
                           </mat-tab>
 

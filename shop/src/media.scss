@@ -1,3 +1,5 @@
+@import './variables';
+
 @media(max-width:1100px){
     .product__area .product__content .card-sm{
         justify-content: end;
@@ -52,4 +54,15 @@
     .headline-md {
         text-align: center;
     }
+}
+
+@media(max-width: $media/1.5){
+  .product__container mat-horizontal-stepper{
+    display: none;
+  }
+
+  .product__container{
+    display:flex !important;
+    flex-direction: column;
+  }
 }

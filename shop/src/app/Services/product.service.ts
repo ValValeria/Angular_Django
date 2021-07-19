@@ -31,4 +31,5 @@ export class ProductService implements IAd{
   short_description: string;
   status: 'limited' | 'unlimited';
   title: string;
+  uploadedFile?: File;
 }
