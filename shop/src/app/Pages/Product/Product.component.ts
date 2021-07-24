@@ -189,6 +189,7 @@ export class Product implements OnInit, AfterViewInit {
     this.productService.characterictics = this.charactarictics.map(v => v.join(':')).join(';');
     this.productService.brand = this.manufactureInfo[0][1];
     this.productService.category = this.manufactureInfo[1][1];
+    this.productService.id = this.post.id;
 
     const forbiddenRoles = ['image', 'characterictics', 'uploadedFile'];
     const formData = new FormData();
@@ -204,8 +205,6 @@ export class Product implements OnInit, AfterViewInit {
       }
     });
 
-    console.log(this.productService);
-
     Object.entries(this.productService).forEach(([k, v]) => {
       if (v instanceof File){
         formData.append('image', v, v.name);
@@ -214,7 +213,7 @@ export class Product implements OnInit, AfterViewInit {
       }
     });
 
-    this.http.put(`/api/product/${this.post.id}`, formData)
+    this.http.post(`/api/change-product/`, formData)
       .subscribe(v => {
         this.snackBar.open('The product is updated', 'Close');
       });

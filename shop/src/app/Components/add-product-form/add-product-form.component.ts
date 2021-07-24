@@ -4,6 +4,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {IAd} from '../../Interfaces/Interfaces';
 import {AdService} from '../../Services/ad.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-add-product-form',
@@ -16,10 +17,13 @@ export class AddProductFormComponent{
   public formGroup: FormGroup;
   @Input() public product: IAd;
   @ViewChild('form', {read: ElementRef}) public form: ElementRef;
+  @ViewChild('file', {read: ElementRef}) public file: ElementRef<HTMLInputElement>;
+  productIsAdded = false;
 
   constructor(private bd: FormBuilder,
               @Self() private ad: AdService,
-              private matSnack: MatSnackBar
+              private matSnack: MatSnackBar,
+              private router: Router
               ) {
     this.product = ad;
 
@@ -58,22 +62,43 @@ export class AddProductFormComponent{
       ]),
       characterictics: bd.control(this.product.characterictics, [
         Validators.required
+      ]),
+      status: bd.control(this.product.status, [
+        Validators.required
+      ]),
+      rating: bd.control(this.product.rating, [
+        Validators.required
       ])
     });
   }
 
-  async submit(): Promise<void>{
+  async submit($event): Promise<void>{
+    $event.preventDefault();
+
     if (this.formGroup.valid){
       const form = this.form.nativeElement as HTMLFormElement;
       const formData = new FormData(form);
 
-      const response = await fetch('/api/create-post', {
+      Object.entries(this.formGroup.value).forEach(([k, v]) => {
+        formData.set(k, v.toString());
+      });
+
+      formData.set('image', this.file.nativeElement.files[0]);
+
+      const response = await fetch('/api/product', {
          method: 'POST',
          body: formData
       });
 
       if (response.ok){
-        this.matSnack.open('The product has been added successfully.', 'Close');
+        const json = await response.json();
+        const productId = json.data.id;
+
+        const matSnackRef = this.matSnack.open('The product has been added successfully.', 'Close');
+
+        matSnackRef.afterDismissed().subscribe(async (v) => {
+          await this.router.navigate(['product', productId]);
+        });
       }
     }
   }

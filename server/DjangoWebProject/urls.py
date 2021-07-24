@@ -8,6 +8,7 @@ from app.view_pack.order_view import Delete_Order, Order_View, Get_Order, Order_
 from app.view_pack.products import ProductInfo, ProductsView, ProductView, ProductSort, ProductInfoBrands, \
     ProductAvailableCount
 from app.view_pack.search_view import Search
+from app.view_pack.add_product import AddProductView, UpdateProductView
 from app.views import ChangeAvatar, UserProfile, SendLetter, NotFound
 
 urlpatterns = [
@@ -18,6 +19,7 @@ urlpatterns = [
     re_path(r"^api/signup", SignUpView.as_view()),
     re_path(r"^api/login", LoginView.as_view()),
     re_path(r"^api/product/(?P<pk>\d+)", ProductView.as_view()),
+    re_path(r"^api/product", AddProductView.as_view()),
     re_path(r"^api/addcomment$", Comment_View.as_view()),
     re_path(r"^api/sort/", ProductSort.as_view()),
     re_path(r"^api/getlikes/", ProductLikesShow.as_view()),
@@ -34,6 +36,7 @@ urlpatterns = [
     re_path(r"^api/user-info", UserProfile.as_view()),
     re_path(r"^api/user/(?P<number>\d+)", AdminViewUser.as_view()),
     re_path(r"^api/users", AdminUsers.as_view()),
+    re_path(r"^api/change-product/", UpdateProductView.as_view()),
     re_path(r"^api/change-avatar", ChangeAvatar.as_view()),
     re_path(r'^admin/products/<int:id>/addimages', AdminProductImages.as_view()),
     re_path(r"^((?!app/static).)*$", NotFound.as_view())
