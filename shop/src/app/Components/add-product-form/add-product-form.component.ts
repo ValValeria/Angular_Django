@@ -1,10 +1,14 @@
-import {Component, OnInit, Input, Self, ViewChild, ElementRef} from '@angular/core';
+import {Component, Input, Self, ViewChild, ElementRef} from '@angular/core';
 import {UserService} from '../../Services/User.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {IAd} from '../../Interfaces/Interfaces';
 import {AdService} from '../../Services/ad.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {Router} from '@angular/router';
+import {HttpService} from '../../Services/Http.service';
+import {MatChipSelectionChange} from '@angular/material/chips';
+import _ from 'lodash';
+import {categoryValidator} from "../../validators/category.validator";
 
 @Component({
   selector: 'app-add-product-form',
@@ -19,11 +23,14 @@ export class AddProductFormComponent{
   @ViewChild('form', {read: ElementRef}) public form: ElementRef;
   @ViewChild('file', {read: ElementRef}) public file: ElementRef<HTMLInputElement>;
   productIsAdded = false;
+  public categories: string[] = [];
+  private prevCategoryValue = '';
 
   constructor(private bd: FormBuilder,
               @Self() private ad: AdService,
               private matSnack: MatSnackBar,
-              private router: Router
+              private router: Router,
+              private httpService: HttpService
               ) {
     this.product = ad;
 
@@ -59,6 +66,7 @@ export class AddProductFormComponent{
       ]),
       category: bd.control(this.product.category, [
         Validators.required,
+        categoryValidator()
       ]),
       characterictics: bd.control(this.product.characterictics, [
         Validators.required
@@ -67,9 +75,13 @@ export class AddProductFormComponent{
         Validators.required
       ]),
       rating: bd.control(this.product.rating, [
-        Validators.required
+        Validators.required,
+        Validators.min(1),
+        Validators.max(5)
       ])
     });
+
+    this.addCategory = _.debounce(this.addCategory.bind(this), 150);
   }
 
   async submit($event): Promise<void>{
@@ -101,5 +113,31 @@ export class AddProductFormComponent{
         });
       }
     }
+  }
+
+  async uploadImage(file: File): Promise<void>{
+    const image = document.querySelector('#image');
+
+    if (file && file instanceof File){
+       const url = URL.createObjectURL(file);
+       image.removeAttribute('hidden' );
+
+       image.querySelector('img').src = url;
+
+       setTimeout(() => {
+         URL.revokeObjectURL(url);
+       });
+    } else {
+       image.setAttribute('hidden', 'true');
+    }
+  }
+
+  async addCategory(txt: string): Promise<void>{
+    const response = await this.httpService.get<{data: {categories: string[]}}>(`/api/categories/?search=${encodeURI(txt)}`).toPromise();
+    this.categories = response.data?.categories;
+  }
+
+  chooseCategory(txt: string): void{
+    this.formGroup.get('category').setValue(txt);
   }
 }

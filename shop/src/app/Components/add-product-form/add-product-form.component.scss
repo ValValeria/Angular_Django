@@ -1,3 +1,10 @@
 button[type="submit"]{
   min-width: 170px;
 }
+
+.add-product__img{
+  max-width: 300px;
+  object-fit: contain;
+  width: 90%;
+  height: 100%;
+}

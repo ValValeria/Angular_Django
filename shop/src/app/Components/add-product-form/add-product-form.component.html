@@ -28,7 +28,23 @@
       </mat-form-field>
       <mat-form-field appearance="outline" class="w-100" color="accent">
         <mat-label>Category</mat-label>
-        <input matInput formControlName="category">
+        <input #category type="text" formControlName="category" matInput on-change="addCategory(category.value)"/>
+        <div class="mt">
+          <mat-chip-list
+            class="w-100"
+            [multiple]="false"
+            [selectable]="true"
+          >
+            <mat-chip
+              color="accent"
+              *ngFor="let keyword of categories"
+              [value]="keyword"
+              (click)="chooseCategory(keyword)"
+            >
+              {{keyword}}
+            </mat-chip>
+          </mat-chip-list>
+        </div>
       </mat-form-field>
       <mat-form-field appearance="outline" class="w-100" color="accent">
         <mat-label>Status</mat-label>
@@ -46,8 +62,13 @@
         <input matInput formControlName="characterictics">
       </mat-form-field>
       <div class="w-100 mt-half mb-half center flex-column">
-        <button mat-stroked-button (click)="file.click()" color="accent" class="w-100">Upload an image</button>
-        <input formControlName="image" type="file" #file hidden name="image"/>
+        <div class="w-100 mb">
+          <button mat-stroked-button (click)="file.click()" color="accent" class="w-100">Upload an image</button>
+          <input formControlName="image" type="file" #file hidden name="image" (change)="uploadImage(file.files[0])"/>
+        </div>
+        <div class="w-100 mb center" hidden id="image">
+          <img src="" alt="..." class="add-product__img"/>
+        </div>
       </div>
       <div class="mt w-100" *ngIf="formGroup.invalid && formGroup.touched">
         <button class="w-100" mat-button color="warn">

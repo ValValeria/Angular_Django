@@ -220,7 +220,15 @@ export class Product implements OnInit, AfterViewInit {
   }
 
   deleteProduct(): void{
-    this.http.delete(`/api/product/${this.post.id}`);
+    this.http.get(`/api/delete-product/?id=${this.post.id}`).subscribe(v => {
+      setTimeout(async () => {
+        this.snackBar.open('The product is deleted', 'Close');
+
+        await this.router.navigateByUrl('/products');
+
+        window.location.reload();
+      }, 1000);
+    });
   }
 
   uploadImage(files: FileList): void{

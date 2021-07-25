@@ -10,6 +10,8 @@ from app.view_pack.products import ProductInfo, ProductsView, ProductView, Produ
 from app.view_pack.search_view import Search
 from app.view_pack.add_product import AddProductView, UpdateProductView
 from app.views import ChangeAvatar, UserProfile, SendLetter, NotFound
+from app.view_pack.categories import CategoriesView
+from app.view_pack.products import ProductDeleteView
 
 urlpatterns = [
     re_path(r"^api/send-letter", SendLetter.as_view()),
@@ -36,8 +38,10 @@ urlpatterns = [
     re_path(r"^api/user-info", UserProfile.as_view()),
     re_path(r"^api/user/(?P<number>\d+)", AdminViewUser.as_view()),
     re_path(r"^api/users", AdminUsers.as_view()),
+    re_path(r"^api/categories", CategoriesView.as_view()),
     re_path(r"^api/change-product/", UpdateProductView.as_view()),
     re_path(r"^api/change-avatar", ChangeAvatar.as_view()),
+    re_path(r"^api/delete-product", ProductDeleteView.as_view()),
     re_path(r'^admin/products/<int:id>/addimages', AdminProductImages.as_view()),
     re_path(r"^((?!app/static).)*$", NotFound.as_view())
 ]

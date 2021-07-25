@@ -170,3 +170,17 @@ class ProductSort(ListView):
             return obj.filter(brand__iexact=brand)
         else:
             return obj.all()
+
+
+class ProductDeleteView(ListView):
+    def get(self, request, *args, **kw):
+        product_id = request.GET.get('id')
+
+        if not request.user.is_superuser:
+            return HttpResponseForbidden()
+        elif not product_id or not product_id.isdigit():
+            return HttpResponseBadRequest()
+
+        Product.objects.filter(id=product_id).delete()
+
+        return HttpResponse()

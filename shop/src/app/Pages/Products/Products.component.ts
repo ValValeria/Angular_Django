@@ -201,7 +201,7 @@ export class Products implements OnInit, AfterViewInit {
             return;
         }
 
-        this.dialog.afterAllClosed.subscribe(this.formRequest.bind(this));
+        this.dialog.afterAllClosed.subscribe(this.formRequest.bind(this, next));
     }
 
     formRequest(next): void {
