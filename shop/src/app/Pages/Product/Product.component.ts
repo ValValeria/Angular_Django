@@ -3,7 +3,7 @@ import {
   Component,
   ElementRef,
   OnInit,
-  QueryList,
+  QueryList, SkipSelf,
   ViewChild,
   ViewChildren
 } from '@angular/core';
@@ -11,7 +11,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatDrawer } from '@angular/material/sidenav';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { fromEvent } from 'rxjs';
+import {fromEvent, of} from 'rxjs';
 import { URL_PATH } from 'src/app/app.component';
 import { ProductPageImage } from 'src/app/Components/ProductPageImage/ProductPageImage.component';
 import {IAd, IResponse} from 'src/app/Interfaces/Interfaces';
@@ -19,12 +19,15 @@ import { HttpService } from 'src/app/Services/Http.service';
 import { UserService, USER_AUTH } from 'src/app/Services/User.service';
 import {HttpParams} from '@angular/common/http';
 import {Subject} from 'rxjs/internal/Subject';
-import {filter} from 'rxjs/operators';
+import {catchError, filter} from 'rxjs/operators';
 import {ProductService} from '../../Services/product.service';
 import {CharactaricticsComponent} from '../../Components/Charactarictics/Charactarictics.component';
-import {DomSanitizer} from '@angular/platform-browser';
+import _ from 'lodash';
+
 
 export const handleClose$ = new Subject();
+export const DELETE_PRODUCT$ = new Subject<void>();
+
 
 @Component({
     selector: 'app-product',
@@ -52,11 +55,10 @@ export class Product implements OnInit, AfterViewInit {
   constructor(private http: HttpService,
               private route: ActivatedRoute,
               private router: Router,
-              public user: UserService,
+              @SkipSelf() public user: UserService,
               private snackBar: MatSnackBar,
-              private diaglog: MatDialog,
+              private dialog: MatDialog,
               private productService: ProductService,
-              private sanitizer: DomSanitizer
   ) {
 
     this.route.paramMap.subscribe(v => {
@@ -67,7 +69,13 @@ export class Product implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.http.get<{ data: IAd }>(`${URL_PATH}api/product/` + this.postId).subscribe(
+    this.http.get<{ data: IAd }>(`${URL_PATH}api/product/` + this.postId).pipe(
+      catchError(v => {
+         this.router.navigateByUrl('/').then(v => console.log('error'));
+
+         return of();
+      })
+    ).subscribe(
       v => {
         this.post = v.data;
         this.charactarictics = this.post.characterictics.split(';').map(str => {
@@ -88,7 +96,7 @@ export class Product implements OnInit, AfterViewInit {
     });
 
     handleClose$.subscribe(v => {
-      this.diaglog.closeAll();
+      this.dialog.closeAll();
     });
   }
 
@@ -119,19 +127,23 @@ export class Product implements OnInit, AfterViewInit {
     func();
 
     USER_AUTH.pipe(filter(v => v)).subscribe(v1 => {
-      this.http.get<{ data: { count: number } }>(`${URL_PATH}api/product-count/?product_id=` + this.postId).
+      this.http.get<{ data: { count: number } }>(`/api/product-count?product_id=` + this.postId).
       subscribe(v => {
         this.maxCount = v.data.count;
       });
 
-      if (this.user.isSuperUser()){
-        const elements = [...this.editable];
-
-        elements.forEach(v => {
-          (v.nativeElement as HTMLElement).setAttribute('contenteditable', 'true');
-        });
-      }
+      this.setContentEditable();
     });
+  }
+
+  setContentEditable(): void{
+    if (this.user.isSuperUser()){
+      const elements = [...this.editable];
+
+      elements.forEach(v => {
+        (v.nativeElement as HTMLElement).setAttribute('contenteditable', '');
+      });
+    }
   }
 
   async buyItem(): Promise<void>{
@@ -161,7 +173,7 @@ export class Product implements OnInit, AfterViewInit {
 
   showImages(): void {
     if (this.post.image.length) {
-      this.diaglog.open(ProductPageImage, {
+      this.dialog.open(ProductPageImage, {
         data: { src: this.post.image },
         width: '100vw',
         height: '100vh',
@@ -206,12 +218,25 @@ export class Product implements OnInit, AfterViewInit {
     });
 
     Object.entries(this.productService).forEach(([k, v]) => {
-      if (v instanceof File){
-        formData.append('image', v, v.name);
-      } else {
-        formData.append(k, v);
-      }
+      formData.append(k, v);
     });
+
+    if (this.productService.uploadedFile && this.productService.uploadedFile instanceof File){
+       formData.set('image', this.productService.uploadedFile, this.productService.uploadedFile.name);
+    } else if (this.post.image){
+       const response = await fetch(this.post.image);
+       const img = await response.blob();
+       const randomInt = Math.random() * 2999 + 1;
+       const originalFilename = _.last(this.post.image.split('/'));
+       const fileName = randomInt.toString().concat(originalFilename);
+
+       formData.set('image', img, fileName);
+    }
+
+    const price = this.productService.price.toString();
+    const editPrice = price.toString().slice(1).replace(',', '.').slice(0, price.lastIndexOf('.') - 2);
+    formData.set('price', parseInt(editPrice, 10).toString());
+    formData.set('rating', this.post.rating.toString());
 
     this.http.post(`/api/change-product/`, formData)
       .subscribe(v => {
@@ -226,7 +251,7 @@ export class Product implements OnInit, AfterViewInit {
 
         await this.router.navigateByUrl('/products');
 
-        window.location.reload();
+        DELETE_PRODUCT$.next();
       }, 1000);
     });
   }

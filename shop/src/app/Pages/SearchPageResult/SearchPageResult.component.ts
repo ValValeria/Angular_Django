@@ -6,14 +6,14 @@ import { ActivatedRoute, Router } from '@angular/router';
     templateUrl: './SearchPageResult.component.html',
     styleUrls: ['./SearchPageResult.component.scss']
 })
-export class SearchPageResult{
+export class SearchPageResultComponent {
     searchText = '';
 
-    constructor(private route: ActivatedRoute,private router: Router){
-        this.route.queryParamMap.subscribe(v => {
+    constructor(private route: ActivatedRoute, private router: Router){
+        this.route.queryParamMap.subscribe(async (v) => {
             this.searchText = v.get('search');
-            if(this.searchText.length < 2){
-                this.router.navigateByUrl('/products');
+            if (this.searchText.length < 2){
+               await this.router.navigateByUrl('/products');
             }
         });
     }

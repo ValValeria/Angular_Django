@@ -1,5 +1,5 @@
 import os
-from django.http import JsonResponse, HttpResponseForbidden
+from django.http import JsonResponse, HttpResponseForbidden, HttpResponseNotFound
 from django.shortcuts import get_object_or_404
 from django.views.generic import View
 from ..forms import CreateProductForm, ValidateImages
@@ -11,23 +11,22 @@ import time
 class UpdateProductView(View):
     response = {"errors": [], "data": {"url": ""}, "status": ""}
 
-    def __init__(self, **kwargs):
-        super().__init__(kwargs)
-
     def post(self, request, *args, **kw):
         if not request.user.is_superuser:
             return HttpResponseForbidden()
 
-        form = CreateProductForm(request.FILES, request.POST)
+        form = CreateProductForm(request.POST, request.FILES)
         image = request.FILES.get('image')
-        product = get_object_or_404(id=request.POST.get('id'))
+        product = Product.objects.filter(id=request.POST.get('id')).first()
+
+        if not product:
+            return HttpResponseNotFound()
 
         if form.is_valid():
-            if image.content_type.startswith('image/'):
-                base_path = path.realpath("./app/static/images/")
-                time_d = int(time.time())
-                filename = path.join(base_path, str(time_d) + image.name)
-                prev_file = path.join(base_path, product.image)
+            if image:
+                base_path = path.realpath("./")
+                filename = os.path.normpath(path.join(base_path, image.name))
+                prev_file = os.path.normpath(path.join(base_path, product.image.name))
 
                 os.remove(prev_file)
 
@@ -62,10 +61,9 @@ class AddProductView(View):
         image = request.FILES.get('image')
 
         if form.is_valid():
-            if image.content_type.startswith('image/'):
-                time_d = int(time.time())
+            if image and image.content_type.startswith('image/'):
                 base_path = path.realpath("./app/static/images/")
-                filename = path.join(base_path, str(time_d) + image.name)
+                filename = path.join(base_path, image.name)
 
                 with open(filename, 'wb+') as destination:
                     for chunk in image.chunks():

@@ -1,4 +1,5 @@
-from django.http.response import FileResponse, Http404, HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
+from django.http.response import FileResponse, Http404, HttpResponse, HttpResponseBadRequest, HttpResponseForbidden, \
+    HttpResponseNotFound
 from django.views.generic import ListView, View
 from django.http import JsonResponse
 from django.db.models import Max, Min
@@ -79,10 +80,14 @@ class ProductAvailableCount(ListView):
 
         if product_id.isdigit():
             product = Product.objects.filter(id=product_id).first()
-            self.response["data"] = {"count": product.count}
-            return JsonResponse(self.response, json_dumps_params={'ensure_ascii': False})
+
+            if product:
+                self.response["data"] = {"count": product.count}
+                return JsonResponse(self.response, json_dumps_params={'ensure_ascii': False})
+            else:
+                return HttpResponseNotFound()
         else:
-            return Http404()
+            return HttpResponseForbidden()
 
 
 class ProductView(ListView):

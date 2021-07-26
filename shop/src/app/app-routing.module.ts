@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { Routes, RouterModule } from '@angular/router';
 import { HomePage } from './Pages/HomePage/HomePage.component';
 import { CommonModule } from '@angular/common';
-import { Products } from './Pages/Products/Products.component';
+import { ProductsComponent } from './Pages/Products/Products.component';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { ErrorImageLoading } from './Components/ErrorImageLoading/ErrorImageLoading.component';
@@ -32,7 +32,7 @@ import { OrdersLikes } from './Components/OrdersLikes/OrdersLikes.component';
 import { Like } from './Components/Like/Like.component';
 import { MatIconModule } from '@angular/material/icon';
 import { ContactPage } from './Pages/ContactPage/ContactPage.component';
-import { SearchPageResult } from './Pages/SearchPageResult/SearchPageResult.component';
+import { SearchPageResultComponent } from './Pages/SearchPageResult/SearchPageResult.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatChipsModule } from '@angular/material/chips';
 import { PurchasePage } from './Pages/PurchasePage/PurchasePage.component';
@@ -59,7 +59,7 @@ import {WarrantyPolicyPageComponent} from './Pages/warranty-policy-page/warranty
 import { ContactsInfoPageComponent } from './Pages/contacts-info-page/contacts-info-page.component';
 import {ContractInfoPageComponent} from './Pages/contract-info-page/contract-info-page.component';
 import {SliceStringPipe} from './Pipes/SliceString.pipe';
-import {OnlyAuthGuard} from './guards/only-auth-guard.service';
+import {OnlyAuthGuard} from './guards/only-auth-guard.guard';
 import { AdminDashboardComponent } from './Components/admin-dashboard/admin-dashboard.component';
 import { AdminDashboardFullComponent } from './Components/admin-dashboard-full/admin-dashboard-full.component';
 import { UsersPageComponent } from './Pages/users-page/users-page.component';
@@ -69,20 +69,21 @@ import { AddProductPageComponent } from './Pages/add-product-page/add-product-pa
 import {OnlySuperAdminGuard} from './guards/only-super-admin.guard';
 import { AddProductFormComponent } from './Components/add-product-form/add-product-form.component';
 import {MatPaginatorModule} from '@angular/material/paginator';
-import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {ProductDataResolver} from './guards/product-data.resolver';
 
 
 
 const routes: Routes = [
   {path: '', component: HomePage, pathMatch: 'full'},
   {path: 'buy-orders', component: PurchasePage},
-  {path: 'products', component: Products },
+  {path: 'products', component: ProductsComponent, resolve: {productsInfo: ProductDataResolver}},
   {path: 'product/:id', component: Product},
   {path: 'authenticate', component: AuthPage},
   {path: 'profile/users', component: UsersPageComponent, canActivate: [OnlySuperAdminGuard]},
   {path: 'profile/add-product', component: AddProductPageComponent, canActivate: [OnlySuperAdminGuard]},
   {path: 'profile/:id', component: AdminPageComponent, canActivate: [OnlyAuthGuard]},
-  {path: 'search', component: SearchPageResult },
+  {path: 'search', component: SearchPageResultComponent },
   {path: 'contacts', component: ContactPage},
   {path: 'category/:category', component: CategoryPage},
   {path: 'info/refund', component: ServiceInfoPageComponent},
@@ -112,7 +113,7 @@ const modules = [MatButtonModule, CommonModule,
 
 @NgModule({
     imports: [RouterModule.forRoot(routes), ...modules, MatPaginatorModule, MatTooltipModule],
-  declarations: [HomePage, Products,
+  declarations: [HomePage, ProductsComponent,
                 ErrorImageLoading, CardSmall,
                 SafePipe, OrdersLikes,
                 Product, Carousel,
@@ -121,7 +122,7 @@ const modules = [MatButtonModule, CommonModule,
                 Slider, CategoriesListComponent,
                 OrderListComponent, Like,
                 NotFoundPage, ContactPage,
-                ProductPageImage, SearchPageResult,
+                ProductPageImage, SearchPageResultComponent,
                 PurchasePage, CategoryPage,
                 BreadCrumbsComponent, ProductNavigation,
                 FlexLayoutComponent, ProductsCategoriesComponent,

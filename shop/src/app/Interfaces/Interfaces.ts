@@ -20,6 +20,12 @@ export interface IResponse{
   data: any[];
 }
 
+export interface IProductsResponse{
+  categories: string[];
+  maxPrice: number;
+  maxPriceValue: number;
+}
+
 export interface IAdminUsersResponse{
   data: {
     users: IUser[];

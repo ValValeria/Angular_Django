@@ -139,7 +139,7 @@
                   </div>
                 </div>
 
-                <div class="product__search-card w-100" *ngIf="isSearchPage">
+                <div class="product__search-card w-100" *ngIf="isSearch">
                     <mat-slide-toggle color="accent" [checked]="true" (toggleChange)="undoSearch()">
                         <span>В поиск будут включаться только товары, которые содержат '{{searchText}}'</span>
                     </mat-slide-toggle>

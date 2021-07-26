@@ -14,6 +14,7 @@ from app.view_pack.categories import CategoriesView
 from app.view_pack.products import ProductDeleteView
 
 urlpatterns = [
+    re_path(r"^api/product-count", ProductAvailableCount.as_view()),
     re_path(r"^api/send-letter", SendLetter.as_view()),
     re_path(r"^api/delete-likes/", ProductLikesDelete.as_view()),
     re_path(r"^api/info-products/", ProductInfo.as_view()),
@@ -33,7 +34,6 @@ urlpatterns = [
     re_path(r"^api/getbrands/", ProductInfoBrands.as_view()),
     re_path(r"^api/addlike", ProductLikes.as_view()),
     re_path(r"^api/buy-products", Order_Buy.as_view()),
-    re_path(r"^api/product-count", ProductAvailableCount.as_view()),
     re_path(r"^api/delete-user/(?P<number>\d+)", AdminDeleteUsers.as_view()),
     re_path(r"^api/user-info", UserProfile.as_view()),
     re_path(r"^api/user/(?P<number>\d+)", AdminViewUser.as_view()),

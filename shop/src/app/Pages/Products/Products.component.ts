@@ -1,12 +1,14 @@
 import { animate, query, stagger, style, transition, trigger } from '@angular/animations';
 import { AfterViewInit, Component, ElementRef, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { IAd, ProductsBrand, ProductsInfo } from 'src/app/Interfaces/Interfaces';
+import {IAd, IProductsResponse, ProductsBrand} from 'src/app/Interfaces/Interfaces';
 import { HttpService } from 'src/app/Services/Http.service';
 import { HttpParams } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { URL_PATH } from 'src/app/app.component';
+import {tap} from 'rxjs/operators';
+import {DELETE_PRODUCT$} from "../Product/Product.component";
 
 interface IResponse {
     data: IAd[];
@@ -14,8 +16,7 @@ interface IResponse {
 }
 
 @Component({
-  // tslint:disable-next-line:component-selector
-    selector: 'products',
+    selector: 'app-products',
     templateUrl: './Products.component.html',
     styleUrls: ['./Products.component.scss'],
     animations: [
@@ -35,7 +36,7 @@ interface IResponse {
         ])
     ]
 })
-export class Products implements OnInit, AfterViewInit {
+export class ProductsComponent implements OnInit, AfterViewInit {
     products: IAd[];
     disabled = true;
     panelOpenState = false;
@@ -44,7 +45,7 @@ export class Products implements OnInit, AfterViewInit {
     @ViewChild('search', { read: TemplateRef }) search: TemplateRef<any>;
     @ViewChild('product_search', { read: ElementRef }) matSearchContainer: ElementRef;
     @ViewChild('mediaSearch', { read: TemplateRef }) matMediaSearchContainer: TemplateRef<any>;
-    @Input('isSearch') isSearchPage = false;
+    @Input() isSearch = false;
     @Input() isCategoryPage = false;
     @Input() searchText = '';
     maxPrice: number;
@@ -77,7 +78,7 @@ export class Products implements OnInit, AfterViewInit {
 
         let url = `${URL_PATH}api/info-products/`;
 
-        if (this.isSearchPage) {
+        if (this.isSearch) {
             url += '&search=' + encodeURIComponent(this.searchText);
             this.urls = [['/', 'Главная'], ['/products', 'Продукты'], ['/search', 'Поиск']];
         } else if (this.isCategoryPage) {
@@ -87,21 +88,30 @@ export class Products implements OnInit, AfterViewInit {
             this.urls = [['/', 'Главная'], ['/products', 'Продукты']];
         }
 
-        this.http.get<ProductsInfo>(url).subscribe(v => {
-            this.categories = v.data.categories;
-            this.maxPrice = v.data.price[1].max_price;
-            this.maxPriceValue = v.data.price[1].max_price;
-
+        this.route.data
+          .pipe(
+            tap((v) => {
+              const data: IProductsResponse = v.productsInfo;
+              this.categories = data.categories;
+              this.maxPrice = data.maxPrice;
+              this.maxPriceValue = data.maxPriceValue;
+            })
+          )
+          .subscribe(v => {
             if (this.isCategoryPage) {
-                this.route.paramMap.subscribe(v2 => {
-                    setTimeout(() => {
-                        this.activeCategory = v2.get('category');
-                        this.formRequest(false);
-                    }, 0);
-                });
+              this.route.paramMap.subscribe(v2 => {
+                setTimeout(() => {
+                  this.activeCategory = v2.get('category');
+                  this.formRequest(false);
+                }, 0);
+              });
             } else {
-                this.formRequest(false);
+              this.formRequest(false);
             }
+          });
+
+        DELETE_PRODUCT$.subscribe(v => {
+          this.formRequest(false);
         });
     }
 
@@ -175,7 +185,7 @@ export class Products implements OnInit, AfterViewInit {
 
             let url = `${URL_PATH}api/getbrands/?category=` + encodeURIComponent(this.activeCategory);
 
-            if (this.isSearchPage) {
+            if (this.isSearch) {
                 url += '&search=' + encodeURIComponent(this.searchText);
             }
 
@@ -219,7 +229,7 @@ export class Products implements OnInit, AfterViewInit {
 
         const url = `${URL_PATH}api/sort/`;
 
-        if (this.isSearchPage) {
+        if (this.isSearch) {
             config.params.set('search', this.searchText);
         }
 
@@ -227,7 +237,7 @@ export class Products implements OnInit, AfterViewInit {
             if (v.data.length) {
 
                 v.data.forEach(element => {
-                    const index = this.products.findIndex(v => Number(v.id) === Number(element.id));
+                    const index = this.products.findIndex(v1 => Number(v1.id) === Number(element.id));
 
                     if (index === -1) {
                         this.products.push(element);
