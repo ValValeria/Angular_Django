@@ -23,21 +23,24 @@ class UpdateProductView(View):
             return HttpResponseNotFound()
 
         if form.is_valid():
-            if image:
-                base_path = path.realpath("./")
+            if image and hasattr(image, 'content_type'):
+                base_path = path.realpath("./app/static/images/")
                 filename = os.path.normpath(path.join(base_path, image.name))
                 prev_file = os.path.normpath(path.join(base_path, product.image.name))
 
-                os.remove(prev_file)
+                if os.path.exists(prev_file):
+                    os.remove(prev_file)
 
                 with open(filename, 'wb+') as destination:
                     for chunk in image.chunks():
                         destination.write(chunk)
 
+                    print("File is uploaded. Filename is " + filename)
+
                 for k, v in form.cleaned_data.items():
                     setattr(product, k, v)
 
-                product.image = '/public/images/' + image.name
+                product.image = '/app/static/images/' + image.name
                 product.user = request.user
                 product.save()
 
@@ -61,7 +64,7 @@ class AddProductView(View):
         image = request.FILES.get('image')
 
         if form.is_valid():
-            if image and image.content_type.startswith('image/'):
+            if image and hasattr(image, 'content_type'):
                 base_path = path.realpath("./app/static/images/")
                 filename = path.join(base_path, image.name)
 
@@ -74,7 +77,7 @@ class AddProductView(View):
                 for k, v in form.cleaned_data.items():
                     setattr(product, k, v)
 
-                product.image = '/public/images/' + image.name
+                product.image = '/app/static/images/' + image.name
                 product.user = request.user
                 product.save()
 

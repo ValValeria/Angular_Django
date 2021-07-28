@@ -23,6 +23,7 @@ import {catchError, filter} from 'rxjs/operators';
 import {ProductService} from '../../Services/product.service';
 import {CharactaricticsComponent} from '../../Components/Charactarictics/Charactarictics.component';
 import _ from 'lodash';
+import {IProductResponse} from '../../guards/product.resolver';
 
 
 export const handleClose$ = new Subject();
@@ -69,14 +70,12 @@ export class Product implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.http.get<{ data: IAd }>(`${URL_PATH}api/product/` + this.postId).pipe(
-      catchError(v => {
-         this.router.navigateByUrl('/').then(v => console.log('error'));
+    this.route.data.subscribe(async (v1) => {
+      const v = v1.product as IProductResponse;
 
-         return of();
-      })
-    ).subscribe(
-      v => {
+      if (v.status === '404'){
+        await this.router.navigateByUrl('/products');
+      } else {
         this.post = v.data;
         this.charactarictics = this.post.characterictics.split(';').map(str => {
           const array = str.split(':');
@@ -86,12 +85,12 @@ export class Product implements OnInit, AfterViewInit {
           ['Изготовитель', this.post.brand],
           ['Категория товара', this.post.category],
         ];
-      }
-    );
 
-    this.http.get<{ data: IAd[] }>(`${URL_PATH}api/products?page=1`, {}).subscribe(v => {
-      if ((v.data || []).length) {
-        this.products = v.data;
+        this.http.get<{ data: IAd[] }>(`${URL_PATH}api/products?page=1&exclude=${this.post.id}`, {}).subscribe(v => {
+          if ((v.data || []).length) {
+            this.products = v.data;
+          }
+        });
       }
     });
 
@@ -233,9 +232,7 @@ export class Product implements OnInit, AfterViewInit {
        formData.set('image', img, fileName);
     }
 
-    const price = this.productService.price.toString();
-    const editPrice = price.toString().slice(1).replace(',', '.').slice(0, price.lastIndexOf('.') - 2);
-    formData.set('price', parseInt(editPrice, 10).toString());
+    formData.set('price', this.post.price.toString());
     formData.set('rating', this.post.rating.toString());
 
     this.http.post(`/api/change-product/`, formData)

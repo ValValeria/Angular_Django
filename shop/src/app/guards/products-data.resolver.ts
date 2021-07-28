@@ -8,7 +8,7 @@ import {HttpService} from '../Services/Http.service';
 @Injectable({
   providedIn: 'root'
 })
-export class ProductDataResolver implements Resolve<IProductsResponse> {
+export class ProductsDataResolver implements Resolve<IProductsResponse> {
   constructor(private http: HttpService){}
 
   resolve(

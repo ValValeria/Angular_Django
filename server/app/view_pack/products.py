@@ -15,12 +15,18 @@ class ProductsView(ListView):
     def get(self, *args, **kwargs):
         products = list(Product.objects.all())
         count = self.request.GET.get("page", "")
+        exclude = self.request.GET.get("exclude", "0")
+
+        if exclude.isdigit():
+            products = list(Product.objects.exclude(id=int(exclude)))
+
         if count.isdigit() and len(count) > 0:
             paginator = Paginator(products, 4)
             count = int(count)
 
             if count <= paginator.num_pages:
                 page = paginator.page(count)
+
                 self.response["data"] = PostSerializer(
                     page.object_list, many=True).data
                 self.response["has_next"] = page.has_next()
@@ -91,6 +97,7 @@ class ProductAvailableCount(ListView):
 
 
 class ProductView(ListView):
+    response = {"data": {}, "status":''}
 
     def get(self, request, *args, **kwargs):
         product = Product.objects.filter(id__contains=kwargs["pk"]).first()
@@ -104,9 +111,11 @@ class ProductView(ListView):
 
             product_serialized.update({"ex_photoes": images})
 
-            return JsonResponse({"data": product_serialized}, json_dumps_params={'ensure_ascii': False})
+            self.response['data'] = product_serialized
         else:
-            return HttpResponseForbidden()
+            self.response['status'] = '404'
+
+        return JsonResponse(self.response, json_dumps_params={'ensure_ascii': False})
 
 
 class ProductSort(ListView):

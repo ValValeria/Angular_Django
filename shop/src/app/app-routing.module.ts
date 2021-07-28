@@ -70,15 +70,16 @@ import {OnlySuperAdminGuard} from './guards/only-super-admin.guard';
 import { AddProductFormComponent } from './Components/add-product-form/add-product-form.component';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatTooltipModule} from '@angular/material/tooltip';
-import {ProductDataResolver} from './guards/product-data.resolver';
+import {ProductsDataResolver} from './guards/products-data.resolver';
+import {ProductResolver} from './guards/product.resolver';
 
 
 
 const routes: Routes = [
   {path: '', component: HomePage, pathMatch: 'full'},
   {path: 'buy-orders', component: PurchasePage},
-  {path: 'products', component: ProductsComponent, resolve: {productsInfo: ProductDataResolver}},
-  {path: 'product/:id', component: Product},
+  {path: 'products', component: ProductsComponent, resolve: {productsInfo: ProductsDataResolver}},
+  {path: 'product/:id', component: Product, resolve: {product: ProductResolver}},
   {path: 'authenticate', component: AuthPage},
   {path: 'profile/users', component: UsersPageComponent, canActivate: [OnlySuperAdminGuard]},
   {path: 'profile/add-product', component: AddProductPageComponent, canActivate: [OnlySuperAdminGuard]},
@@ -112,7 +113,7 @@ const modules = [MatButtonModule, CommonModule,
                 ];
 
 @NgModule({
-    imports: [RouterModule.forRoot(routes), ...modules, MatPaginatorModule, MatTooltipModule],
+  imports: [RouterModule.forRoot(routes), ...modules, MatPaginatorModule, MatTooltipModule],
   declarations: [HomePage, ProductsComponent,
                 ErrorImageLoading, CardSmall,
                 SafePipe, OrdersLikes,
@@ -133,7 +134,7 @@ const modules = [MatButtonModule, CommonModule,
                 AdminDashboardComponent, AdminDashboardFullComponent, UsersPageComponent, UserCardComponent,
                 AddProductFormComponent, AddProductPageComponent
                 ],
-  providers: [OnlyAuthGuard, OnlySuperAdminGuard],
+  providers: [OnlyAuthGuard, OnlySuperAdminGuard, ProductResolver],
   exports: [RouterModule, ...modules, ProductsCategoriesComponent, SectionLayoutComponent, AdminDashboardComponent]
 })
 export class AppRoutingModule { }
