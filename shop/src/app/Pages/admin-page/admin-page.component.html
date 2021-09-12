@@ -14,11 +14,8 @@
              }}
            </h6>
          </button>
-         <div class="admin__show-users w-100 mt-half" *ngIf="currentUser.isSuperUser()">
-           <a mat-flat-button class="w-100" routerLink="/profile/users" color="warn">
-             Пользователи
-           </a>
-         </div>
+
+         <app-admin-buttons  *ngIf="currentUser.isSuperUser()"></app-admin-buttons>
        </div>
        <div class="admin__items ">
          <div class="w-100">

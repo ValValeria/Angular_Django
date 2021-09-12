@@ -12,6 +12,7 @@ from app.view_pack.add_product import AddProductView, UpdateProductView
 from app.views import ChangeAvatar, UserProfile, SendLetter, NotFound
 from app.view_pack.categories import CategoriesView
 from app.view_pack.products import ProductDeleteView
+from app.views import ServeAssestView
 
 urlpatterns = [
     re_path(r"^api/product-count", ProductAvailableCount.as_view()),
@@ -43,5 +44,6 @@ urlpatterns = [
     re_path(r"^api/change-avatar", ChangeAvatar.as_view()),
     re_path(r"^api/delete-product", ProductDeleteView.as_view()),
     re_path(r'^admin/products/<int:id>/addimages', AdminProductImages.as_view()),
+    re_path(r"^assets/(?P<filename>\w+)", ServeAssestView.as_view()),
     re_path(r"^((?!app/static).)*$", NotFound.as_view())
 ]

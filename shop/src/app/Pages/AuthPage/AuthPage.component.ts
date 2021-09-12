@@ -7,6 +7,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from 'src/app/Services/User.service';
 import { merge } from 'rxjs';
 import { AuthenticateHelper } from 'src/app/Classes/authenticate-helper.service';
+import {IUser} from "../../Interfaces/Interfaces";
 
 @Component({
     selector: 'app-auth-page',
@@ -97,34 +98,38 @@ export class AuthPage implements AfterViewInit{
         this.showStatus = '';
     }
 
-    submit($event): void {
+    async submit($event): Promise<void> {
       $event.preventDefault();
 
-      const data: { [prop: string]: string } = { ...this.form.value };
+      if (this.form.valid){
+        const data: IUser = { ...this.form.value };
 
-      if (!this.isLogin) {
-        Object.assign(data, { email: this.email.value });
-      }
+        if (!this.isLogin) {
+          Object.assign(data, { email: this.email.value });
+        }
 
+        this.snackBar.open('Отправляем данные на сервер', 'Close');
 
-      this.authHelper.authenticate(this.user, this.isLogin)
-        .then(async () => {
+        try {
+          await this.authHelper.authenticate(data, this.isLogin);
+
           if (this.user.is_auth) {
             localStorage.setItem('auth', JSON.stringify(this.user));
             await this.router.navigateByUrl(`/profile/${this.user.id}`);
-          } else {
-            throw new Error();
           }
+        } catch (e){
+          console.log(e);
 
-          return;
-        })
-        .catch(v => {
           if (this.isLogin) {
             this.showStatus = 'Извините, но вас нет в нашей системе';
           } else {
             this.showStatus = 'Извините, но пользователь с такими данными уже есть в нашей базе';
           }
+
           localStorage.removeItem('auth');
-        });
-     }
+        }
+      } else {
+        this.snackBar.open('Проверьте правильность формы', 'Close');
+      }
+    }
 }

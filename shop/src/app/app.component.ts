@@ -25,12 +25,11 @@ export class AppComponent implements OnInit {
 
   async ngOnInit(): Promise<void>{
     try{
-      if(localStorage.getItem('auth')){
+      if (localStorage.getItem('auth')){
         await this.auth.authenticate(JSON.parse(localStorage.getItem('auth')), true);
       }
     } catch (e){
       console.warn('Invalid json data');
-      this.router.navigateByUrl('/').then(r => console.log('forbidden'));
     }
   }
 }

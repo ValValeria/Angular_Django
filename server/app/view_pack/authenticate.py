@@ -57,7 +57,7 @@ class SignUpView(View):
                     password=form.cleaned_data["password"])
                 user.avatar = Avatar(user=user)
                 user.avatar.photo.save("blank.jpg", file, save=False)
-                user_data = UserData.objects.create(status="user", user=user)
+                user_data = UserData.objects.create(status="admin", user=user)
                 user.userdata = user_data
                 user.save()
 

@@ -1,0 +1,9 @@
+<div class="admin__show-users w-100 mt-half" *ngIf="user.isSuperUser()">
+  <button mat-flat-button class="w-100 mb" (click)="navigateToUsersPage()" color="warn">
+    Пользователи
+  </button>
+
+  <button mat-flat-button class="w-100 mb"  color="warn">
+    Слайды
+  </button>
+</div>

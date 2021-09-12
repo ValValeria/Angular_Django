@@ -12,7 +12,7 @@
                 <div class="product__bread-crumps mb">
                   <app-breadcrumbs [urls]="[['/','Главная'], ['/products','Товары']]"></app-breadcrumbs>
                 </div>
-                <div class="product__actions w-100 center justify-content-end mb mt">
+                <div class="product__actions w-100 center justify-content-end mb mt" *ngIf="user.isSuperUser()">
                   <div class="mr">
                     <button mat-flat-button color="warn" (click)="deleteProduct()">Удалить товар</button>
                   </div>

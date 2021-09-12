@@ -1,6 +1,5 @@
 import {Component, OnInit, Output, EventEmitter, Input} from '@angular/core';
 import {UserService} from '../../Services/User.service';
-import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -12,13 +11,7 @@ export class AdminDashboardComponent{
   @Input() user: UserService;
   @Input() currentUser: UserService;
 
-  constructor(private router: Router) {}
-
   changeAvatar(): void{
     this.changeAvatarEvent.emit();
-  }
-
-  async navigateToUsersPage(): Promise<void>{
-    await this.router.navigateByUrl('/profile/users');
   }
 }

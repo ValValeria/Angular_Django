@@ -22,11 +22,7 @@
               <button mat-flat-button color="accent" on-click="changeAvatar()" class="w-100">Поменять аватар</button>
               <input type="file" name=""#file hidden>
             </div>
-            <div class="admin__show-users w-100 mt-half" *ngIf="user.isSuperUser()">
-              <button mat-flat-button class="w-100" (click)="navigateToUsersPage()" color="warn">
-                Пользователи
-              </button>
-            </div>
+           <app-admin-buttons></app-admin-buttons>
           </div>
         </div>
       </div>

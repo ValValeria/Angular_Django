@@ -81,9 +81,21 @@ class DeleteUser(View):
             return HttpResponseForbidden()
 
 
-class NotFound(View):
+class ServeAssestView(ListView):
+    def get(self, request, *args, **kw):
+        filename = os.path.basename(request.path_info)
+        public_path = os.path.realpath('./app/static/assets')
+        path = os.path.join(public_path, filename)
 
-    def dispatch(self, request, *args, **kwargs):
+        if not os.path.exists(path):
+            print("Path doesn't exist %s", path)
+            return HttpResponseNotFound()
+
+        return FileResponse(open(path, 'rb'))
+
+
+class NotFound(View):
+    def get(self, request, *args, **kwargs):
         ext = os.path.splitext(request.path)[1]
         header = request.headers.get('sec-fetch-dest')
 
@@ -93,7 +105,7 @@ class NotFound(View):
                 path = os.path.abspath(path)
                 return FileResponse(open(os.path.join(path, "index.html"), 'rb'))
             else:
-                url = "/app/static" + request.path;
+                url = "/app/static" + request.path
                 return redirect(url)
 
         return HttpResponseNotFound()

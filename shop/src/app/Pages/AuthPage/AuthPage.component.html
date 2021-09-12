@@ -72,7 +72,6 @@
             </mat-card-content>
             <mat-card-content class="w-100 center d-flex center">
                 <button mat-flat-button
-                        [disabled]="!isValid"
                         color="accent"
                         (click)="submit($event)"
                         class="wrap-md auth__btn">{{isLog?"Войти":"Зарегестрироваться"}}</button>

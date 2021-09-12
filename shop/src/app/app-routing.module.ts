@@ -72,7 +72,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {ProductsDataResolver} from './guards/products-data.resolver';
 import {ProductResolver} from './guards/product.resolver';
-
+import {AdminButtonsComponent} from './Components/admin-buttons/admin-buttons.component';
 
 
 const routes: Routes = [
@@ -132,7 +132,8 @@ const modules = [MatButtonModule, CommonModule,
                 WarrantyPolicyPageComponent, ContactsInfoPageComponent,
                 ContractInfoPageComponent, SliceStringPipe,
                 AdminDashboardComponent, AdminDashboardFullComponent, UsersPageComponent, UserCardComponent,
-                AddProductFormComponent, AddProductPageComponent
+                AddProductFormComponent, AddProductPageComponent,
+                AdminButtonsComponent
                 ],
   providers: [OnlyAuthGuard, OnlySuperAdminGuard, ProductResolver],
   exports: [RouterModule, ...modules, ProductsCategoriesComponent, SectionLayoutComponent, AdminDashboardComponent]
