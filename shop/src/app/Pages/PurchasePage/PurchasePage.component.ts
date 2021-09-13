@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { from, interval, Observable } from 'rxjs';
 import { reduce, skipWhile, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 import { URL_PATH } from 'src/app/app.component';
-import { IAd } from 'src/app/Interfaces/Interfaces';
+import { IAd } from 'src/app/interfaces/interfaces';
 import { HttpService } from 'src/app/Services/Http.service';
 import { UserService, USER_AUTH } from 'src/app/Services/User.service';
 

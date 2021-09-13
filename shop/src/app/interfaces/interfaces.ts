@@ -1,3 +1,5 @@
+import {UserService} from '../Services/User.service';
+
 export interface IAd{
     image: string;
     title: string;
@@ -72,4 +74,6 @@ export interface ProductsBrand{
     };
 }
 
-
+export interface IStore{
+    user: UserService;
+}

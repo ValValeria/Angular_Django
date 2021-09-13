@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import { URL_PATH } from 'src/app/app.component';
-import { IAd } from 'src/app/Interfaces/Interfaces';
+import { IAd } from 'src/app/interfaces/interfaces';
 import { HttpService } from 'src/app/Services/Http.service';
 
 

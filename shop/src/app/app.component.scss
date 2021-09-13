@@ -8,3 +8,13 @@
   bottom: 50px;
   z-index: 5556;
 }
+
+.grid{
+  display: grid !important;
+  grid-template-columns: 60px 1fr !important;
+}
+
+.grid ::ng-deep .body-content{
+  width: 100% !important;
+  max-width: 100% !important;
+}

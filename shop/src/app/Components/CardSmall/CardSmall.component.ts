@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
-import { IAd } from '../../Interfaces/Interfaces';
+import { IAd } from '../../interfaces/interfaces';
 import { ImageLoading } from '../../Classes/ImageLoading';
 import { Router } from '@angular/router';
 import { URL_PATH } from 'src/app/app.component';

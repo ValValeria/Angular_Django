@@ -4,7 +4,7 @@ import { fromEvent } from 'rxjs';
 import { Subject } from 'rxjs/internal/Subject';
 import { auditTime, filter, mergeMap, tap } from 'rxjs/operators';
 import { URL_PATH } from 'src/app/app.component';
-import { IAd } from 'src/app/Interfaces/Interfaces';
+import { IAd } from 'src/app/interfaces/interfaces';
 import { HttpService } from 'src/app/Services/Http.service';
 
 export const $CLOSE_SEARCH = new Subject<number>();

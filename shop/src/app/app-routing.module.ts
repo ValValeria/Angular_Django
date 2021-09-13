@@ -73,10 +73,12 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {ProductsDataResolver} from './guards/products-data.resolver';
 import {ProductResolver} from './guards/product.resolver';
 import {AdminButtonsComponent} from './Components/admin-buttons/admin-buttons.component';
+import {SliderInfoPageComponent} from './Pages/slider-info-page/slider-info-page.component';
 
 
 const routes: Routes = [
   {path: '', component: HomePage, pathMatch: 'full'},
+  {path: 'slider-info', component: SliderInfoPageComponent,  canActivate: [OnlySuperAdminGuard]},
   {path: 'buy-orders', component: PurchasePage},
   {path: 'products', component: ProductsComponent, resolve: {productsInfo: ProductsDataResolver}},
   {path: 'product/:id', component: Product, resolve: {product: ProductResolver}},
@@ -113,7 +115,9 @@ const modules = [MatButtonModule, CommonModule,
                 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes), ...modules, MatPaginatorModule, MatTooltipModule],
+  imports: [RouterModule.forRoot(routes),
+    ...modules, MatPaginatorModule,
+    MatTooltipModule],
   declarations: [HomePage, ProductsComponent,
                 ErrorImageLoading, CardSmall,
                 SafePipe, OrdersLikes,
@@ -133,9 +137,9 @@ const modules = [MatButtonModule, CommonModule,
                 ContractInfoPageComponent, SliceStringPipe,
                 AdminDashboardComponent, AdminDashboardFullComponent, UsersPageComponent, UserCardComponent,
                 AddProductFormComponent, AddProductPageComponent,
-                AdminButtonsComponent
+                AdminButtonsComponent, SliderInfoPageComponent
                 ],
   providers: [OnlyAuthGuard, OnlySuperAdminGuard, ProductResolver],
-  exports: [RouterModule, ...modules, ProductsCategoriesComponent, SectionLayoutComponent, AdminDashboardComponent]
+  exports: [RouterModule, ...modules, ProductsCategoriesComponent, SectionLayoutComponent, AdminDashboardComponent, FlexLayoutComponent]
 })
 export class AppRoutingModule { }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IAd, IUser } from '../Interfaces/Interfaces';
+import { IAd, IUser } from '../interfaces/interfaces';
 import {compact, isEqual, uniqWith} from 'lodash';
 import { Subject } from 'rxjs';
 

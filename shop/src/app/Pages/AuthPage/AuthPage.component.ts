@@ -7,7 +7,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from 'src/app/Services/User.service';
 import { merge } from 'rxjs';
 import { AuthenticateHelper } from 'src/app/Classes/authenticate-helper.service';
-import {IUser} from "../../Interfaces/Interfaces";
+import {IUser} from "../../interfaces/interfaces";
 
 @Component({
     selector: 'app-auth-page',

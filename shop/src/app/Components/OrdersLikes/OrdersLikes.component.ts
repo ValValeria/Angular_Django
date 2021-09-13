@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import { Subject } from 'rxjs';
 import { URL_PATH } from 'src/app/app.component';
-import { IAd } from 'src/app/Interfaces/Interfaces';
+import { IAd } from 'src/app/interfaces/interfaces';
 import { HttpService } from 'src/app/Services/Http.service';
 import { UserService } from 'src/app/Services/User.service';
 

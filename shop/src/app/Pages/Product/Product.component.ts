@@ -14,7 +14,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {fromEvent, of} from 'rxjs';
 import { URL_PATH } from 'src/app/app.component';
 import { ProductPageImage } from 'src/app/Components/ProductPageImage/ProductPageImage.component';
-import {IAd, IResponse} from 'src/app/Interfaces/Interfaces';
+import {IAd, IResponse} from 'src/app/interfaces/interfaces';
 import { HttpService } from 'src/app/Services/Http.service';
 import { UserService, USER_AUTH } from 'src/app/Services/User.service';
 import {HttpParams} from '@angular/common/http';

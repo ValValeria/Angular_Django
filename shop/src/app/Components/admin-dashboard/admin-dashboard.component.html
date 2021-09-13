@@ -13,16 +13,16 @@
                 </div>
               </div>
             </div>
-            <div class="admin__username">
+            <div class="admin__username mt-4">
               <span>{{user.username}}</span>
             </div>
           </div>
-          <div class="admin__actions center flex-column" *ngIf="currentUser.id === user.id">
+          <div class="admin__actions center flex-column bg-white" *ngIf="currentUser.id === user.id">
             <div class="admin__upload-photo w-100">
               <button mat-flat-button color="accent" on-click="changeAvatar()" class="w-100">Поменять аватар</button>
               <input type="file" name=""#file hidden>
             </div>
-           <app-admin-buttons></app-admin-buttons>
+           <app-admin-buttons [user]="currentUser" class="w-100"></app-admin-buttons>
           </div>
         </div>
       </div>

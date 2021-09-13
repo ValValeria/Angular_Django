@@ -1,7 +1,7 @@
 import {Component, Input, Self, ViewChild, ElementRef} from '@angular/core';
 import {UserService} from '../../Services/User.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {IAd} from '../../Interfaces/Interfaces';
+import {IAd} from '../../interfaces/interfaces';
 import {AdService} from '../../Services/ad.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {Router} from '@angular/router';

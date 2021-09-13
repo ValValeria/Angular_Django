@@ -1,6 +1,6 @@
 import { animate, query, stagger, style, transition, trigger } from '@angular/animations';
 import { AfterViewInit, Component, ElementRef, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import {IAd, IProductsResponse, ProductsBrand} from 'src/app/Interfaces/Interfaces';
+import {IAd, IProductsResponse, ProductsBrand} from 'src/app/interfaces/interfaces';
 import { HttpService } from 'src/app/Services/Http.service';
 import { HttpParams } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';

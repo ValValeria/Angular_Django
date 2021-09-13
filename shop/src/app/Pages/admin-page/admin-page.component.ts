@@ -12,7 +12,7 @@ import {ChartType} from 'chart.js';
 import {MultiDataSet} from 'ng2-charts';
 import {$CHOOSE_ITEM, $DELETE_ITEMS, $ORDER_COUNT, OrderListComponent} from 'src/app/Components/OrderList/OrderList.component';
 import {pull, uniq} from 'lodash';
-import {IAd, IUser} from 'src/app/Interfaces/Interfaces';
+import {IAd, IUser} from 'src/app/interfaces/interfaces';
 import {from, fromEvent, of} from 'rxjs';
 import {auditTime, catchError, mergeMap} from 'rxjs/operators';
 import {ImageLoading} from 'src/app/Classes/ImageLoading';

@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import { URL_PATH } from 'src/app/app.component';
-import { IComment } from 'src/app/Interfaces/Interfaces';
+import { IComment } from 'src/app/interfaces/interfaces';
 import { HttpService } from 'src/app/Services/Http.service';
 import { UserService } from 'src/app/Services/User.service';
 import {from} from 'rxjs';

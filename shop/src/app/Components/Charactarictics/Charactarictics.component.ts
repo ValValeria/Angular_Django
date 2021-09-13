@@ -6,7 +6,7 @@ import {
   ADD_CHARACTERISTICS_DIALOG$,
   AddCharacteristicsDialogComponent
 } from '../add-characteristics-dialog/add-characteristics-dialog.component';
-import {stringArray} from '../../Interfaces/Interfaces';
+import {stringArray} from '../../interfaces/interfaces';
 
 @Component({
     selector: 'app-charactarictics',

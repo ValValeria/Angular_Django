@@ -3,7 +3,7 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 import * as _ from 'lodash';
 import { forEach, remove } from 'lodash';
 import { Subject } from 'rxjs';
-import { IAd } from 'src/app/Interfaces/Interfaces';
+import { IAd } from 'src/app/interfaces/interfaces';
 import { UserService } from 'src/app/Services/User.service';
 
 

@@ -1,5 +1,5 @@
 import { URL_PATH } from '../app.component';
-import { IUser } from '../Interfaces/Interfaces';
+import { IUser } from '../interfaces/interfaces';
 import { UserService } from '../Services/User.service';
 import {Injectable} from '@angular/core';
 

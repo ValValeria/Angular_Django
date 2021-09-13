@@ -23,6 +23,9 @@ import {AuthenticateHelper} from './Classes/authenticate-helper.service';
 import {CommonModule} from '@angular/common';
 import { AdminNavComponent } from './Components/admin-nav/admin-nav.component';
 import { AddCharacteristicsDialogComponent } from './Components/add-characteristics-dialog/add-characteristics-dialog.component';
+import { StoreModule } from '@ngrx/store';
+import {funcReducer} from './store/store.reducer';
+
 
 const modules = [
   MatIconModule,
@@ -45,7 +48,8 @@ const modules = [
     MatCardModule,
     HttpClientModule,
     CommonModule,
-    ...modules
+    ...modules,
+    StoreModule.forRoot({auth: funcReducer})
   ],
   providers: [
     HttpService,
