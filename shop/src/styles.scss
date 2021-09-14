@@ -296,6 +296,9 @@ a{
     background: linear-gradient(to right, #161616, #040c21);
 }
 
+p.h6{
+  font-weight: 400 !important;
+}
 
 .wrap-md-pd{
     @extend %wrap;

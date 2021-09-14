@@ -105,6 +105,12 @@
   padding: $margin*4 0;
 }
 
+.simple-wrap{
+  @extend %wrap;
+  max-width:1000px;
+  padding: $margin*2 0;
+}
+
 .p-all{
   padding: $margin;
 }

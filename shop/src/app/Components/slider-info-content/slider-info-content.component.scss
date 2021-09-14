@@ -1,0 +1,14 @@
+@import 'src/base';
+
+.slider-info-content__items{
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 400px));
+  grid-gap: $margin;
+  grid-auto-rows: 186px;
+}
+
+.slider-info-content__img{
+  width: 100%;
+  height: 186px;
+  object-fit: cover;
+}

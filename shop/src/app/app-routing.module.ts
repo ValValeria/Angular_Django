@@ -74,6 +74,7 @@ import {ProductsDataResolver} from './guards/products-data.resolver';
 import {ProductResolver} from './guards/product.resolver';
 import {AdminButtonsComponent} from './Components/admin-buttons/admin-buttons.component';
 import {SliderInfoPageComponent} from './Pages/slider-info-page/slider-info-page.component';
+import {SliderInfoContentComponent} from './Components/slider-info-content/slider-info-content.component';
 
 
 const routes: Routes = [
@@ -137,7 +138,8 @@ const modules = [MatButtonModule, CommonModule,
                 ContractInfoPageComponent, SliceStringPipe,
                 AdminDashboardComponent, AdminDashboardFullComponent, UsersPageComponent, UserCardComponent,
                 AddProductFormComponent, AddProductPageComponent,
-                AdminButtonsComponent, SliderInfoPageComponent
+                AdminButtonsComponent, SliderInfoPageComponent,
+                SliderInfoContentComponent
                 ],
   providers: [OnlyAuthGuard, OnlySuperAdminGuard, ProductResolver],
   exports: [RouterModule, ...modules, ProductsCategoriesComponent, SectionLayoutComponent, AdminDashboardComponent, FlexLayoutComponent]
