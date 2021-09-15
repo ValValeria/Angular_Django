@@ -77,3 +77,8 @@ export interface ProductsBrand{
 export interface IStore{
     user: UserService;
 }
+
+export interface ISimpleResponse{
+   data: any;
+   status: 'ok' | '';
+}

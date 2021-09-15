@@ -10,6 +10,7 @@ export class SliderInfoContentComponent{
   @Input() photos: string[] = [];
   @ViewChild('file', {read: ElementRef}) fileElement: ElementRef<HTMLInputElement>;
   @Output() uploadFile = new EventEmitter<File>();
+  @Output() saveFiles = new EventEmitter<void>();
 
   constructor(private snackBar: MatSnackBar) {}
 
@@ -27,5 +28,15 @@ export class SliderInfoContentComponent{
     } else {
       this.snackBar.open('Please, choose the file', 'Close');
     }
+  }
+
+  handleSave(): void{
+    this.saveFiles.emit();
+  }
+
+  handleImageLoading(img: HTMLImageElement, src: string): void {
+    img.src = src;
+    img.onload = () => img.hidden = false;
+    console.log(1)
   }
 }

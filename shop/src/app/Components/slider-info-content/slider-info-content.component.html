@@ -8,14 +8,14 @@
             <p class="h6 mt">
               Максимальный размер фото 2 мб
             </p>
-            <input type="file" hidden #file/>
+            <input type="file" hidden #file accept="image/*"/>
             <button class="mt" mat-flat-button color="accent" (click)="handleUpload()">Загрузить</button>
           </div>
         </div>
       </div>
 
-      <div class="p-all shadow" *ngFor="let image of photos">
-        <img src="{{image | safe}}" alt="..." class="slider-info-content__img"/>
+      <div class="slider-info-content__img shadow" *ngFor="let image of photos">
+        <img #img src="{{image}}" hidden alt="..." (error)="handleImageLoading(img, image)"/>
       </div>
     </div>
   </div>

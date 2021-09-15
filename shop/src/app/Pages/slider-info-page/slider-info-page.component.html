@@ -2,8 +2,12 @@
   <app-section-layout cssClass="slider-info-page" title="Слайды" [hasTitle]="true">
      <mat-tab-group color="accent" class="w-100 mt">
        <mat-tab *ngFor="let item of data" [label]="item">
-         <div class="w-100 simple-wrap">
+         <div class="w-100 simple-wrap mb">
            <app-slider-info-content [photos]="photos[data.indexOf(item)] || []" (uploadFile)="uploadFile(item, $event)"></app-slider-info-content>
+         </div>
+         <div class="w-100 center">
+           <mat-divider class="mb-half"></mat-divider>
+           <button mat-flat-button color="accent" (click)="handleSubmit()">Сохранить</button>
          </div>
        </mat-tab>
      </mat-tab-group>
