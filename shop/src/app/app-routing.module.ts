@@ -1,92 +1,76 @@
 import { NgModule } from '@angular/core';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatButtonModule } from '@angular/material/button';
 import { Routes, RouterModule } from '@angular/router';
 import { HomePage } from './Pages/HomePage/HomePage.component';
-import { CommonModule } from '@angular/common';
 import { ProductsComponent } from './Pages/Products/Products.component';
-import {MatDividerModule} from '@angular/material/divider';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { ErrorImageLoading } from './Components/ErrorImageLoading/ErrorImageLoading.component';
-import {MatCardModule} from '@angular/material/card';
 import { CardSmall } from './Components/CardSmall/CardSmall.component';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatSliderModule} from '@angular/material/slider';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatInputModule } from '@angular/material/input';
-import {MatSelectModule} from '@angular/material/select';
-import {MatExpansionModule} from '@angular/material/expansion';
 import { Product } from './Pages/Product/Product.component';
 import { CharactaricticsComponent } from './Components/Charactarictics/Charactarictics.component';
 import { Comments } from './Components/Comments/Comments.component';
 import { AuthPage } from './Pages/AuthPage/AuthPage.component';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
-import { AdminPageComponent } from './Pages/admin-page/admin-page.component';
-import {MatTabsModule} from '@angular/material/tabs';
-import {MatSortModule} from '@angular/material/sort';
-import {MatTableModule} from '@angular/material/table';
-import { OrderListComponent } from './Components/OrderList/OrderList.component';
-import { ChartsModule } from 'ng2-charts';
-import { SafePipe } from './Pipes/Safe.pipe';
-import { OrdersLikes } from './Components/OrdersLikes/OrdersLikes.component';
-import { Like } from './Components/Like/Like.component';
-import { MatIconModule } from '@angular/material/icon';
 import { ContactPage } from './Pages/ContactPage/ContactPage.component';
 import { SearchPageResultComponent } from './Pages/SearchPageResult/SearchPageResult.component';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatChipsModule } from '@angular/material/chips';
 import { PurchasePage } from './Pages/PurchasePage/PurchasePage.component';
 import { CategoryPage } from './Pages/CategoryPage/CategoryPage.component';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { ProductPageImage } from './Components/ProductPageImage/ProductPageImage.component';
-import { MatDialogModule } from '@angular/material/dialog';
 import { NotFoundPage } from './Pages/NotFoundPage/NotFoundPage.component';
 import { Slider } from './Components/Slider/Slider.component';
-import { Carousel } from './Components/Carousel/Carousel.component';
-import { BreadCrumbsComponent } from './Components/bread_crumbs/bread_crumbs.component';
-import { MatSidenavModule } from '@angular/material/sidenav';
+import { CarouselComponent } from './Components/carousel/carousel.component';
 import { ProductNavigation } from './Components/ProductNavigation/ProductNavigation.component';
-import { MatStepperModule } from '@angular/material/stepper';
 import {GridLayoutModule} from './Layouts/grid-layout/GridLayout.module';
 import {CategoriesListComponent} from './Components/CategoriesList/CategoriesList.component';
 import { FlexLayoutComponent } from './Layouts/flex-layout/FlexLayout.component';
 import { ProductsCategoriesComponent } from './Components/products-categories/products-categories.component';
 import {ServiceInfoPageComponent} from './Pages/service-info-page/service-info-page.component';
-import { ListsComponent } from './Components/lists/lists.component';
-import {SectionLayoutComponent} from './Layouts/section-layout/section-layout.component';
 import {DeliveryPageComponent} from './Pages/delivery-page/delivery-page.component';
 import {WarrantyPolicyPageComponent} from './Pages/warranty-policy-page/warranty-policy-page.component';
 import { ContactsInfoPageComponent } from './Pages/contacts-info-page/contacts-info-page.component';
 import {ContractInfoPageComponent} from './Pages/contract-info-page/contract-info-page.component';
 import {SliceStringPipe} from './Pipes/SliceString.pipe';
 import {OnlyAuthGuard} from './guards/only-auth-guard.guard';
-import { AdminDashboardComponent } from './Components/admin-dashboard/admin-dashboard.component';
-import { AdminDashboardFullComponent } from './Components/admin-dashboard-full/admin-dashboard-full.component';
 import { UsersPageComponent } from './Pages/users-page/users-page.component';
 import { UserCardComponent } from './Components/user-card/user-card.component';
-import {MatListModule} from '@angular/material/list';
 import { AddProductPageComponent } from './Pages/add-product-page/add-product-page.component';
 import {OnlySuperAdminGuard} from './guards/only-super-admin.guard';
-import { AddProductFormComponent } from './Components/add-product-form/add-product-form.component';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {ProductsDataResolver} from './guards/products-data.resolver';
 import {ProductResolver} from './guards/product.resolver';
-import {AdminButtonsComponent} from './Components/admin-buttons/admin-buttons.component';
-import {SliderInfoPageComponent} from './Pages/slider-info-page/slider-info-page.component';
-import {SliderInfoContentComponent} from './Components/slider-info-content/slider-info-content.component';
+import {AdminPageModule} from './Pages/admin-page/admin-page.module';
+import {SectionLayoutModule} from './Layouts/section-layout/section-layout.module';
+import {SharedModule} from './shared/shared.module';
+import {BreadCrumbsModule} from './Components/bread-crumbs/bread-crumbs.module';
+import {LikeModule} from './Components/Like/like.module';
+import {ListsModule} from './Components/lists/lists.module';
 
+
+const adminRoutes: Routes = [
+  { path: 'profile/slider-info',
+    loadChildren: () => import('./Pages/slider-info-page/slider-info-page.module')
+      .then(v => v.SliderInfoPageModule),
+    canLoad: [OnlySuperAdminGuard]
+  },
+  {path: 'profile/users',
+   canLoad: [OnlySuperAdminGuard],
+    loadChildren: () => import('./Pages/users-page/users-page.module')
+      .then(v => v.UsersPageModule),
+  },
+  {path: 'profile/add-product',
+   loadChildren: () => import('./Pages/add-product-page/add-product-page.module')
+      .then(v => v.AddProductPageModule),
+   component: AddProductPageComponent,
+   canLoad: [OnlySuperAdminGuard]},
+  {path: 'profile/:id',
+   loadChildren: () => import('./Pages/admin-page/admin-page.module').then(v => v.AdminPageModule),
+   canLoad: [OnlyAuthGuard]},
+];
 
 const routes: Routes = [
   {path: '', component: HomePage, pathMatch: 'full'},
-  {path: 'slider-info', component: SliderInfoPageComponent,  canActivate: [OnlySuperAdminGuard]},
   {path: 'buy-orders', component: PurchasePage},
   {path: 'products', component: ProductsComponent, resolve: {productsInfo: ProductsDataResolver}},
   {path: 'product/:id', component: Product, resolve: {product: ProductResolver}},
   {path: 'authenticate', component: AuthPage},
-  {path: 'profile/users', component: UsersPageComponent, canActivate: [OnlySuperAdminGuard]},
-  {path: 'profile/add-product', component: AddProductPageComponent, canActivate: [OnlySuperAdminGuard]},
-  {path: 'profile/:id', component: AdminPageComponent, canActivate: [OnlyAuthGuard]},
   {path: 'search', component: SearchPageResultComponent },
   {path: 'contacts', component: ContactPage},
   {path: 'category/:category', component: CategoryPage},
@@ -95,53 +79,40 @@ const routes: Routes = [
   {path: 'info/warranty', component: WarrantyPolicyPageComponent},
   {path: 'info/contacts', component: ContactsInfoPageComponent},
   {path: 'info/contract', component: ContractInfoPageComponent},
+  ...adminRoutes,
   {path: '**', component: NotFoundPage}
 ];
 
 
-const modules = [MatButtonModule, CommonModule,
-                 MatProgressSpinnerModule, MatCardModule,
-                 ReactiveFormsModule, MatFormFieldModule,
-                 MatIconModule, FormsModule,
-                 MatSliderModule, MatSidenavModule,
-                 MatInputModule, MatSelectModule,
-                 MatSlideToggleModule, MatStepperModule,
-                 MatExpansionModule, MatSnackBarModule,
-                 MatDividerModule, MatTabsModule,
-                 MatSortModule, MatTableModule,
-                 ChartsModule, MatCheckboxModule,
-                 MatChipsModule, MatProgressBarModule,
-                 MatDialogModule, GridLayoutModule,
-                 MatListModule
-                ];
-
 @NgModule({
-  imports: [RouterModule.forRoot(routes),
-    ...modules, MatPaginatorModule,
-    MatTooltipModule],
+  imports: [
+    RouterModule.forRoot(routes),
+    GridLayoutModule, MatPaginatorModule,
+    MatTooltipModule,
+    AdminPageModule,
+    SectionLayoutModule,
+    SharedModule,
+    BreadCrumbsModule,
+    LikeModule,
+    ListsModule
+  ],
   declarations: [HomePage, ProductsComponent,
                 ErrorImageLoading, CardSmall,
-                SafePipe, OrdersLikes,
-                Product, Carousel,
-                CharactaricticsComponent, Comments,
-                AuthPage, AdminPageComponent,
+                Product, CarouselComponent,
+                CharactaricticsComponent, Comments, AuthPage,
                 Slider, CategoriesListComponent,
-                OrderListComponent, Like,
                 NotFoundPage, ContactPage,
                 ProductPageImage, SearchPageResultComponent,
                 PurchasePage, CategoryPage,
-                BreadCrumbsComponent, ProductNavigation,
+                ProductNavigation,
                 FlexLayoutComponent, ProductsCategoriesComponent,
-                ServiceInfoPageComponent, ListsComponent,
-                SectionLayoutComponent, DeliveryPageComponent,
+                ServiceInfoPageComponent,
+                DeliveryPageComponent,
                 WarrantyPolicyPageComponent, ContactsInfoPageComponent,
                 ContractInfoPageComponent, SliceStringPipe,
-                AdminDashboardComponent, AdminDashboardFullComponent, UsersPageComponent, UserCardComponent,
-                AddProductFormComponent, AddProductPageComponent,
-                AdminButtonsComponent, SliderInfoPageComponent,
-                SliderInfoContentComponent
+                UsersPageComponent, UserCardComponent,
                 ],
   providers: [OnlyAuthGuard, OnlySuperAdminGuard, ProductResolver],
-  exports: [RouterModule, ...modules, ProductsCategoriesComponent, SectionLayoutComponent, AdminDashboardComponent, FlexLayoutComponent]
+  exports: [RouterModule, ProductsCategoriesComponent, FlexLayoutComponent]
 })
 export class AppRoutingModule { }

@@ -1,5 +1,11 @@
 import {UserService} from '../Services/User.service';
 
+export interface ICarouselResponse{
+  data: {
+    images: string[]
+  };
+}
+
 export interface IAd{
     image: string;
     title: string;

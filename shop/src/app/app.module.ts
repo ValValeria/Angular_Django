@@ -20,9 +20,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { FooterComponent } from './Components/footer/footer.component';
 import { LogoComponent } from './Components/logo/logo.component';
 import {AuthenticateHelper} from './Classes/authenticate-helper.service';
-import {CommonModule} from '@angular/common';
 import { AdminNavComponent } from './Components/admin-nav/admin-nav.component';
-import { AddCharacteristicsDialogComponent } from './Components/add-characteristics-dialog/add-characteristics-dialog.component';
+import { SectionLayoutModule } from './Layouts/section-layout/section-layout.module';
+import { SharedModule } from './shared/shared.module';
 
 
 const modules = [
@@ -38,14 +38,14 @@ const modules = [
 @NgModule({
   declarations: [
     AppComponent, HeaderComponent, SearchForm,
-    HeaderTop, AvatarComponent, FooterComponent, LogoComponent, AdminNavComponent, AddCharacteristicsDialogComponent
+    HeaderTop, AvatarComponent, FooterComponent, LogoComponent, AdminNavComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    MatCardModule,
     HttpClientModule,
-    CommonModule,
+    SharedModule,
+    SectionLayoutModule,
     ...modules,
   ],
   providers: [

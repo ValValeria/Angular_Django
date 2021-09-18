@@ -128,3 +128,14 @@
   </div>
 </section>
 
+<ng-template [ngIf]="!error">
+  <section class="section center">
+    <div class="section__content center">
+      <div class="section__wrap wrap-md-pd">
+        <app-carousel pageType="home" (errorLoading)="error=true"></app-carousel>
+      </div>
+    </div>
+  </section>
+</ng-template>
+
+

@@ -8,7 +8,7 @@ import { UserService } from 'src/app/Services/User.service';
     templateUrl: './Like.component.html',
     styleUrls: ['./Like.component.scss']
 })
-export class Like{
+export class LikeComponent {
     @Input('id') productId: number;
     @Input('user') user: UserService;
 

@@ -1,14 +1,14 @@
-<div id="carouselExampleIndicators" class="carousel slide shadow" data-bs-ride="carousel">
+<div id="carouselExampleIndicators" class="carousel slide shadow" data-bs-ride="carousel" *ngIf="!carouselImageError">
     <ol class="carousel-indicators">
-        <ng-container *ngFor="let image of images;let i = index;">
-                <li data-bs-target="#carouselExampleIndicators" 
-                data-bs-slide-to="{{index}}"
+        <ng-container *ngFor="let image of carouselImages;let i = index;">
+                <li data-bs-target="#carouselExampleIndicators"
+                data-bs-slide-to="{{i}}"
                 class="{{active==i?'active':''}}">
                 </li>
         </ng-container>
     </ol>
     <div class="carousel-inner">
-        <ng-container *ngFor="let image of images;let i = index;">
+        <ng-container *ngFor="let image of carouselImages;let i = index;">
             <div class="carousel-item {{active==i?'active':''}}">
                 <img src="{{image}}" class="d-block w-100" alt="...">
             </div>

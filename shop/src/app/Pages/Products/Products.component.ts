@@ -8,7 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { URL_PATH } from 'src/app/app.component';
 import {tap} from 'rxjs/operators';
-import {DELETE_PRODUCT$} from "../Product/Product.component";
+import {DELETE_PRODUCT$} from '../Product/Product.component';
 
 interface IResponse {
     data: IAd[];
@@ -61,7 +61,6 @@ export class ProductsComponent implements OnInit, AfterViewInit {
     showModel = false;
     minPrice = 0;
     urls: [string, string][];
-    carouselImages: string[];
 
     constructor(private http: HttpService,
                 private dialog: MatDialog,
@@ -70,7 +69,6 @@ export class ProductsComponent implements OnInit, AfterViewInit {
                 private route: ActivatedRoute) {
         this.products = [];
         this.categories = [];
-        this.carouselImages = ['/assets/image1.webp'];
     }
 
     ngOnInit(): void {
@@ -134,11 +132,7 @@ export class ProductsComponent implements OnInit, AfterViewInit {
     }
 
     checkData(): void {
-        if (!this.products.length) {
-            this.isEmpty = true;
-        } else {
-            this.isEmpty = false;
-        }
+        this.isEmpty = !this.products.length;
         this.sentHttp = false;
     }
 
@@ -150,11 +144,7 @@ export class ProductsComponent implements OnInit, AfterViewInit {
             const func = () => {
                 const width = document.documentElement.clientWidth;
 
-                if (width < this.MIN_WIDTH) {
-                    this.showModel = true;
-                } else {
-                    this.showModel = false;
-                }
+                this.showModel = width < this.MIN_WIDTH;
 
                 this.dialog.afterOpened.subscribe(v => {
                     const matSearchContainer = document.querySelector('.product__search-wrap');

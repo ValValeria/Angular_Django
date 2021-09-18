@@ -14,7 +14,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {fromEvent, of} from 'rxjs';
 import { URL_PATH } from 'src/app/app.component';
 import { ProductPageImage } from 'src/app/Components/ProductPageImage/ProductPageImage.component';
-import {IAd, IResponse} from 'src/app/interfaces/interfaces';
+import {IAd, ICarouselResponse, IResponse} from 'src/app/interfaces/interfaces';
 import { HttpService } from 'src/app/Services/Http.service';
 import { UserService, USER_AUTH } from 'src/app/Services/User.service';
 import {HttpParams} from '@angular/common/http';
@@ -70,8 +70,8 @@ export class Product implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.route.data.subscribe(async (v1) => {
-      const v = v1.product as IProductResponse;
+    this.route.data.subscribe(async (data) => {
+      const v = data.product as IProductResponse;
 
       if (v.status === '404'){
         await this.router.navigateByUrl('/products');
@@ -86,9 +86,9 @@ export class Product implements OnInit, AfterViewInit {
           ['Категория товара', this.post.category],
         ];
 
-        this.http.get<{ data: IAd[] }>(`${URL_PATH}api/products?page=1&exclude=${this.post.id}`, {}).subscribe(v => {
-          if ((v.data || []).length) {
-            this.products = v.data;
+        this.http.get<{ data: IAd[] }>(`${URL_PATH}api/products?page=1&exclude=${this.post.id}`, {}).subscribe(v1 => {
+          if ((v1.data || []).length) {
+            this.products = v1.data;
           }
         });
       }

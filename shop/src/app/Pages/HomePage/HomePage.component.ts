@@ -11,6 +11,7 @@ import { HttpService } from 'src/app/Services/Http.service';
 })
 export class HomePage {
     ads:IAd[]=[];
+    public error = false;
 
     constructor(private http:HttpService){}
 

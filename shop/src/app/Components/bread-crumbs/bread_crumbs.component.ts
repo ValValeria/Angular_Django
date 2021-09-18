@@ -4,8 +4,8 @@ import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-breadcrumbs',
-    templateUrl: './bread_crumbs.component.html',
-    styleUrls: ['./bread_crumbs.component.scss']
+    templateUrl: './bread-crumbs.component.html',
+    styleUrls: ['./bread-crumbs.component.scss']
 })
 export class BreadCrumbsComponent {
     @Input() urls: [string, string][] = [];

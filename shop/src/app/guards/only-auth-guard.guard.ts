@@ -1,20 +1,29 @@
 import {Injectable} from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
+import {
+  ActivatedRouteSnapshot,
+  CanActivate,
+  CanLoad, Route,
+  Router,
+  RouterStateSnapshot,
+  UrlSegment,
+  UrlTree
+} from '@angular/router';
 import {AuthenticateHelper} from '../Classes/authenticate-helper.service';
 import {UserService} from '../Services/User.service';
 import {Roles} from './only-super-admin.guard';
 import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Injectable()
-export class OnlyAuthGuard implements CanActivate{
+export class OnlyAuthGuard implements CanLoad{
 
    constructor(private user: UserService,
                private auth: AuthenticateHelper,
                private router: Router,
+               private route: ActivatedRouteSnapshot,
                private snackBar: MatSnackBar){}
 
-   async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean | UrlTree> {
-     const id = parseInt(route.paramMap.get('id'), 10);
+   async canLoad(router: Route, segments: UrlSegment[]): Promise<boolean | UrlTree> {
+     const id = parseInt(this.route.paramMap.get('id'), 10);
 
      if (!this.user.is_auth) { await this.auth.authenticate(this.user, true); }
 

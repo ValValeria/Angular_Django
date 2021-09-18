@@ -18,6 +18,6 @@ export class AdminButtonsComponent{
   }
 
   async navigateToSliderInfoPage(): Promise<void>{
-    await this.router.navigateByUrl('/slider-info');
+    await this.router.navigateByUrl('profile/slider-info');
   }
 }
