@@ -98,9 +98,18 @@
                   <div class="product__related center flex-column mb" id="comments">
                     <div class="product__related-container w-100">
                       <div class="h4 text-center w-100">Отзывы покупателей</div>
-                      <div class="w-100 center" (click)="$event.preventDefault()">
+                      <div class="w-100 center" (click)="$event.preventDefault()" *ngIf="user.is_auth">
                         <div class="product__related-content center flex-column wrap-md w-100">
                           <comments [postId]="postId"></comments>
+                        </div>
+                      </div>
+
+                      <div class="product__related-not-auth mt" *ngIf="!user.is_auth">
+                        <div class="outline-card text-center">
+                          <h6>Чтобы оставлять комментарии, вам нужно зарегестрироваться</h6>
+                          <div class="mt-half w-100 center">
+                            <button mat-flat-button color="warn" (click)="navigateToAuthPage()" >Войти в систему</button>
+                          </div>
                         </div>
                       </div>
                     </div>

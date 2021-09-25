@@ -265,4 +265,8 @@ export class Product implements OnInit, AfterViewInit {
       });
     }
   }
+
+  async navigateToAuthPage(): Promise<void>{
+    await this.router.navigateByUrl('/authenticate?isLogin=true');
+  }
 }

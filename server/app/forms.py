@@ -3,6 +3,23 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.forms import ModelForm
 from .models import Product
+from django.core.exceptions import ValidationError
+
+
+class CarouselImagesForm(forms.Form):
+    home = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
+    products = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
+    product = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
+
+    def clean(self):
+        cleaned_data = super().clean()
+        images = [cleaned_data.get(type) for type in ['home', 'products', 'product']]
+        
+        for image in images:
+            raise ValidationError(
+                "Invalid extension of file "
+                "Error"
+            )
 
 
 class ValidateImages(forms.Form):

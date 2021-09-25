@@ -38,6 +38,7 @@ urlpatterns = [
     re_path(r"^api/delete-user/(?P<number>\d+)", AdminDeleteUsers.as_view()),
     re_path(r"^api/user-info", UserProfile.as_view()),
     re_path(r"^api/user/(?P<number>\d+)", AdminViewUser.as_view()),
+    re_path(r"^api/carousel/(?P<type>\[a-z]+)", AdminViewUser.as_view()),
     re_path(r"^api/users", AdminUsers.as_view()),
     re_path(r"^api/categories", CategoriesView.as_view()),
     re_path(r"^api/change-product/", UpdateProductView.as_view()),
