@@ -6,6 +6,12 @@ export interface ICarouselResponse{
   };
 }
 
+export interface IAllCarouselResponse{
+  data: {
+    [prop: string]: string[]
+  };
+}
+
 export interface IAd{
     image: string;
     title: string;

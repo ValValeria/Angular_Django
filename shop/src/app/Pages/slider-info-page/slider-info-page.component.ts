@@ -1,14 +1,21 @@
-import {Component} from '@angular/core';
-import {IResponse, ISimpleResponse} from '../../interfaces/interfaces';
+import {Component, OnInit} from '@angular/core';
+import {ISimpleResponse} from '../../interfaces/interfaces';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {HttpService} from '../../Services/Http.service';
+import {from} from 'rxjs';
+import {map, mergeAll} from 'rxjs/operators';
+import {HttpResponse} from '@angular/common/http';
 import _ from 'lodash';
+
+type tuple = [string, string, string];
 
 @Component({
   selector: 'app-slider-info-page',
   templateUrl: './slider-info-page.component.html'
 })
 export class SliderInfoPageComponent{
-  public data = ['Отдельный товар', 'Главная', 'Продукты'];
+  public data: tuple = ['Отдельный товар', 'Главная', 'Продукты'];
+  public pageType: tuple = ['product', 'home', 'products'];
   public photos: {[prop in number]: string[]} = {
     0: [],
     1: [],
@@ -20,7 +27,9 @@ export class SliderInfoPageComponent{
     2: []
   };
 
-  constructor(private snackBar: MatSnackBar) {
+  constructor(private snackBar: MatSnackBar,
+              private httpService: HttpService
+              ) {
   }
 
   uploadFile(title: string, $event: File): void {
@@ -48,7 +57,7 @@ export class SliderInfoPageComponent{
       const pageForFileIndex = Object.values(this.photosFile).findIndex(value => value.includes(file));
 
       if (pageForFileIndex !== -1){
-         const title = this.data[pageForFileIndex];
+         const title = this.pageType[pageForFileIndex];
          formData.append(title, v, file.name);
       }
     });
@@ -68,5 +77,22 @@ export class SliderInfoPageComponent{
     }
 
     this.snackBar.open(message, 'Close');
+  }
+
+  loadPrevImages($event: string[], type: string): void{
+    from($event)
+      .pipe(
+        map(v => {
+          return this.httpService.get<any>(v, {responseType: 'blob', observe: 'response'});
+        }),
+        mergeAll()
+      )
+      .subscribe((v: HttpResponse<Blob>) => {
+        const fileName = _.last(v.url.split('/')) ?? 'image.png';
+        const file = new File([v.body], fileName, {type: v.body.type, lastModified: Date.now()});
+        const index = this.pageType.indexOf(type);
+
+        this.photosFile[index].push(file);
+      });
   }
 }

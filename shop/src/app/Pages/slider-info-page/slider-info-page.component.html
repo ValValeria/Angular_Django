@@ -1,9 +1,14 @@
 <div class="w-100">
   <app-section-layout cssClass="slider-info-page" title="Слайды" [hasTitle]="true">
      <mat-tab-group color="accent" class="w-100 mt">
-       <mat-tab *ngFor="let item of data" [label]="item">
+       <mat-tab *ngFor="let item of data; let index = index;" [label]="item">
          <div class="w-100 simple-wrap mb">
-           <app-slider-info-content [photos]="photos[data.indexOf(item)] || []" (uploadFile)="uploadFile(item, $event)"></app-slider-info-content>
+           <app-slider-info-content
+             [photos]="photos[data.indexOf(item)] || []"
+             (uploadFile)="uploadFile(item, $event)"
+             [type]="pageType[index]"
+             (loadPrevImages)="loadPrevImages($event, pageType[index])"
+           ></app-slider-info-content>
          </div>
          <div class="w-100 center">
            <mat-divider class="mb-half"></mat-divider>
