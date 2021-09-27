@@ -12,6 +12,7 @@ from app.view_pack.add_product import AddProductView, UpdateProductView
 from app.views import ChangeAvatar, UserProfile, SendLetter, NotFound
 from app.view_pack.categories import CategoriesView
 from app.view_pack.products import ProductDeleteView
+from app.view_pack.carousel_view import CarouselView, CarouselDownloadView
 from app.views import ServeAssestView
 
 urlpatterns = [
@@ -38,7 +39,8 @@ urlpatterns = [
     re_path(r"^api/delete-user/(?P<number>\d+)", AdminDeleteUsers.as_view()),
     re_path(r"^api/user-info", UserProfile.as_view()),
     re_path(r"^api/user/(?P<number>\d+)", AdminViewUser.as_view()),
-    re_path(r"^api/carousel/(?P<type>\[a-z]+)", AdminViewUser.as_view()),
+    re_path(r"^api/carousel/(?P<type>[a-z]+)", CarouselView.as_view()), ###
+    re_path(r"^api/sliders/download", CarouselDownloadView.as_view()), ###
     re_path(r"^api/users", AdminUsers.as_view()),
     re_path(r"^api/categories", CategoriesView.as_view()),
     re_path(r"^api/change-product/", UpdateProductView.as_view()),

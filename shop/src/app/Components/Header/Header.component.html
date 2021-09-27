@@ -49,7 +49,7 @@
         </li>
         <li class="header__link center" *ngIf="!user.is_auth"><a mat-button [routerLink]="['authenticate']" [queryParams]="{isLogin:true}"
             routerLinkActive="active-btn">Войти </a></li>
-        <li class="header__link center" *ngIf="user.is_auth && !user.isSuperUser()"><a mat-button routerLink="/profile/{{user.id}}"
+        <li class="header__link center" *ngIf="user.is_auth"><a mat-button routerLink="/profile/{{user.id}}"
             routerLinkActive="active-btn">Админ панель</a></li>
         <li class="header__link center" *ngIf="user.isSuperUser()"><a mat-button routerLink="/profile/users"
                                                                 routerLinkActive="active-btn">Пользователи</a></li>

@@ -108,9 +108,11 @@ export class AuthPage implements AfterViewInit{
           Object.assign(data, { email: this.email.value });
         }
 
-        this.snackBar.open('Отправляем данные на сервер', 'Close');
+        const messageWindow = this.snackBar.open('Отправляем данные на сервер', 'Close');
 
         try {
+          messageWindow.closeWithAction();
+
           await this.authHelper.authenticate(data, this.isLogin);
 
           if (this.user.is_auth) {

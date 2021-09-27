@@ -28,7 +28,7 @@ export class OnlySuperAdminGuard implements CanLoad {
               ){}
 
   async canLoad(route: Route, segments: UrlSegment[]): Promise<boolean | UrlTree> {
-    if (!this.user.is_auth) { await this.auth.authenticate(this.user, true); }
+    await this.auth.authenticate(this.user, true);
 
     if (this.user.role !== Roles.ADMIN){
       this.snackBar.open('Only admin can visit the page', 'Close');

@@ -1,0 +1,9 @@
+Python urls:
+
+- api/carousel/:type
+The structure of json response:
+{
+data: {
+   images: ["/assets/img.png"]
+ }
+}

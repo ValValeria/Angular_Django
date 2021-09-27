@@ -48,10 +48,8 @@ const adminRoutes: Routes = [
   { path: 'profile/slider-info',
     loadChildren: () => import('./Pages/slider-info-page/slider-info-page.module')
       .then(v => v.SliderInfoPageModule),
-    canLoad: [OnlySuperAdminGuard]
   },
   {path: 'profile/users',
-   canLoad: [OnlySuperAdminGuard],
     loadChildren: () => import('./Pages/users-page/users-page.module')
       .then(v => v.UsersPageModule),
   },
@@ -61,7 +59,8 @@ const adminRoutes: Routes = [
    component: AddProductPageComponent,
    canLoad: [OnlySuperAdminGuard]},
   {path: 'profile/:id',
-   loadChildren: () => import('./Pages/admin-page/admin-page.module').then(v => v.AdminPageModule),
+    loadChildren: () => import('./Pages/admin-page/admin-page.module')
+      .then(v => v.AdminPageModule),
    canLoad: [OnlyAuthGuard]},
 ];
 
