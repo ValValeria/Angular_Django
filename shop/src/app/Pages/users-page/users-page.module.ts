@@ -4,7 +4,7 @@ import {RouterModule, Routes} from '@angular/router';
 import { UsersPageComponent } from './users-page.component';
 
 const routes: Routes = [
-  { path: 'profile/users', component: UsersPageComponent}
+  { path: '', component: UsersPageComponent}
 ];
 
 @NgModule({

@@ -9,7 +9,12 @@
   overflow-x: auto;
 }
 
-.slider-info-content__img img{
+.slider-info-content__items > div{
+  width: 100%;
+  height:100%;
+}
+
+.slider-info-content__img img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -17,4 +22,13 @@
 
 .slider-info-content__img{
   height: 100%;
+}
+
+@media (max-width: $media){
+  .slider-info-content__items {
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+    grid-template-columns: 1fr;
+  }
 }

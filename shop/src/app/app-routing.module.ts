@@ -30,7 +30,6 @@ import {SliceStringPipe} from './Pipes/SliceString.pipe';
 import {OnlyAuthGuard} from './guards/only-auth-guard.guard';
 import { UsersPageComponent } from './Pages/users-page/users-page.component';
 import { UserCardComponent } from './Components/user-card/user-card.component';
-import { AddProductPageComponent } from './Pages/add-product-page/add-product-page.component';
 import {OnlySuperAdminGuard} from './guards/only-super-admin.guard';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatTooltipModule} from '@angular/material/tooltip';
@@ -45,23 +44,20 @@ import {ListsModule} from './Components/lists/lists.module';
 
 
 const adminRoutes: Routes = [
-  { path: 'profile/slider-info',
+  { path: 'admin/slider-info',
     loadChildren: () => import('./Pages/slider-info-page/slider-info-page.module')
       .then(v => v.SliderInfoPageModule),
+    canLoad: [OnlySuperAdminGuard]
   },
-  {path: 'profile/users',
+  {path: 'admin/users',
     loadChildren: () => import('./Pages/users-page/users-page.module')
       .then(v => v.UsersPageModule),
+    canLoad: [OnlySuperAdminGuard]
   },
-  {path: 'profile/add-product',
+  {path: 'admin/add-product',
    loadChildren: () => import('./Pages/add-product-page/add-product-page.module')
       .then(v => v.AddProductPageModule),
-   component: AddProductPageComponent,
    canLoad: [OnlySuperAdminGuard]},
-  {path: 'profile/:id',
-    loadChildren: () => import('./Pages/admin-page/admin-page.module')
-      .then(v => v.AdminPageModule),
-   canLoad: [OnlyAuthGuard]},
 ];
 
 const routes: Routes = [
@@ -77,7 +73,13 @@ const routes: Routes = [
   {path: 'info/delivery', component: DeliveryPageComponent},
   {path: 'info/warranty', component: WarrantyPolicyPageComponent},
   {path: 'info/contacts', component: ContactsInfoPageComponent},
-  {path: 'info/contract', component: ContractInfoPageComponent},
+  {path: 'info/contract', component: ContractInfoPageComponent },
+  {
+    path: 'profile/:id',
+    loadChildren: () => import('./Pages/admin-page/admin-page.module')
+      .then(v => v.AdminPageModule),
+    canLoad: [OnlyAuthGuard]
+  },
   ...adminRoutes,
   {path: '**', component: NotFoundPage}
 ];

@@ -14,10 +14,10 @@ export class AdminButtonsComponent{
               ) {}
 
   async navigateToUsersPage(): Promise<void>{
-    await this.router.navigateByUrl('/profile/users');
+    await this.router.navigateByUrl('/admin/users');
   }
 
   async navigateToSliderInfoPage(): Promise<void>{
-    await this.router.navigateByUrl('profile/slider-info');
+    await this.router.navigateByUrl('/admin/slider-info');
   }
 }

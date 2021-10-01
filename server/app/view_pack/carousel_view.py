@@ -23,13 +23,14 @@ class CarouselView(ListView):
 
 class CarouselDownloadView(ListView):
     allowed_types = list(('product', 'home', 'products'))
-    response = {'data': [], 'type': '', 'errors': []}
+    response = {'data': [], 'type': '', 'errors': [], 'status': ''}
 
     def post(self, request, *args, **kw):
         form = CarouselImagesForm(request.POST, request.FILES)
 
         if form.is_valid:
             imagesList = [request.FILES.getlist(val) for val in self.allowed_types]
+            self.response['status'] = 'ok'
 
             for index, images in enumerate(imagesList):
                 for image in images:
@@ -39,3 +40,5 @@ class CarouselDownloadView(ListView):
                     carousel.save()
         else:
             self.response['error'].extend(form.errors.as_json())
+
+        return JsonResponse(self.response)

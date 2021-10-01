@@ -7,7 +7,7 @@ import {AddCharacteristicsDialogComponent} from '../../Components/add-characteri
 import {SectionLayoutModule} from '../../Layouts/section-layout/section-layout.module';
 
 const routes: Routes = [
-  {path: 'profile/add-product', component: AddProductPageComponent}
+  {path: '', component: AddProductPageComponent}
 ];
 
 @NgModule({

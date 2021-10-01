@@ -53,12 +53,13 @@ export class SliderInfoPageComponent{
     const filesTextResult: string[] = await Promise.all(filesText.map(v => v.text()));
 
     filesTextResult.forEach((v, index) => {
-      const file = filesText[index];
+      const file: File = filesText[index];
       const pageForFileIndex = Object.values(this.photosFile).findIndex(value => value.includes(file));
 
       if (pageForFileIndex !== -1){
-         const title = this.pageType[pageForFileIndex];
-         formData.append(title, v, file.name);
+        const title = this.pageType[pageForFileIndex];
+        const blob = new Blob([v], { type: file.type })
+        formData.append(title, blob, file.name);
       }
     });
 

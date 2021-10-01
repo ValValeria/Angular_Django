@@ -4,6 +4,8 @@ from django.db import models
 class Carousel(models.Model):
     image = models.FileField(upload_to="app/static/images")
     type = models.TextField("Type of page")
+    objects = models.Manager()
+
 
 class Product(models.Model):
     objects = models.Manager()

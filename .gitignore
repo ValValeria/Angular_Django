@@ -4,6 +4,7 @@ dist
 /out-tsc
 /bazel-out
 .txt
+.vs
 server/.gitignore
 avatars
 venv

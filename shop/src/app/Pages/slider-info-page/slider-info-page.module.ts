@@ -6,7 +6,7 @@ import {SectionLayoutModule} from '../../Layouts/section-layout/section-layout.m
 import {RouterModule, Routes} from '@angular/router';
 
 const routes: Routes = [
-  {path: 'profile/slider-info', component: SliderInfoPageComponent}
+  {path: '', component: SliderInfoPageComponent}
 ];
 
 @NgModule({

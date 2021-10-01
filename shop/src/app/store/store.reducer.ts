@@ -20,6 +20,6 @@ const reducer = createReducer(initState,
   })
 );
 
-export function funcReducer(state, action): any{
+export function userReducer(state, action): any{
   return reducer(state, action);
 }

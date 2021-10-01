@@ -14,10 +14,10 @@ export class AdminNavComponent implements OnInit {
   }
 
   async navigateToAddProductPage(): Promise<void>{
-    await this.router.navigateByUrl('/profile/add-product');
+    await this.router.navigateByUrl('/admin/add-product');
   }
 
   async navigateToUsersPage(): Promise<void>{
-    await this.router.navigateByUrl('/profile/users');
+    await this.router.navigateByUrl('/admin/users');
   }
 }

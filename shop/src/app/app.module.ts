@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import {MatCardModule} from '@angular/material/card';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -23,6 +22,8 @@ import {AuthenticateHelper} from './Classes/authenticate-helper.service';
 import { AdminNavComponent } from './Components/admin-nav/admin-nav.component';
 import { SectionLayoutModule } from './Layouts/section-layout/section-layout.module';
 import { SharedModule } from './shared/shared.module';
+import { userReducer } from './store/store.reducer';
+import { StoreModule } from '@ngrx/store';
 
 
 const modules = [
@@ -47,6 +48,7 @@ const modules = [
     SharedModule,
     SectionLayoutModule,
     ...modules,
+    StoreModule.forRoot({auth: userReducer}),
   ],
   providers: [
     HttpService,

@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {
+    ActivatedRoute,
   ActivatedRouteSnapshot,
   CanActivate,
   CanLoad, Route,
@@ -19,13 +20,15 @@ export class OnlyAuthGuard implements CanLoad{
    constructor(private user: UserService,
                private auth: AuthenticateHelper,
                private router: Router,
-               private route: ActivatedRouteSnapshot,
+               private route: ActivatedRoute,
                private snackBar: MatSnackBar){}
 
-   async canLoad(router: Route, segments: UrlSegment[]): Promise<boolean | UrlTree> {
-     const id = parseInt(this.route.paramMap.get('id'), 10);
+  async canLoad(router: Route, segments: UrlSegment[]): Promise<boolean | UrlTree> {
+    const id = parseInt(this.route.snapshot.paramMap.get('id'), 10);
 
-     if (!this.user.is_auth) { await this.auth.authenticate(this.user, true); }
+     if (!this.user.is_auth) {
+       await this.auth.authenticate(this.user, true);
+     }
 
      if (this.user.role !== Roles.ADMIN && this.user.id !== id){
        await this.router.navigateByUrl('/');
