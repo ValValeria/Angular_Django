@@ -4,13 +4,13 @@
        <mat-tab *ngFor="let item of data; let index = index;" [label]="item">
          <div class="w-100 simple-wrap mb">
            <app-slider-info-content
-             [photos]="photos[data.indexOf(item)] || []"
-             (uploadFile)="uploadFile(item, $event)"
+             [photos]="photos[index]"
+             (uploadFile)="uploadFile(pageType[index], $event)"
              [type]="pageType[index]"
              (loadPrevImages)="loadPrevImages($event, pageType[index])"
            ></app-slider-info-content>
          </div>
-         <div class="w-100 center">
+         <div class="w-100 center" *ngIf="!isEmpty">
            <mat-divider class="mb-half"></mat-divider>
            <button mat-flat-button color="accent" (click)="handleSubmit()">Сохранить</button>
          </div>

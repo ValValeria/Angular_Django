@@ -26,6 +26,7 @@ export class SliderInfoPageComponent{
     1: [],
     2: []
   };
+  public isEmpty = true;
 
   constructor(private snackBar: MatSnackBar,
               private httpService: HttpService
@@ -33,13 +34,14 @@ export class SliderInfoPageComponent{
   }
 
   uploadFile(title: string, $event: File): void {
-    const index = this.data.indexOf(title);
+    const index = this.pageType.indexOf(title);
 
     if (index !== -1){
       const url = URL.createObjectURL($event);
 
       this.photos[index].push(url);
       this.photosFile[index].push($event);
+      this.isEmpty = false;
     }
   }
 
@@ -94,6 +96,10 @@ export class SliderInfoPageComponent{
         const index = this.pageType.indexOf(type);
 
         this.photosFile[index].push(file);
+
+        if (file && v.body && v.body.size) {
+          this.isEmpty = false;
+        }
       });
   }
 }

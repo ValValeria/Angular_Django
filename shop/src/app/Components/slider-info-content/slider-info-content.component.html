@@ -1,21 +1,20 @@
 <div class="slider-info-content">
   <div class="slider-info-content__container">
+    <input type="file" hidden #file accept="image/*"/>
     <div class="slider-info-content__items">
-      <div class="slider-info-content__btn">
-        <div class="shadow p-all center">
+      <div class="slider-info-content__btn w-100">
+        <button mat-flat-button color="accent" class="shadow p-all w-100" (click)="handleUpload()">
           <div class="w-100 text-center">
             <h5>Загрузить новое фото</h5>
             <p class="h6 mt">
               Максимальный размер фото 2 мб
             </p>
-            <input type="file" hidden #file accept="image/*"/>
-            <button class="mt" mat-flat-button color="accent" (click)="handleUpload()">Загрузить</button>
           </div>
-        </div>
+        </button>
       </div>
 
       <div class="slider-info-content__img shadow" *ngFor="let image of photos">
-        <img #img src="{{image}}" hidden alt="..." (error)="handleImageLoading(img, image)"/>
+        <img #img src="{{image}}" hidden alt="..." (error)="handleImageLoading(img, image)" />
       </div>
     </div>
   </div>
