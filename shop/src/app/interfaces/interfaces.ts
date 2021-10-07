@@ -1,3 +1,4 @@
+import { image } from '../Pages/slider-info-page/slider-info-page.component';
 import {UserService} from '../Services/User.service';
 
 export interface ICarouselResponse{
@@ -8,7 +9,8 @@ export interface ICarouselResponse{
 
 export interface IAllCarouselResponse{
   data: {
-    [prop: string]: string[]
+    images: image<string>[],
+    pageType: string
   };
 }
 

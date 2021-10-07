@@ -8,6 +8,7 @@ import {HttpResponse} from '@angular/common/http';
 import _ from 'lodash';
 
 type tuple = [string, string, string];
+export type image<T> = { postUrl: string, file: T };
 
 @Component({
   selector: 'app-slider-info-page',
@@ -16,12 +17,12 @@ type tuple = [string, string, string];
 export class SliderInfoPageComponent{
   public data: tuple = ['Отдельный товар', 'Главная', 'Продукты'];
   public pageType: tuple = ['product', 'home', 'products'];
-  public photos: {[prop in number]: string[]} = {
+  public photos: {[prop in number]: image<string>[]} = {
     0: [],
     1: [],
     2: []
   };
-  public photosFile: {[prop in number]: File[]} = {
+  public photosFile: {[prop in number]: image<File>[]} = {
     0: [],
     1: [],
     2: []
@@ -33,13 +34,13 @@ export class SliderInfoPageComponent{
               ) {
   }
 
-  uploadFile(title: string, $event: File): void {
+  uploadFile(title: string, $event: image<File>): void {
     const index = this.pageType.indexOf(title);
 
     if (index !== -1){
-      const url = URL.createObjectURL($event);
+      const url = URL.createObjectURL($event.file);
 
-      this.photos[index].push(url);
+      this.photos[index].push({ postUrl: $event.postUrl, file: url });
       this.photosFile[index].push($event);
       this.isEmpty = false;
     }
@@ -80,26 +81,5 @@ export class SliderInfoPageComponent{
     }
 
     this.snackBar.open(message, 'Close');
-  }
-
-  loadPrevImages($event: string[], type: string): void{
-    from($event)
-      .pipe(
-        map(v => {
-          return this.httpService.get<any>(v, {responseType: 'blob', observe: 'response'});
-        }),
-        mergeAll()
-      )
-      .subscribe((v: HttpResponse<Blob>) => {
-        const fileName = _.last(v.url.split('/')) ?? 'image.png';
-        const file = new File([v.body], fileName, {type: v.body.type, lastModified: Date.now()});
-        const index = this.pageType.indexOf(type);
-
-        this.photosFile[index].push(file);
-
-        if (file && v.body && v.body.size) {
-          this.isEmpty = false;
-        }
-      });
   }
 }

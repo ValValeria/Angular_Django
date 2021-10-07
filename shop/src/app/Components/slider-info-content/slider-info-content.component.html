@@ -13,8 +13,29 @@
         </button>
       </div>
 
-      <div class="slider-info-content__img shadow" *ngFor="let image of photos">
-        <img #img src="{{image}}" hidden alt="..." (error)="handleImageLoading(img, image)" />
+      <form  [formGroup]="form" (ngSubmit)="preventEvent($event)">
+        <ng-container formArrayName="urls">
+          <div class="slider-info-content__img shadow" *ngFor="let image of photos; let i = index;">
+            <div class="w-100">
+              <img #img src="{{image.file}}" hidden alt="..." (error)="handleImageLoading(img, image.file)" />
+            </div>
+            <div class="w-100">
+              <mat-form-field appearance="outline" color="accent">
+                <mat-label>Url</mat-label>
+                <input matInput formControlName="{{i}}" />
+              </mat-form-field>
+            </div>
+            <div class="slider-info-content__delete-btn">
+              <mat-radio-group aria-label="Select an option" color="accent">
+                <mat-radio-button value="1">Удалить</mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+        </ng-container>
+      </form>
+
+      <div class="w-100 center">
+        <button mat-flat-button color="accent" (click)="handleSubmit()">Сохранить</button>
       </div>
     </div>
   </div>
