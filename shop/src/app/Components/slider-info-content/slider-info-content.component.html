@@ -13,7 +13,7 @@
         </button>
       </div>
 
-      <form  [formGroup]="form" (ngSubmit)="preventEvent($event)">
+      <form [formGroup]="form" (ngSubmit)="preventEvent($event)">
         <ng-container formArrayName="urls">
           <div class="slider-info-content__img shadow" *ngFor="let image of photos; let i = index;">
             <div class="w-100">
