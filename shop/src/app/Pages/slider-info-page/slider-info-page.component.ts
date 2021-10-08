@@ -8,7 +8,7 @@ import {HttpResponse} from '@angular/common/http';
 import _ from 'lodash';
 
 type tuple = [string, string, string];
-export type image<T> = { postUrl: string, file: T };
+export type image<T> = { postUrl: string, file: T, id?: number };
 
 @Component({
   selector: 'app-slider-info-page',

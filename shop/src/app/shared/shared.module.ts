@@ -23,7 +23,9 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatDialogModule} from '@angular/material/dialog';
-import {MatListModule} from '@angular/material/list';
+import { MatListModule } from '@angular/material/list';
+import { MatRadioModule } from '@angular/material/radio';
+
 
 const modules = [
   MatCardModule,
@@ -41,6 +43,7 @@ const modules = [
   MatChipsModule, MatProgressBarModule,
   MatDialogModule,
   MatListModule,
+  MatRadioModule
 ];
 
 @NgModule({

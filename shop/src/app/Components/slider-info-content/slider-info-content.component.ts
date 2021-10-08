@@ -5,10 +5,11 @@ import {IAllCarouselResponse} from '../../interfaces/interfaces';
 import { AfterViewInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { image } from '../../Pages/slider-info-page/slider-info-page.component';
-import { from } from 'rxjs';
 import { auditTime, map, mergeMap } from 'rxjs/operators';
 import _ from 'lodash';
 import { Subscription } from 'rxjs';
+import { urlValidator } from '../../validators/url.validator';
+
 
 @Component({
   selector: 'app-slider-info-content',
@@ -19,11 +20,11 @@ export class SliderInfoContentComponent implements OnInit, AfterViewInit{
   @Input() type = '';
   @ViewChild('file', {read: ElementRef}) fileElement: ElementRef<HTMLInputElement>;
   @Output() uploadFileEvent = new EventEmitter<void>();
-  private urlPattern = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi;
   public form: FormGroup;
   public photosFile: image<File>[] = [];
   public photos: image<string>[] = [];
   public sub: Subscription[] = [];
+  private validators = [Validators.required, Validators.min(10), Validators.max(40), urlValidator];
 
   constructor(private snackBar: MatSnackBar,
     private httpService: HttpService,
@@ -38,7 +39,6 @@ export class SliderInfoContentComponent implements OnInit, AfterViewInit{
     this.httpService.get<IAllCarouselResponse>(`/api/carousel/${this.type}`)
       .subscribe(async(v) => {
         const data = v.data.images;
-        const validators = [Validators.required, Validators.min(10), Validators.max(40), Validators.pattern(this.urlPattern)];
 
         this.photos.push(...v.data.images);
 
@@ -52,7 +52,7 @@ export class SliderInfoContentComponent implements OnInit, AfterViewInit{
           this.photosFile.push({ file, postUrl: image.postUrl });
           this.photos.push(image);
 
-          const formControl = new FormControl(image.postUrl, validators);
+          const formControl = new FormControl(image.postUrl, this.validators);
           this.formArray.push(formControl);
           this.watchForUrlChanges(formControl, i)
         }
@@ -85,8 +85,14 @@ export class SliderInfoContentComponent implements OnInit, AfterViewInit{
     const url = URL.createObjectURL(file);
 
     if (file != null) {
-      this.photos.push({ file: url, postUrl: '' });
-      this.photosFile.push({ file, postUrl: '' });
+      const postUrl = '';
+
+      this.photos.push({ file: url, postUrl});
+      this.photosFile.push({ file, postUrl });
+
+      const formControl = new FormControl(postUrl, this.validators);
+      this.formArray.push(formControl);
+      this.watchForUrlChanges(formControl, this.photos.length - 1);
     } else {
       this.snackBar.open('Please, choose the file', 'Close');
     }
@@ -105,14 +111,10 @@ export class SliderInfoContentComponent implements OnInit, AfterViewInit{
 
       formData.append('urls_list', blob, 'urls_list.json');
 
-      const response = await fetch(url, {
-        method: 'POST',
-        body: formData
-      });
-
-      if (response.ok) {
-        this.snackBar.open('Files is saved', 'Close');
-      }
+      this.httpService.post(url, formData)
+        .subscribe(v => {
+          this.snackBar.open('Files is saved', 'Close');
+        });
     } else {
       this.snackBar.open('Invalid url', 'Close');
     }
@@ -129,5 +131,31 @@ export class SliderInfoContentComponent implements OnInit, AfterViewInit{
 
   get formArray(): FormArray {
     return this.form.get('urls') as FormArray;
+  }
+
+  async selectRadio(index: number, $event: Event): Promise<void> {
+    $event.preventDefault();
+
+    const image = this.photos[index];
+
+    if (image) {
+      this.sub[index]?.unsubscribe();
+      this.photos.splice(index, 1);
+      this.photosFile.splice(index, 1);
+
+      const ref = this.snackBar.open('The image is deleted', 'Close');
+
+      if (Number.isInteger(image.id) && image.id > 0) {
+        this.httpService.delete(`/api/carousel/${this.type}/${image.id}`)
+          .subscribe(async (v) => {
+            this.sub[index]?.unsubscribe();
+            this.photos.splice(index, 1);
+            this.photosFile.splice(index, 1);
+
+            ref.dismiss();
+            this.snackBar.open('The image is deleted from the server', 'Close');
+          });
+      }
+    }
   }
 }

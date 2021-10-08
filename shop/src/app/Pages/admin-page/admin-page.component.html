@@ -3,20 +3,8 @@
        <app-breadcrumbs [urls]="urls"></app-breadcrumbs>
      </div>
      <div class="admin__area">
-       <ng-container *ngIf="!isMedia">
-         <app-admin-dashboard [user]="user" [currentUser]="currentUser"></app-admin-dashboard>
-       </ng-container>
-       <div class="admin__expand-btn w-100 bg-white" *ngIf="isMedia">
-         <button color="accent" mat-stroked-button class="w-100" (click)="openUserPhoto()">
-           <h6 id="text">
-             {{
-             isUserProfile ? 'Ваша фотография' : 'Фоторафия пользователя'
-             }}
-           </h6>
-         </button>
+       <app-admin-dashboard [user]="user" [currentUser]="currentUser"></app-admin-dashboard>
 
-         <app-admin-buttons  *ngIf="currentUser.isSuperUser()" [user]="currentUser"></app-admin-buttons>
-       </div>
        <div class="admin__items ">
          <div class="w-100">
            <div class="admin__order-list">
@@ -48,8 +36,7 @@
                                    [data]="user.activeOrders"
                                    [isOrderList]="true"
                                    *ngIf="user.activeOrders.length"
-                                   [role]="'products_buy'"
-                         >
+                                   [role]="'products_buy'">
                          </app-list>
                          <div class="admin__order-empty" *ngIf="!user.activeOrders.length">
                            <h6>В корзине товаров нет</h6>
@@ -57,11 +44,13 @@
                        </div>
                        <div class="admin__order-selected center"
                             *ngIf="this.user.activeOrders.length">
-                         <button class="text-center h6 " mat-button>Выбрано {{selectedCount}}
-                           тв.</button>
+                         <button class="text-center h6 " mat-button>
+                           Выбрано {{selectedCount}}
+                           тв.
+                         </button>
                        </div>
 
-                       <div class="admin__order-actions  pt-3" >
+                       <div class="admin__order-actions  pt-3">
                          <div class="admin__order-errors" *ngIf="errors.length">
                            <button mat-button color="warn" *ngFor="let error of errors">
                              {{error}}
@@ -72,9 +61,13 @@
                          </div>
                          <div class="admin__order-btns" *ngIf="user.id === currentUser.id">
                            <button mat-flat-button color="warn"
-                                   on-click="delete_orders()" *ngIf="selectedCount">Убрать из корзины</button>
+                                   on-click="delete_orders()" *ngIf="selectedCount">
+                             Убрать из корзины
+                           </button>
                            <button mat-flat-button color="accent"
-                                   on-click="change_orders()" *ngIf="selectedCount">Изменить количество</button>
+                                   on-click="change_orders()" *ngIf="selectedCount">
+                             Изменить количество
+                           </button>
                            <button mat-flat-button color="warn" *ngIf="currentUser.activeOrders.length" on-click="oplata()">Оплатить</button>
                          </div>
                        </div>
@@ -113,7 +106,7 @@
                  </mat-card-subtitle>
                </mat-card>
              </div>
-             <div class="admin__profile-card" >
+             <div class="admin__profile-card">
                <mat-card class="shadow">
                  <mat-card-title class="text-center"> За всё время пользователь купил </mat-card-title>
                  <mat-card-subtitle>

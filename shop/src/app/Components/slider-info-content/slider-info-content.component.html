@@ -1,7 +1,7 @@
 <div class="slider-info-content">
   <div class="slider-info-content__container">
     <input type="file" hidden #file accept="image/*"/>
-    <div class="slider-info-content__items">
+    <div class="slider-info-content__items w-100">
       <div class="slider-info-content__btn w-100">
         <button mat-flat-button color="accent" class="shadow p-all w-100" (click)="handleUpload()">
           <div class="w-100 text-center">
@@ -19,22 +19,18 @@
             <div class="w-100">
               <img #img src="{{image.file}}" hidden alt="..." (error)="handleImageLoading(img, image.file)" />
             </div>
-            <div class="w-100">
-              <mat-form-field appearance="outline" color="accent">
+            <div class="w-100 p-all">
+              <mat-form-field appearance="outline" color="accent" class="w-100">
                 <mat-label>Url</mat-label>
                 <input matInput formControlName="{{i}}" />
               </mat-form-field>
-            </div>
-            <div class="slider-info-content__delete-btn">
-              <mat-radio-group aria-label="Select an option" color="accent">
-                <mat-radio-button value="1">Удалить</mat-radio-button>
-              </mat-radio-group>
+              <button mat-flat-button color="accent" (click)="selectRadio(i, $event)">Удалить</button>
             </div>
           </div>
         </ng-container>
       </form>
 
-      <div class="w-100 center">
+      <div class="slider-info-content__btn w-100 center mt" *ngIf="photos.length">
         <button mat-flat-button color="accent" (click)="handleSubmit()">Сохранить</button>
       </div>
     </div>
