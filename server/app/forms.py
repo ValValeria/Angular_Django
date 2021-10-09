@@ -4,22 +4,39 @@ from django.core.exceptions import ValidationError
 from django.forms import ModelForm
 from .models import Product
 from django.core.exceptions import ValidationError
-
+import json
+import os
 
 class CarouselImagesForm(forms.Form):
     home = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
     products = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
     product = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
+    urls_list = forms.FileField()
 
     def clean(self):
         cleaned_data = super().clean()
         images = [cleaned_data.get(type) for type in ['home', 'products', 'product']]
         
         for image in images:
-            raise ValidationError(
-                "Invalid extension of file "
-                "Error"
-            )
+            allowed_ext = ('.png', '.jpeg', '.svg', '.jpg')
+            filename, ext = os.path.splitext(image.name)
+
+            if not ext in allowed_ext:
+                raise ValidationError( "Invalid extension of file ", "Error")
+
+    def clean_urls_list(self):
+       file = self.cleaned_data['urls_list']
+
+       try:
+           urls = json.load(file)
+
+           if not isinstance(urls, list):
+               raise TypeError()
+       except TypeError:
+           raise ValidationError(_('Only arrays is allowed'), code='invalid type')
+       except:
+           raise ValidationError(_('Invalid json value'), code='invalid value')
+             
 
 
 class ValidateImages(forms.Form):

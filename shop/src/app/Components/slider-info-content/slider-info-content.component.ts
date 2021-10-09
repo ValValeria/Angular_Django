@@ -24,7 +24,7 @@ export class SliderInfoContentComponent implements OnInit, AfterViewInit{
   public photosFile: image<File>[] = [];
   public photos: image<string>[] = [];
   public sub: Subscription[] = [];
-  private validators = [Validators.required, Validators.min(10), Validators.max(40), urlValidator];
+  private validators = [Validators.required, Validators.min(10), Validators.max(40)];
 
   constructor(private snackBar: MatSnackBar,
     private httpService: HttpService,
@@ -100,7 +100,7 @@ export class SliderInfoContentComponent implements OnInit, AfterViewInit{
 
   async handleSubmit(): Promise<void>{
     if (this.form.valid) {
-      const url = `/api/sliders/download/${this.type}`;
+      const url = `/api/carousel/download/${this.type}`;
       const formData = new FormData();
       const urls = this.photos.map(v => v.postUrl);
       const blob = new Blob([JSON.stringify(urls)], {type: 'application/json'});
@@ -146,7 +146,7 @@ export class SliderInfoContentComponent implements OnInit, AfterViewInit{
       const ref = this.snackBar.open('The image is deleted', 'Close');
 
       if (Number.isInteger(image.id) && image.id > 0) {
-        this.httpService.delete(`/api/carousel/${this.type}/${image.id}`)
+        this.httpService.get(`/api/delete-carousel/${image.id}`)
           .subscribe(async (v) => {
             this.sub[index]?.unsubscribe();
             this.photos.splice(index, 1);

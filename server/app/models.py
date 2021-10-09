@@ -5,7 +5,7 @@ class Carousel(models.Model):
     image = models.FileField(upload_to="app/static/images")
     type = models.TextField("Type of page")
     objects = models.Manager()
-
+    url = models.CharField(max_length=40, default="")
 
 class Product(models.Model):
     objects = models.Manager()

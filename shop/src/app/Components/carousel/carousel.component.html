@@ -1,4 +1,4 @@
-<div id="carouselExampleIndicators" class="carousel slide shadow" data-bs-ride="carousel" *ngIf="!carouselImageError">
+<div id="carouselExampleIndicators" class="carousel slide shadow w-100" data-bs-ride="carousel" *ngIf="!carouselImageError">
     <ol class="carousel-indicators">
         <ng-container *ngFor="let image of carouselImages;let i = index;">
                 <li data-bs-target="#carouselExampleIndicators"
@@ -9,15 +9,24 @@
     </ol>
     <div class="carousel-inner">
         <ng-container *ngFor="let image of carouselImages;let i = index;">
-            <div class="carousel-item {{active==i?'active':''}}">
-                <img src="{{image}}" class="d-block w-100" alt="...">
+            <div class="carousel-item {{active==i?'active':''}}" (click)="navigateToPage(image)">
+                <img src="{{image.file}}" class="d-block w-100" alt="...">
             </div>
         </ng-container>
     </div>
-    <div class="carousel-control-prev"  role="button" data-bs-slide="prev" on-click="prevImage()">
+    <div class="carousel-control-prev"
+         role="button"
+         data-bs-slide="prev"
+         on-click="prevImage()"
+         *ngIf="carouselImages.length > 1"
+         >
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
     </div>
-    <div class="carousel-control-next" role="button" data-bs-slide="next" on-click="nextImage()">
+    <div class="carousel-control-next"
+         role="button"
+         data-bs-slide="next"
+         *ngIf="carouselImages.length > 1"
+         on-click="nextImage()">
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
     </div>
 </div>

@@ -1,8 +1,10 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {ICarouselResponse} from '../../interfaces/interfaces';
+import {IAllCarouselResponse, ICarouselResponse} from '../../interfaces/interfaces';
 import {catchError} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {HttpService} from '../../Services/Http.service';
+import { image } from '../../Pages/slider-info-page/slider-info-page.component';
+import { Router } from '@angular/router';
 
 type pageType = 'home' | 'product' | 'products';
 
@@ -13,11 +15,12 @@ type pageType = 'home' | 'product' | 'products';
 export class CarouselComponent implements OnChanges{
     @Input() pageType: pageType;
     @Output() errorLoading = new EventEmitter<Error>();
-    readonly carouselImages: string[] = [];
+    readonly carouselImages: image<string>[] = [];
     carouselImageError = false;
     active = 0;
 
-    constructor(private httpService: HttpService) {
+    constructor(private httpService: HttpService,
+    private router: Router) {
     }
 
     prevImage(): void {
@@ -33,7 +36,7 @@ export class CarouselComponent implements OnChanges{
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-      this.httpService.get<ICarouselResponse>(`/api/carousel/${this.pageType}`)
+      this.httpService.get<IAllCarouselResponse>(`/api/carousel/${this.pageType}`)
         .pipe(
           catchError((e) => of({data: {images: []}}))
         )
@@ -46,5 +49,9 @@ export class CarouselComponent implements OnChanges{
             this.errorLoading.emit(new Error());
           }
         });
+    }
+
+    async navigateToPage(data: image<string>): Promise<void> {
+       await this.router.navigateByUrl(data.postUrl);
     }
 }

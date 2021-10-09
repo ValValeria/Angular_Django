@@ -1,12 +1,13 @@
-from django.http import HttpResponseForbidden, HttpResponseBadRequest, JsonResponse
+from django.http import HttpResponseForbidden, HttpResponseBadRequest, JsonResponse, HttpResponseNotFound
 from django.views.generic import ListView
 from ..models import Carousel
 from ..forms import CarouselImagesForm
 import os
+import json
 
 class CarouselView(ListView):
     allowed_types = list(('product', 'home', 'products'))
-    response = {'data': {"images": []}, 'type': '', 'errors': []}
+    response = {'data': {"images": [], "pageType": ""}, 'type': '', 'errors': []}
 
     def get(self, request, *args, **kw):
         pageType = kw.get('type')
@@ -14,9 +15,12 @@ class CarouselView(ListView):
 
         if pageType not in self.allowed_types:
             return HttpResponseBadRequest()
+        else:
+            self.response['data']['pageType'] = pageType
 
-        images = [image.image.url for image in Carousel.objects.filter(type=pageType)]
-        self.response['data']['images'].extend(images)
+        for image in Carousel.objects.filter(type=pageType):
+            obj = {'postUrl': image.url, 'id': image.id, 'file': image.image.url};
+            self.response['data']['images'].append(obj)
 
         return JsonResponse(self.response)
 
@@ -25,27 +29,29 @@ class CarouselDeleteView(ListView):
     response = {'data': {"deleted_ids": []}, 'errors': [], 'status': ''}
 
     def get(self, request, *args, **kw):
-        filename = request.GET.get('filename')
-        file_type = request.GET.get('type')
+        carousel_id = kw.get('id')
+
+        if not carousel_id or not carousel_id.isdigit():
+            carousel_id = '0'
+
+        carousel = Carousel.objects.filter(id=int(carousel_id))
 
         if not request.user.is_superuser:
             return HttpResponseForbidden()
 
-        if not filename or not file_type:
-            return HttpResponseBadRequest()
+        if not len(carousel):
+            return HttpResponseNotFound()
 
-        images = Carousel.objects.filter(type=file_type)
+        self.response['data']['deleted_ids'].append(carousel.id)
 
-        for image in images:
-            self.response['data']['deleted_ids'].append(image.id)
+        base_path = os.path.realpath("./app/static/images/")
+        filename = os.path.normpath(os.path.join(base_path, carousel.image.name))
 
-            base_path = path.realpath("./app/static/images/")
-            filename = os.path.normpath(path.join(base_path, image.image.name))
-
-            if os.path.exists(filename):
-               os.remove(filename)
-
-            image.delete()
+        if os.path.exists(filename):
+           os.remove(filename)
+        
+        Carousel.objects.get(int(carousel_id)).delete()
+        self.response['status'] = 'ok'
 
         return JsonResponse(self.response)
 
@@ -56,37 +62,39 @@ class CarouselDownloadView(ListView):
 
     def post(self, request, *args, **kw):
         form = CarouselImagesForm(request.POST, request.FILES)
+        carousel_type = kw['type'];
 
-        if not request.user.is_superuser:
+        if not request.user.is_superuser or not self.allowed_types.count(carousel_type):
             return HttpResponseForbidden()  
 
-        if form.is_valid:
-            imagesList = [request.FILES.getlist(val) for val in self.allowed_types]
-            self.response['status'] = 'ok'
+        if form.is_valid():
+            imagesList = request.FILES.getlist(carousel_type)
+            file_data = form.cleaned_data['urls_list'].read()
+            urls = json.load(file_data)
 
-            for index, images in enumerate(imagesList):
-                for image in images:
-                    image_type = self.allowed_types[index]
-                    filename = image_type + image.name
+            for index, image in enumerate(imagesList):
+                filename = carousel_type + image.name
+               
+                carousel = Carousel()
+                carousel.url = urls[index] if urls[index] else ""
+                carousel.image = image
+                carousel.image.name = filename
+                carousel.type = image_type
+                carousel.save()
 
-                    carousel = Carousel()
-                    carousel.image = image
-                    carousel.image.name = filename
-                    carousel.type = image_type
-                    carousel.save()
+                base_path = os.path.realpath("./app/static/images/")
+                filename = os.path.normpath(os.path.join(base_path, image.name))
+                prev_file = os.path.normpath(os.path.join(base_path, image.name))
 
-                    base_path = path.realpath("./app/static/images/")
-                    filename = os.path.normpath(path.join(base_path, image.name))
-                    prev_file = os.path.normpath(path.join(base_path, image.name))
+                if os.path.exists(prev_file):
+                   os.remove(prev_file)
 
-                    if os.path.exists(prev_file):
-                       os.remove(prev_file)
+                with open(filename, 'wb+') as destination:
+                     for chunk in image.chunks():
+                         destination.write(chunk)
 
-                    with open(filename, 'wb+') as destination:
-                       for chunk in image.chunks():
-                          destination.write(chunk)
-
-                       print("File is uploaded. Filename is " + filename)
+                     self.response['status'] = 'ok'
+                     print("File is uploaded. Filename is " + filename)
         else:
             self.response['error'].extend(form.errors.as_json())
 
