@@ -51,8 +51,6 @@ export class SliderInfoContentComponent implements OnInit, AfterViewInit{
       .subscribe(async (v) => {
         const data = v.data.images;
 
-        this.photos.push(...v.data.images);
-
         for (const photo of data){
           const fileName = _.last(photo.file.split('/')) ?? 'image.png';
           const response = await fetch(photo.file);
@@ -110,7 +108,7 @@ export class SliderInfoContentComponent implements OnInit, AfterViewInit{
     this.photosFile.push(obj2);
 
     const index = this.photos.length - 1;
-    const formControl = new FormControl(obj.postUrl, this.validators);
+    const formControl = new FormControl(obj2.postUrl, this.validators);
 
     this.formArray.insert(index, formControl);
     this.watchForUrlChanges(formControl, index);
@@ -168,10 +166,6 @@ export class SliderInfoContentComponent implements OnInit, AfterViewInit{
       if (Number.isInteger(photo.id) && photo.id > 0) {
         this.httpService.get(`/api/delete-carousel/${photo.id}`)
           .subscribe(async (v) => {
-            this.sub[index]?.unsubscribe();
-            this.photos.splice(index, 1);
-            this.photosFile.splice(index, 1);
-
             ref.dismiss();
             this.snackBar.open('The photo is deleted from the server', 'Close');
           });

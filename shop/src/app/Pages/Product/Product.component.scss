@@ -392,6 +392,12 @@ mat-sidenav {
     }
 }
 
+@media(max-width: 700px){
+  .product__carousel {
+    display:none;
+  }
+}
+
 @media(max-width: $media * 0.5){
     ::ng-deep{
       #app-container{

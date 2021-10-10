@@ -39,7 +39,7 @@ urlpatterns = [
     re_path(r"^api/delete-user/(?P<number>\d+)", AdminDeleteUsers.as_view()),
     re_path(r"^api/user-info", UserProfile.as_view()),
     re_path(r"^api/user/(?P<number>\d+)", AdminViewUser.as_view()),
-    re_path(r"^api/delete-carousel/(?P<id>\d+)", CarouselDeleteView.as_view()), 
+    re_path(r"^api/delete-carousel/(?P<carousel_id>\d+)", CarouselDeleteView.as_view()),
     re_path(r"^api/carousel/download/(?P<type>[a-z]+)", CarouselDownloadView.as_view()), 
     re_path(r"^api/carousel/(?P<type>[a-z]+)", CarouselView.as_view()), 
     re_path(r"^api/users", AdminUsers.as_view()),

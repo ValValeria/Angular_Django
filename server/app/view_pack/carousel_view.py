@@ -12,15 +12,19 @@ class CarouselView(ListView):
     def get(self, request, *args, **kw):
         pageType = kw.get('type')
         self.response['type'] = pageType
+        self.response['data']['images'].clear()
 
         if pageType not in self.allowed_types:
             return HttpResponseBadRequest()
         else:
             self.response['data']['pageType'] = pageType
 
-        for image in Carousel.objects.filter(type__exact=pageType).distinct():
-            print(image)
-            obj = {'postUrl': image.url, 'id': image.id, 'file': image.image.url}
+        for image in Carousel.objects.filter(type__exact=pageType):
+            obj = {'postUrl': image.url,
+                   'id': image.id,
+                   'file': image.image.url,
+                   'type': image.type
+                   }
             self.response['data']['images'].append(obj)
 
         return JsonResponse(self.response)
@@ -29,18 +33,13 @@ class CarouselView(ListView):
 class CarouselDeleteView(ListView):
     response = {'data': {"deleted_ids": []}, 'errors': [], 'status': ''}
 
-    def get(self, request, *args, **kw):
-        carousel_id = kw.get('id')
-
-        if not carousel_id or not carousel_id.isdigit():
-            carousel_id = '0'
-
-        carousel = Carousel.objects.filter(id=int(carousel_id))
+    def get(self, request, carousel_id):
+        carousel = Carousel.objects.filter(id=int(carousel_id)).first()
 
         if not request.user.is_superuser:
             return HttpResponseForbidden()
 
-        if not len(carousel):
+        if not carousel:
             return HttpResponseNotFound()
 
         base_path = os.path.realpath("./app/static/images/")
@@ -49,7 +48,7 @@ class CarouselDeleteView(ListView):
         if os.path.exists(filename):
            os.remove(filename)
         
-        Carousel.objects.get(int(carousel_id)).delete()
+        Carousel.objects.get(id=int(carousel_id)).delete()
         self.response['status'] = 'ok'
 
         return JsonResponse(self.response)
