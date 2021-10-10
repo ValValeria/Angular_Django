@@ -8,8 +8,12 @@
           <ng-container>
             <ng-content></ng-content>
           </ng-container>
-          <div class="product__carousel">
-            <app-carousel pageType="products"></app-carousel>
+          <div class="product__carousel" *ngIf="!hasError">
+            <app-carousel
+              pageType="products"
+              (empty)="hasError=true"
+              (errorLoading)="hasError=true"
+            ></app-carousel>
           </div>
           <div class="product__categories">
             <app-products-categories></app-products-categories>

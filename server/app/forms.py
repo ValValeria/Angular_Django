@@ -8,34 +8,25 @@ import json
 import os
 
 class CarouselImagesForm(forms.Form):
-    home = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
-    products = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
-    product = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
+    home = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}), required = False)
+    products = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}), required = False)
+    product = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}), required = False)
     urls_list = forms.FileField()
 
     def clean(self):
         cleaned_data = super().clean()
-        images = [cleaned_data.get(type) for type in ['home', 'products', 'product']]
+        images = [cleaned_data.get(type) for type in ['home', 'products', 'product'] if type in cleaned_data.keys()]
         
         for image in images:
+            if not image: continue
+
             allowed_ext = ('.png', '.jpeg', '.svg', '.jpg')
             filename, ext = os.path.splitext(image.name)
 
             if not ext in allowed_ext:
                 raise ValidationError( "Invalid extension of file ", "Error")
 
-    def clean_urls_list(self):
-       file = self.cleaned_data['urls_list']
-
-       try:
-           urls = json.load(file)
-
-           if not isinstance(urls, list):
-               raise TypeError()
-       except TypeError:
-           raise ValidationError(_('Only arrays is allowed'), code='invalid type')
-       except:
-           raise ValidationError(_('Invalid json value'), code='invalid value')
+        return cleaned_data
              
 
 

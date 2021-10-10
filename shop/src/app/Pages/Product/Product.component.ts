@@ -47,6 +47,7 @@ export class Product implements OnInit, AfterViewInit {
   @ViewChild('drawer', { read: MatDrawer }) drawer: MatDrawer;
   @ViewChild('image', { read: ElementRef}) image: ElementRef<HTMLImageElement>;
   @ViewChildren('editable', {read: ElementRef}) editable: QueryList<ElementRef>;
+  @ViewChild('hot_ads', {read: ElementRef}) hotAds: ElementRef;
   @ViewChild(CharactaricticsComponent) charactaricticsComponent: CharactaricticsComponent;
   products: IAd[] = [];
   otherPosts: IAd[] = [];
@@ -268,5 +269,10 @@ export class Product implements OnInit, AfterViewInit {
 
   async navigateToAuthPage(): Promise<void>{
     await this.router.navigateByUrl('/authenticate?isLogin=true');
+  }
+
+  handleNoHotAds(){
+    const adsElement = this.hotAds.nativeElement;
+    adsElement.setAttribute('hidden', 'true');
   }
 }

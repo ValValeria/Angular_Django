@@ -1,5 +1,5 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {IAllCarouselResponse, ICarouselResponse} from '../../interfaces/interfaces';
+import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
+import {IAllCarouselResponse} from '../../interfaces/interfaces';
 import {catchError} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {HttpService} from '../../Services/Http.service';
@@ -15,12 +15,13 @@ type pageType = 'home' | 'product' | 'products';
 export class CarouselComponent implements OnChanges{
     @Input() pageType: pageType;
     @Output() errorLoading = new EventEmitter<Error>();
+    @Output() empty = new EventEmitter<void>();
     readonly carouselImages: image<string>[] = [];
     carouselImageError = false;
     active = 0;
 
     constructor(private httpService: HttpService,
-    private router: Router) {
+                private router: Router) {
     }
 
     prevImage(): void {
@@ -41,14 +42,21 @@ export class CarouselComponent implements OnChanges{
           catchError((e) => of({data: {images: []}}))
         )
         .subscribe(v => {
+          this.carouselImages.splice(0, this.carouselImages.length);
+          this.active = 0;
+
           if (v.data.images.length){
             this.carouselImages.push(...v.data.images);
             this.carouselImageError = false;
           } else {
             this.carouselImageError = true;
-            this.errorLoading.emit(new Error());
+            this.empty.emit();
           }
         });
+    }
+
+    handleErrorImageLoading(): void{
+       this.errorLoading.emit(new Error());
     }
 
     async navigateToPage(data: image<string>): Promise<void> {

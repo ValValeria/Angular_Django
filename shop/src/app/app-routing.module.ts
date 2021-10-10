@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { HomePage } from './Pages/HomePage/HomePage.component';
+import { HomePageComponent } from './Pages/home-page/home-page.component';
 import { ProductsComponent } from './Pages/Products/Products.component';
 import { ErrorImageLoading } from './Components/ErrorImageLoading/ErrorImageLoading.component';
 import { CardSmall } from './Components/CardSmall/CardSmall.component';
@@ -61,7 +61,7 @@ const adminRoutes: Routes = [
 ];
 
 const routes: Routes = [
-  {path: '', component: HomePage, pathMatch: 'full'},
+  {path: '', component: HomePageComponent, pathMatch: 'full'},
   {path: 'buy-orders', component: PurchasePage},
   {path: 'products', component: ProductsComponent, resolve: {productsInfo: ProductsDataResolver}},
   {path: 'product/:id', component: Product, resolve: {product: ProductResolver}},
@@ -97,7 +97,7 @@ const routes: Routes = [
     LikeModule,
     ListsModule
   ],
-  declarations: [HomePage, ProductsComponent,
+  declarations: [HomePageComponent, ProductsComponent,
                 ErrorImageLoading, CardSmall,
                 Product, CarouselComponent,
                 CharactaricticsComponent, Comments, AuthPage,

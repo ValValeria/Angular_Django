@@ -17,7 +17,7 @@
         <ng-container formArrayName="urls">
           <div class="slider-info-content__img shadow" *ngFor="let image of photos; let i = index;">
             <div class="w-100">
-              <img #img src="{{image.file}}" hidden alt="..." (error)="handleImageLoading(img, image.file)" />
+              <img #img src="{{image.file}}" alt="..." hidden/>
             </div>
             <div class="w-100 p-all">
               <mat-form-field appearance="outline" color="accent" class="w-100">

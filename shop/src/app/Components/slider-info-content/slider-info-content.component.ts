@@ -1,4 +1,14 @@
-import {Component, ElementRef, EventEmitter, Input, Output, ViewChild, OnInit, OnChanges, SimpleChanges} from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  Output,
+  ViewChild,
+  OnInit,
+  ViewChildren,
+  QueryList, OnChanges
+} from '@angular/core';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {HttpService} from '../../Services/Http.service';
 import {IAllCarouselResponse} from '../../interfaces/interfaces';
@@ -19,16 +29,17 @@ import { urlValidator } from '../../validators/url.validator';
 export class SliderInfoContentComponent implements OnInit, AfterViewInit{
   @Input() type = '';
   @ViewChild('file', {read: ElementRef}) fileElement: ElementRef<HTMLInputElement>;
+  @ViewChildren('img', {read: ElementRef}) imgList: QueryList<ElementRef<HTMLImageElement>>;
   @Output() uploadFileEvent = new EventEmitter<void>();
   public form: FormGroup;
   public photosFile: image<File>[] = [];
   public photos: image<string>[] = [];
   public sub: Subscription[] = [];
-  private validators = [Validators.required, Validators.min(10), Validators.max(40)];
+  private validators = [Validators.required, Validators.min(6), Validators.max(40)];
 
   constructor(private snackBar: MatSnackBar,
-    private httpService: HttpService,
-    private bd: FormBuilder
+              private httpService: HttpService,
+              private bd: FormBuilder
   ) {
     this.form = this.bd.group({
       urls: this.bd.array([])
@@ -37,24 +48,19 @@ export class SliderInfoContentComponent implements OnInit, AfterViewInit{
 
   ngOnInit(): void {
     this.httpService.get<IAllCarouselResponse>(`/api/carousel/${this.type}`)
-      .subscribe(async(v) => {
+      .subscribe(async (v) => {
         const data = v.data.images;
 
         this.photos.push(...v.data.images);
 
-        for (let i = 0; i < data.length; i++) {
-          const image = data[i];
-          const fileName = _.last(image.file.split('/')) ?? 'image.png';
-          const response = await fetch(image.file);
+        for (const photo of data){
+          const fileName = _.last(photo.file.split('/')) ?? 'image.png';
+          const response = await fetch(photo.file);
           const blob = await response.blob();
           const file = new File([blob], fileName, { type: blob.type, lastModified: Date.now() });
 
-          this.photosFile.push({ file, postUrl: image.postUrl });
-          this.photos.push(image);
-
-          const formControl = new FormControl(image.postUrl, this.validators);
-          this.formArray.push(formControl);
-          this.watchForUrlChanges(formControl, i)
+          const obj2 = { file, postUrl: photo.postUrl };
+          this.addNewImage(photo, obj2);
         }
       });
   }
@@ -86,16 +92,34 @@ export class SliderInfoContentComponent implements OnInit, AfterViewInit{
 
     if (file != null) {
       const postUrl = '';
+      const obj = { file: url, postUrl};
+      const obj2 = { file, postUrl };
 
-      this.photos.push({ file: url, postUrl});
-      this.photosFile.push({ file, postUrl });
-
-      const formControl = new FormControl(postUrl, this.validators);
-      this.formArray.push(formControl);
-      this.watchForUrlChanges(formControl, this.photos.length - 1);
+      this.addNewImage(obj, obj2);
     } else {
       this.snackBar.open('Please, choose the file', 'Close');
     }
+  }
+
+  public addNewImage(obj: image<string>, obj2: image<File>): void{
+    const item = this.photos.find(v => v.id === obj.id);
+
+    if (item) { return; }
+
+    this.photos.push(obj);
+    this.photosFile.push(obj2);
+
+    const index = this.photos.length - 1;
+    const formControl = new FormControl(obj.postUrl, this.validators);
+
+    this.formArray.insert(index, formControl);
+    this.watchForUrlChanges(formControl, index);
+
+    setTimeout(() => {
+      const img = this.imgList.last;
+      img.nativeElement.src = obj.file;
+      img.nativeElement.hidden = false;
+    }, 300);
   }
 
   async handleSubmit(): Promise<void>{
@@ -120,12 +144,7 @@ export class SliderInfoContentComponent implements OnInit, AfterViewInit{
     }
   }
 
-  handleImageLoading(img: HTMLImageElement, src: string): void {
-    img.src = src;
-    img.onload = () => img.hidden = false;
-  }
-
-  preventEvent($event: Event) {
+  preventEvent($event: Event): void{
     $event.preventDefault();
   }
 
@@ -136,24 +155,25 @@ export class SliderInfoContentComponent implements OnInit, AfterViewInit{
   async selectRadio(index: number, $event: Event): Promise<void> {
     $event.preventDefault();
 
-    const image = this.photos[index];
+    const photo = this.photos[index];
 
-    if (image) {
+    if (photo) {
       this.sub[index]?.unsubscribe();
       this.photos.splice(index, 1);
       this.photosFile.splice(index, 1);
+      this.formArray.removeAt(index);
 
-      const ref = this.snackBar.open('The image is deleted', 'Close');
+      const ref = this.snackBar.open('The photo is deleted', 'Close');
 
-      if (Number.isInteger(image.id) && image.id > 0) {
-        this.httpService.get(`/api/delete-carousel/${image.id}`)
+      if (Number.isInteger(photo.id) && photo.id > 0) {
+        this.httpService.get(`/api/delete-carousel/${photo.id}`)
           .subscribe(async (v) => {
             this.sub[index]?.unsubscribe();
             this.photos.splice(index, 1);
             this.photosFile.splice(index, 1);
 
             ref.dismiss();
-            this.snackBar.open('The image is deleted from the server', 'Close');
+            this.snackBar.open('The photo is deleted from the server', 'Close');
           });
       }
     }

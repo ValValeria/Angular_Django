@@ -18,8 +18,9 @@ class CarouselView(ListView):
         else:
             self.response['data']['pageType'] = pageType
 
-        for image in Carousel.objects.filter(type=pageType):
-            obj = {'postUrl': image.url, 'id': image.id, 'file': image.image.url};
+        for image in Carousel.objects.filter(type__exact=pageType).distinct():
+            print(image)
+            obj = {'postUrl': image.url, 'id': image.id, 'file': image.image.url}
             self.response['data']['images'].append(obj)
 
         return JsonResponse(self.response)
@@ -42,8 +43,6 @@ class CarouselDeleteView(ListView):
         if not len(carousel):
             return HttpResponseNotFound()
 
-        self.response['data']['deleted_ids'].append(carousel.id)
-
         base_path = os.path.realpath("./app/static/images/")
         filename = os.path.normpath(os.path.join(base_path, carousel.image.name))
 
@@ -62,14 +61,14 @@ class CarouselDownloadView(ListView):
 
     def post(self, request, *args, **kw):
         form = CarouselImagesForm(request.POST, request.FILES)
-        carousel_type = kw['type'];
+        carousel_type = kw['type']
 
         if not request.user.is_superuser or not self.allowed_types.count(carousel_type):
             return HttpResponseForbidden()  
 
         if form.is_valid():
             imagesList = request.FILES.getlist(carousel_type)
-            file_data = form.cleaned_data['urls_list'].read()
+            file_data = form.cleaned_data['urls_list']
             urls = json.load(file_data)
 
             for index, image in enumerate(imagesList):
@@ -79,7 +78,7 @@ class CarouselDownloadView(ListView):
                 carousel.url = urls[index] if urls[index] else ""
                 carousel.image = image
                 carousel.image.name = filename
-                carousel.type = image_type
+                carousel.type = carousel_type
                 carousel.save()
 
                 base_path = os.path.realpath("./app/static/images/")
@@ -96,6 +95,6 @@ class CarouselDownloadView(ListView):
                      self.response['status'] = 'ok'
                      print("File is uploaded. Filename is " + filename)
         else:
-            self.response['error'].extend(form.errors.as_json())
+            self.response['errors'].append(form.errors.as_json())
 
         return JsonResponse(self.response)

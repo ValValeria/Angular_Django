@@ -11,3 +11,13 @@
 .mt-1-rem{
   margin-top: $margin/2 !important;
 }
+
+.min-height-auto{
+  min-height: auto !important;
+}
+
+@media(max-width: 700px){
+  #media {
+    display:none;
+  }
+}

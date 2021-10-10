@@ -61,6 +61,7 @@ export class ProductsComponent implements OnInit, AfterViewInit {
     showModel = false;
     minPrice = 0;
     urls: [string, string][];
+    hasError = false;
 
     constructor(private http: HttpService,
                 private dialog: MatDialog,

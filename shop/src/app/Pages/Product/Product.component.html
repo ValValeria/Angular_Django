@@ -128,8 +128,12 @@
                     </div>
                   </div>
 
-                  <div class="product__carousel mt w-100 product__related">
-                    <app-carousel [pageType]="'product'"></app-carousel>
+                  <div class="product__carousel mt w-100 product__related" #hot_ads>
+                    <app-carousel
+                      [pageType]="'product'"
+                      (empty)="handleNoHotAds()"
+                      (errorLoading)="handleNoHotAds()"
+                    ></app-carousel>
                   </div>
                 </div>
               </div>

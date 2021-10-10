@@ -20,9 +20,9 @@
 </section>
 
 <section class="section">
-  <div class="section__content text-white ">
-    <div class="section__wrap wrap-md-pd ">
-          <div class="section__items flex-column bg-promo " >
+  <div class="section__content text-white w-100">
+    <div class="section__wrap wrap-md-pd w-100">
+          <div class="section__items flex-column bg-promo w-100" >
                 <p class="headline-md ">Супер гарантии, акции</p>
                 <p class="h5">На смартфоны, ТВ и электронику</p>
                 <div class='mt-1-rem'>
@@ -34,8 +34,8 @@
 </section>
 
 <section>
-  <div class="section__content">
-    <div class="section__wrap wrap-md-pd">
+  <div class="section__content w-100">
+    <div class="section__wrap wrap-md-pd ">
           <div class="section__items wrap-md section__items-2 justify-content-end bg-left align-items-start" >
             <div class="section__item center flex-column mx-400 text-left align-items-start">
                 <p class="headline-md ">Только современные технологии</p>
@@ -70,6 +70,18 @@
   </div>
 </section>
 
+<ng-template [ngIf]="!error">
+  <section class="section center min-height-auto" id="media">
+    <div class="section__content center">
+      <div class="section__wrap wrap-md-pd">
+        <app-carousel pageType="home"
+                      (errorLoading)="error=true"
+                      (empty)="error=true"
+        ></app-carousel>
+      </div>
+    </div>
+  </section>
+</ng-template>
 
 <section class="section">
   <div class="section__content  ">
@@ -106,36 +118,5 @@
   </div>
 </section>
 
-
-<section class="section center">
-  <div class="section__content center">
-    <div class="section__wrap wrap-md-pd">
-      <div class="section__items wrap-md flex-column justify-content-between">
-        <div class="section__item pr-1 text-center">
-          <div>
-            <p class="brand-name">Новенькие IPhones</p>
-            <p class="headline-md">Blast past fast</p>
-          </div>
-          <div class='mt-1-rem '>
-            <a color="warn" mat-raised-button routerLink="/products">Смотреть</a>
-          </div>
-        </div>
-        <div class="section__item pt-4">
-          <div class="img-container pt-4"><img src="/assets/btn.png" alt="" srcset=""></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<ng-template [ngIf]="!error">
-  <section class="section center">
-    <div class="section__content center">
-      <div class="section__wrap wrap-md-pd">
-        <app-carousel pageType="home" (errorLoading)="error=true"></app-carousel>
-      </div>
-    </div>
-  </section>
-</ng-template>
 
 
