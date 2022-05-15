@@ -4,7 +4,7 @@ import * as _ from 'lodash';
 import { forEach, remove } from 'lodash';
 import { Subject } from 'rxjs';
 import { IAd } from 'src/app/interfaces/interfaces';
-import { UserService } from 'src/app/Services/User.service';
+import { UserService } from 'src/app/services/user.service';
 
 
 export const $ORDER_COUNT = new Subject<[number, UserService]>();

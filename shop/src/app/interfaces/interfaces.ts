@@ -1,5 +1,5 @@
 import { image } from '../Pages/slider-info-page/slider-info-page.component';
-import {UserService} from '../Services/User.service';
+import {UserService} from '../services/user.service';
 
 export interface ICarouselResponse{
   data: {

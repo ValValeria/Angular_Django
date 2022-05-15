@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { auditTime } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, ActivatedRoute } from '@angular/router';
-import { UserService } from 'src/app/Services/User.service';
+import { UserService } from 'src/app/services/user.service';
 import { merge } from 'rxjs';
 import { AuthenticateHelper } from 'src/app/Classes/authenticate-helper.service';
 import {IUser} from "../../interfaces/interfaces";

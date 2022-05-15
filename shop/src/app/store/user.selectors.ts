@@ -1,5 +1,5 @@
 import { createSelector, createFeatureSelector } from "@ngrx/store";
-import {UserService} from '../Services/User.service';
+import {UserService} from '../services/user.service';
 
 export interface IAppState{
   auth: {

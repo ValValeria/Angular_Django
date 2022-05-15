@@ -1,5 +1,5 @@
 import {Component, OnInit, Output, EventEmitter, Input} from '@angular/core';
-import {UserService} from '../../Services/User.service';
+import {UserService} from '../../services/user.service';
 
 @Component({
   selector: 'app-admin-dashboard',

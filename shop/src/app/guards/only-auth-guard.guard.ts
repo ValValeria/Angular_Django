@@ -10,7 +10,7 @@ import {
   UrlTree
 } from '@angular/router';
 import {AuthenticateHelper} from '../Classes/authenticate-helper.service';
-import {UserService} from '../Services/User.service';
+import {UserService} from '../services/user.service';
 import {Roles} from './only-super-admin.guard';
 import {MatSnackBar} from '@angular/material/snack-bar';
 

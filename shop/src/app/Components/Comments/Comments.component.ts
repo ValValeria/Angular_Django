@@ -1,8 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import { URL_PATH } from 'src/app/app.component';
 import { IComment } from 'src/app/interfaces/interfaces';
-import { HttpService } from 'src/app/Services/Http.service';
-import { UserService } from 'src/app/Services/User.service';
+import { HttpService } from 'src/app/services/http.service';
+import { UserService } from 'src/app/services/user.service';
 import {from} from 'rxjs';
 import {map, mergeMap} from 'rxjs/operators';
 

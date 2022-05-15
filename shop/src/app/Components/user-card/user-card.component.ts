@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {IUser} from '../../interfaces/interfaces';
 import {Router} from '@angular/router';
-import {HttpService} from '../../Services/Http.service';
+import {HttpService} from '../../services/http.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({

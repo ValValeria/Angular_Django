@@ -8,7 +8,7 @@ import {
   CanLoad,
   Route, UrlSegment
 } from '@angular/router';
-import {UserService} from '../Services/User.service';
+import {UserService} from '../services/user.service';
 import {AuthenticateHelper} from '../Classes/authenticate-helper.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 

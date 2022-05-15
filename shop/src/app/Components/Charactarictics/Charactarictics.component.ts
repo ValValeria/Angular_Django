@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {UserService} from '../../Services/User.service';
+import {UserService} from '../../services/user.service';
 import {find, remove, isEqual} from 'lodash';
 import {MatDialog} from '@angular/material/dialog';
 import {

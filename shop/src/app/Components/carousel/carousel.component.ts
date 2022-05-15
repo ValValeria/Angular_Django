@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '
 import {IAllCarouselResponse} from '../../interfaces/interfaces';
 import {catchError} from 'rxjs/operators';
 import {of} from 'rxjs';
-import {HttpService} from '../../Services/Http.service';
+import {HttpService} from '../../services/http.service';
 import { image } from '../../Pages/slider-info-page/slider-info-page.component';
 import { Router } from '@angular/router';
 

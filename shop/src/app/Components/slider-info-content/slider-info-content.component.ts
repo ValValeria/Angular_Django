@@ -10,7 +10,7 @@ import {
   QueryList, OnChanges
 } from '@angular/core';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {HttpService} from '../../Services/Http.service';
+import {HttpService} from '../../services/http.service';
 import {IAllCarouselResponse} from '../../interfaces/interfaces';
 import { AfterViewInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';

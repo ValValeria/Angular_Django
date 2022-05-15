@@ -1,7 +1,7 @@
 import { Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import { AuthenticateHelper } from './Classes/authenticate-helper.service';
-import {USER_AUTH, UserService} from './Services/User.service';
+import {USER_AUTH, UserService} from './services/user.service';
 
 export const URL_PATH = '/';
 

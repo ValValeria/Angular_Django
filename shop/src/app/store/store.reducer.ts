@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import {IStore} from '../interfaces/interfaces';
-import {UserService} from '../Services/User.service';
+import {UserService} from '../services/user.service';
 import {loginUser, logoutUser} from './store.actions';
 
 const initState: IStore = {

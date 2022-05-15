@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { HttpService } from 'src/app/Services/Http.service';
-import { UserService } from 'src/app/Services/User.service';
+import { HttpService } from 'src/app/services/http.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
     selector: 'app-like',

@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { URL_PATH } from 'src/app/app.component';
-import { HttpService } from 'src/app/Services/Http.service';
+import { HttpService } from 'src/app/services/http.service';
 
 @Component({
     selector: 'app-contact-page',

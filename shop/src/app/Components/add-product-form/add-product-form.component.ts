@@ -1,11 +1,11 @@
 import {Component, Input, Self, ViewChild, ElementRef} from '@angular/core';
-import {UserService} from '../../Services/User.service';
+import {UserService} from '../../services/user.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {IAd} from '../../interfaces/interfaces';
-import {AdService} from '../../Services/ad.service';
+import {AdService} from '../../services/ad.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {Router} from '@angular/router';
-import {HttpService} from '../../Services/Http.service';
+import {HttpService} from '../../services/http.service';
 import {MatChipSelectionChange} from '@angular/material/chips';
 import _ from 'lodash';
 import {categoryValidator} from "../../validators/category.validator";

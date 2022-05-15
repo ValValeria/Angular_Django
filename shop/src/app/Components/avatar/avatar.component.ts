@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import {UserService} from '../../Services/User.service';
+import {UserService} from '../../services/user.service';
 import {URL_PATH} from '../../app.component';
 import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';

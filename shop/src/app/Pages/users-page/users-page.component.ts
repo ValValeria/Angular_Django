@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {IAdminUsersResponse, IResponse, IUser} from '../../interfaces/interfaces';
-import {HttpService} from '../../Services/Http.service';
-import {UserService} from '../../Services/User.service';
+import {HttpService} from '../../services/http.service';
+import {UserService} from '../../services/user.service';
 import {PageEvent} from '@angular/material/paginator';
 import {MatCheckboxChange} from '@angular/material/checkbox';
 import {from} from 'rxjs';

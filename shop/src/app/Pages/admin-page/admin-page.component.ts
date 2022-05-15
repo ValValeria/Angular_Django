@@ -5,8 +5,8 @@ import {
   ElementRef, SkipSelf,
   ViewChild
 } from '@angular/core';
-import {HttpService} from 'src/app/Services/Http.service';
-import {UserService} from 'src/app/Services/User.service';
+import {HttpService} from 'src/app/services/http.service';
+import {UserService} from 'src/app/services/user.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ChartType} from 'chart.js';
 import {MultiDataSet} from 'ng2-charts';

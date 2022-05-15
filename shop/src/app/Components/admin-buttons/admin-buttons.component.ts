@@ -1,5 +1,5 @@
 import {Component, SkipSelf} from '@angular/core';
-import {UserService} from '../../Services/User.service';
+import {UserService} from '../../services/user.service';
 import {Router} from '@angular/router';
 import {Input} from '@angular/core';
 

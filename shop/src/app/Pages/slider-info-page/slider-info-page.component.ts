@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ISimpleResponse} from '../../interfaces/interfaces';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {HttpService} from '../../Services/Http.service';
+import {HttpService} from '../../services/http.service';
 import {from} from 'rxjs';
 import {map, mergeAll} from 'rxjs/operators';
 import {HttpResponse} from '@angular/common/http';

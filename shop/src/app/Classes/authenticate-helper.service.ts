@@ -1,6 +1,6 @@
 import { URL_PATH } from '../app.component';
 import { IUser } from '../interfaces/interfaces';
-import { UserService } from '../Services/User.service';
+import { UserService } from '../services/user.service';
 import {Injectable} from '@angular/core';
 
 interface IRes{

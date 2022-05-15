@@ -1,30 +1,29 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HeaderComponent } from './Components/Header/Header.component';
-import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
-import { HttpService } from './Services/Http.service';
-import { UserService } from './Services/User.service';
-import { Authenticate } from './Services/Authenticate.service';
-import { MatBadgeModule } from '@angular/material/badge';
-import { SearchForm } from './Components/SearchForm/SearchForm.component';
-import { MatDialogModule } from '@angular/material/dialog';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { HeaderTop } from './Components/HeaderTop/HeaderTop.component';
-import { AvatarComponent } from './Components/avatar/avatar.component';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatIconModule } from '@angular/material/icon';
-import { FooterComponent } from './Components/footer/footer.component';
-import { LogoComponent } from './Components/logo/logo.component';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {HeaderComponent} from './Components/header/header.component';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {HttpService} from './services/http.service';
+import {UserService} from './services/user.service';
+import {Authenticate} from './services/authenticate.service';
+import {MatBadgeModule} from '@angular/material/badge';
+import {SearchForm} from './Components/SearchForm/SearchForm.component';
+import {MatDialogModule} from '@angular/material/dialog';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {HeaderTop} from './Components/header-top/header-top.component';
+import {AvatarComponent} from './Components/avatar/avatar.component';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatIconModule} from '@angular/material/icon';
+import {FooterComponent} from './Components/footer/footer.component';
+import {LogoComponent} from './Components/logo/logo.component';
 import {AuthenticateHelper} from './Classes/authenticate-helper.service';
-import { AdminNavComponent } from './Components/admin-nav/admin-nav.component';
-import { SectionLayoutModule } from './Layouts/section-layout/section-layout.module';
-import { SharedModule } from './shared/shared.module';
-import { userReducer } from './store/store.reducer';
-import { StoreModule } from '@ngrx/store';
-
+import {AdminNavComponent} from './Components/admin-nav/admin-nav.component';
+import {SectionLayoutModule} from './Layouts/section-layout/section-layout.module';
+import {SharedModule} from './shared/shared.module';
+import {userReducer} from './store/store.reducer';
+import {StoreModule} from '@ngrx/store';
 
 const modules = [
   MatIconModule,
@@ -35,7 +34,6 @@ const modules = [
   AppRoutingModule,
 ];
 
-// @ts-ignore
 @NgModule({
   declarations: [
     AppComponent, HeaderComponent, SearchForm,
@@ -58,4 +56,5 @@ const modules = [
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {
+}

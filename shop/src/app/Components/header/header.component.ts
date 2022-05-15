@@ -5,8 +5,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { fromEvent } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { HttpService } from 'src/app/Services/Http.service';
-import { UserService } from 'src/app/Services/User.service';
+import { HttpService } from 'src/app/services/http.service';
+import { UserService } from 'src/app/services/user.service';
 import {$DELETE_ITEMS, $ORDER_COUNT} from '../OrderList/OrderList.component';
 import { $CLOSE_SEARCH, SearchForm } from '../SearchForm/SearchForm.component';
 import {Subject} from 'rxjs/internal/Subject';
@@ -15,8 +15,8 @@ export const MEDIA$ = new Subject<boolean>();
 
 @Component({
     selector: 'app-header-main',
-    templateUrl: './Header.component.html',
-    styleUrls: ['./Header.component.scss'],
+    templateUrl: './header.component.html',
+    styleUrls: ['./header.component.scss'],
     animations: [
         trigger('fade', [
             transition('enter=>leave', [

@@ -5,8 +5,8 @@ import { from, interval, Observable } from 'rxjs';
 import { reduce, skipWhile, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 import { URL_PATH } from 'src/app/app.component';
 import { IAd } from 'src/app/interfaces/interfaces';
-import { HttpService } from 'src/app/Services/Http.service';
-import { UserService, USER_AUTH } from 'src/app/Services/User.service';
+import { HttpService } from 'src/app/services/http.service';
+import { UserService, USER_AUTH } from 'src/app/services/user.service';
 
 @Component({
     selector: 'app-purchase-page',

@@ -1,122 +1,16 @@
-
-<section class="section center ">
-  <div class="section__content first-slide ">
-      <div class="section__wrap wrap-md-pd">
-             <div class="section__items section__items-2">
-                  <div class="section__item">
-                      <p class="text-orange">Большой выбор</p>
-                      <p class="headline-gr">{{"Товары на любой вкус"|uppercase}}</p>
-                      <p class="h5">Всё в одном месте.</p>
-                      <div class='mt-1-rem '>
-                        <a color="warn" class="bg-warn" mat-raised-button routerLink="/products">Смотреть</a>
-                      </div>
-                  </div>
-                  <div class="section__item center">
-                     <div class="img-container center"><img src="/assets/hero_large.jpg" alt="" srcset=""></div>
-                  </div>
-             </div>
-      </div>
+<section class="section center">
+  <div class="section__content first-slide">
+    <p-carousel class="w-100"
+                styleClass="custom-carousel"
+                [value]="items"
+                [numVisible]="3"
+                [numScroll]="1"
+                [responsiveOptions]="responsiveOptions"
+                [autoplayInterval]="3000"
+                [circular]="true">
+      <ng-template let-item pTemplate="item">
+        <img src="{{item.image}}" alt="..." class="section__image w-100"/>
+      </ng-template>
+    </p-carousel>
   </div>
 </section>
-
-<section class="section">
-  <div class="section__content text-white w-100">
-    <div class="section__wrap wrap-md-pd w-100">
-          <div class="section__items flex-column bg-promo w-100" >
-                <p class="headline-md ">Супер гарантии, акции</p>
-                <p class="h5">На смартфоны, ТВ и электронику</p>
-                <div class='mt-1-rem'>
-                  <button color="warn" mat-raised-button class="bg-warn">Подробнее</button>
-                </div>
-           </div>
-    </div>
-  </div>
-</section>
-
-<section>
-  <div class="section__content w-100">
-    <div class="section__wrap wrap-md-pd ">
-          <div class="section__items wrap-md section__items-2 justify-content-end bg-left align-items-start" >
-            <div class="section__item center flex-column mx-400 text-left align-items-start">
-                <p class="headline-md ">Только современные технологии</p>
-                <p class="h5">Супер скорость, супер лёгкость</p>
-                <div class='mt-1-rem '>
-                  <button color="warn" mat-raised-button class="bg-warn">Смотреть</button>
-                </div>
-             </div>
-             <div class="section__item center">
-                <div class="img-container center"><img src="/assets/btn.png" alt=""></div>
-             </div>
-          </div>
-    </div>
-  </div>
-</section>
-
-<section class="section center " style="min-height:60vh;">
-  <div class="section__content ">
-      <div class="section__wrap wrap-md-pd ">
-             <div class="section__items section__items-2 wrap-md flex-rv-media">
-                  <div class="section__item center">
-                     <div class="img-container center"><img src="/assets/macbook6.jpg" alt="" srcset=""></div>
-                  </div>
-                  <div class="section__item center flex-column align-items-end">
-                      <p class="text-orange">Огромная скорость</p>
-                      <p class="headline-md">Доставки</p>
-                      <p class="h5">В среднем 1-2 дня</p>
-                      <div class='mt-1-rem '><button color="warn" mat-raised-button class="bg-warn">Смотреть</button></div>
-                  </div>
-             </div>
-      </div>
-  </div>
-</section>
-
-<ng-template [ngIf]="!error">
-  <section class="section center min-height-auto" id="media">
-    <div class="section__content center">
-      <div class="section__wrap wrap-md-pd">
-        <app-carousel pageType="home"
-                      (errorLoading)="error=true"
-                      (empty)="error=true"
-        ></app-carousel>
-      </div>
-    </div>
-  </section>
-</ng-template>
-
-<section class="section">
-  <div class="section__content  ">
-    <div class="section__wrap wrap-md-pd ">
-          <div class="section__items flex-column " >
-            <div class="wrap-md-pd">
-                <div class="section__item center flex-column mx-400 text-center ">
-                  <div class="section__title-content mb text-center">
-                    <p class="text-orange">Огромное количество товаров</p>
-                    <p class="headline-md mb-0">Выберите то, что вам нужно.</p>
-                    <p class="h5 mt">Более 6 тысяч товаров</p>
-                  </div>
-                  <div class='w-100 center'>
-                    <a color="warn" mat-stroked-button class="bg-warn text-white" routerLink="/products">Подробнее</a>
-                  </div>
-                </div>
-                <div class="section__item wrap-md pt-4">
-                  <div class="mt w-100">
-                    <div class="center flex-wrap grid_media" *ngIf="ads.length">
-                      <ng-template ngFor let-card [ngForOf]="ads">
-                        <card [card]="card" class="center w-100"></card>
-                      </ng-template>
-                    </div>
-                    <div class="center " *ngIf="!ads.length" style="min-height:40vh;">
-                      <div class="spinner-border text-light" role="status" style="width: 5rem; height: 5rem;">
-                        <span class="sr-only">Loading...</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-            </div>
-          </div>
-    </div>
-  </div>
-</section>
-
-
-

@@ -1,5 +1,5 @@
 import {createAction, props} from '@ngrx/store';
-import {UserService} from '../Services/User.service';
+import {UserService} from '../services/user.service';
 
 
 const loginUser = createAction('[LOGIN]', props<{user: UserService}>());

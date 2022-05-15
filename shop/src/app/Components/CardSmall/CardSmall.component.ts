@@ -3,8 +3,8 @@ import { IAd } from '../../interfaces/interfaces';
 import { ImageLoading } from '../../Classes/ImageLoading';
 import { Router } from '@angular/router';
 import { URL_PATH } from 'src/app/app.component';
-import { HttpService } from 'src/app/Services/Http.service';
-import { UserService } from 'src/app/Services/User.service';
+import { HttpService } from 'src/app/services/http.service';
+import { UserService } from 'src/app/services/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({

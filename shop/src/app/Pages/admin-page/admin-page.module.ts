@@ -11,7 +11,7 @@ import {OrderListModule} from '../../Components/OrderList/order-list.module';
 import {LikeModule} from '../../Components/Like/like.module';
 import {OrdersLikesModule} from '../../Components/OrdersLikes/OrdersLikes.module';
 import {RouterModule, Routes} from '@angular/router';
-import {SafePipe} from '../../Pipes/Safe.pipe';
+import {SafePipe} from '../../pipes/safe.pipe';
 
 const routes: Routes = [
   {path: 'profile/:id', component: AdminPageComponent}
