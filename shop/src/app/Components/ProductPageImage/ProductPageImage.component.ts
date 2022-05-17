@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, Inject, Renderer2 } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { URL_PATH } from 'src/app/app.component';
-import {handleClose$} from '../../Pages/Product/Product.component';
+import {handleClose$} from '../../Pages/product/product.component';
 
 @Component({
     selector: 'app-productpage-image',

@@ -3,23 +3,24 @@ import {
   Component,
   ElementRef,
   OnInit,
-  QueryList, SkipSelf,
+  QueryList,
+  SkipSelf,
   ViewChild,
   ViewChildren
 } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { MatDrawer } from '@angular/material/sidenav';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute, Router } from '@angular/router';
-import {fromEvent, of} from 'rxjs';
-import { URL_PATH } from 'src/app/app.component';
-import { ProductPageImage } from 'src/app/Components/ProductPageImage/ProductPageImage.component';
-import {IAd, ICarouselResponse, IResponse} from 'src/app/interfaces/interfaces';
-import { HttpService } from 'src/app/services/http.service';
-import { UserService, USER_AUTH } from 'src/app/services/user.service';
+import {MatDialog} from '@angular/material/dialog';
+import {MatDrawer} from '@angular/material/sidenav';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {ActivatedRoute, Router} from '@angular/router';
+import {fromEvent} from 'rxjs';
+import {URL_PATH} from 'src/app/app.component';
+import {ProductPageImage} from 'src/app/Components/ProductPageImage/ProductPageImage.component';
+import {IAd, IResponse} from 'src/app/interfaces/interfaces';
+import {HttpService} from 'src/app/services/http.service';
+import {USER_AUTH, UserService} from 'src/app/services/user.service';
 import {HttpParams} from '@angular/common/http';
 import {Subject} from 'rxjs/internal/Subject';
-import {catchError, filter} from 'rxjs/operators';
+import {filter} from 'rxjs/operators';
 import {ProductService} from '../../services/product.service';
 import {CharactaricticsComponent} from '../../Components/Charactarictics/Charactarictics.component';
 import _ from 'lodash';
@@ -31,21 +32,20 @@ export const DELETE_PRODUCT$ = new Subject<void>();
 
 
 @Component({
-    selector: 'app-product',
-    templateUrl: './Product.component.html',
-    styleUrls: ['./Product.component.scss'],
-    providers: [ProductService]
+  selector: 'app-product',
+  templateUrl: './product.component.html',
+  styleUrls: ['./product.component.scss'],
+  providers: [ProductService]
 })
-// tslint:disable-next-line:component-class-suffix
-export class Product implements OnInit, AfterViewInit {
+export class ProductComponent implements OnInit, AfterViewInit {
   postId: number;
   post: IAd;
   pageIndex = 1;
   charactarictics: [string, string][];
   count = 1;
   maxCount = 0;
-  @ViewChild('drawer', { read: MatDrawer }) drawer: MatDrawer;
-  @ViewChild('image', { read: ElementRef}) image: ElementRef<HTMLImageElement>;
+  @ViewChild('drawer', {read: MatDrawer}) drawer: MatDrawer;
+  @ViewChild('image', {read: ElementRef}) image: ElementRef<HTMLImageElement>;
   @ViewChildren('editable', {read: ElementRef}) editable: QueryList<ElementRef>;
   @ViewChild('hot_ads', {read: ElementRef}) hotAds: ElementRef;
   @ViewChild(CharactaricticsComponent) charactaricticsComponent: CharactaricticsComponent;
@@ -74,7 +74,7 @@ export class Product implements OnInit, AfterViewInit {
     this.route.data.subscribe(async (data) => {
       const v = data.product as IProductResponse;
 
-      if (v.status === '404'){
+      if (v.status === '404') {
         await this.router.navigateByUrl('/products');
       } else {
         this.post = v.data;
@@ -127,8 +127,7 @@ export class Product implements OnInit, AfterViewInit {
     func();
 
     USER_AUTH.pipe(filter(v => v)).subscribe(v1 => {
-      this.http.get<{ data: { count: number } }>(`/api/product-count?product_id=` + this.postId).
-      subscribe(v => {
+      this.http.get<{ data: { count: number } }>(`/api/product-count?product_id=` + this.postId).subscribe(v => {
         this.maxCount = v.data.count;
       });
 
@@ -136,8 +135,8 @@ export class Product implements OnInit, AfterViewInit {
     });
   }
 
-  setContentEditable(): void{
-    if (this.user.isSuperUser()){
+  setContentEditable(): void {
+    if (this.user.isSuperUser()) {
       const elements = [...this.editable];
 
       elements.forEach(v => {
@@ -146,7 +145,7 @@ export class Product implements OnInit, AfterViewInit {
     }
   }
 
-  async buyItem(): Promise<void>{
+  async buyItem(): Promise<void> {
     if (!this.user.is_auth) {
       await this.router.navigateByUrl('/authenticate');
     } else {
@@ -174,7 +173,7 @@ export class Product implements OnInit, AfterViewInit {
   showImages(): void {
     if (this.post.image.length) {
       this.dialog.open(ProductPageImage, {
-        data: { src: this.post.image },
+        data: {src: this.post.image},
         width: '100vw',
         height: '100vh',
         maxWidth: '100vw'
@@ -182,8 +181,8 @@ export class Product implements OnInit, AfterViewInit {
     }
   }
 
-  async showOtherBrands(): Promise<void>{
-    try{
+  async showOtherBrands(): Promise<void> {
+    try {
       const config = {
         params: new HttpParams().set('brand', this.post.brand).set('page', '1')
       };
@@ -197,7 +196,7 @@ export class Product implements OnInit, AfterViewInit {
     }
   }
 
-  async saveChanges(): Promise<void>{
+  async saveChanges(): Promise<void> {
     this.productService.characterictics = this.charactarictics.map(v => v.join(':')).join(';');
     this.productService.brand = this.manufactureInfo[0][1];
     this.productService.category = this.manufactureInfo[1][1];
@@ -210,8 +209,8 @@ export class Product implements OnInit, AfterViewInit {
       const element = v.nativeElement as HTMLElement;
       const role = (v.nativeElement as HTMLElement).dataset.role;
 
-      if (!forbiddenRoles.includes(role)){
-        if (Object.keys(this.productService).includes(role)){
+      if (!forbiddenRoles.includes(role)) {
+        if (Object.keys(this.productService).includes(role)) {
           this.productService[role] = element.textContent;
         }
       }
@@ -221,16 +220,16 @@ export class Product implements OnInit, AfterViewInit {
       formData.append(k, v);
     });
 
-    if (this.productService.uploadedFile && this.productService.uploadedFile instanceof File){
-       formData.set('image', this.productService.uploadedFile, this.productService.uploadedFile.name);
-    } else if (this.post.image){
-       const response = await fetch(this.post.image);
-       const img = await response.blob();
-       const randomInt = Math.random() * 2999 + 1;
-       const originalFilename = _.last(this.post.image.split('/'));
-       const fileName = randomInt.toString().concat(originalFilename);
+    if (this.productService.uploadedFile && this.productService.uploadedFile instanceof File) {
+      formData.set('image', this.productService.uploadedFile, this.productService.uploadedFile.name);
+    } else if (this.post.image) {
+      const response = await fetch(this.post.image);
+      const img = await response.blob();
+      const randomInt = Math.random() * 2999 + 1;
+      const originalFilename = _.last(this.post.image.split('/'));
+      const fileName = randomInt.toString().concat(originalFilename);
 
-       formData.set('image', img, fileName);
+      formData.set('image', img, fileName);
     }
 
     formData.set('price', this.post.price.toString());
@@ -242,7 +241,7 @@ export class Product implements OnInit, AfterViewInit {
       });
   }
 
-  deleteProduct(): void{
+  deleteProduct(): void {
     this.http.get(`/api/delete-product/?id=${this.post.id}`).subscribe(v => {
       setTimeout(async () => {
         this.snackBar.open('The product is deleted', 'Close');
@@ -254,24 +253,24 @@ export class Product implements OnInit, AfterViewInit {
     });
   }
 
-  uploadImage(files: FileList): void{
+  uploadImage(files: FileList): void {
     const file = files.item(0);
 
-    if (file){
+    if (file) {
       this.post.image = URL.createObjectURL(file);
       this.productService.uploadedFile = file;
 
       setTimeout(() => {
-        this.image.nativeElement.src  = this.post.image;
+        this.image.nativeElement.src = this.post.image;
       });
     }
   }
 
-  async navigateToAuthPage(): Promise<void>{
+  async navigateToAuthPage(): Promise<void> {
     await this.router.navigateByUrl('/authenticate?isLogin=true');
   }
 
-  handleNoHotAds(){
+  handleNoHotAds() {
     const adsElement = this.hotAds.nativeElement;
     adsElement.setAttribute('hidden', 'true');
   }

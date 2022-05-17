@@ -1,9 +1,8 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
+
 import {ProductsComponent} from './Pages/Products/Products.component';
 import {ErrorImageLoading} from './Components/ErrorImageLoading/ErrorImageLoading.component';
-import {CardSmall} from './Components/CardSmall/CardSmall.component';
-import {Product} from './Pages/Product/Product.component';
 import {CharactaricticsComponent} from './Components/Charactarictics/Charactarictics.component';
 import {Comments} from './Components/Comments/Comments.component';
 import {AuthPage} from './Pages/AuthPage/AuthPage.component';
@@ -66,7 +65,6 @@ const adminRoutes: Routes = [
 const routes: Routes = [
   {path: 'buy-orders', component: PurchasePage},
   {path: 'products', component: ProductsComponent, resolve: {productsInfo: ProductsDataResolver}},
-  {path: 'product/:id', component: Product, resolve: {product: ProductResolver}},
   {path: 'authenticate', component: AuthPage},
   {path: 'search', component: SearchPageResultComponent},
   {path: 'contacts', component: ContactPage},
@@ -76,6 +74,10 @@ const routes: Routes = [
   {path: 'info/warranty', component: WarrantyPolicyPageComponent},
   {path: 'info/contacts', component: ContactsInfoPageComponent},
   {path: 'info/contract', component: ContractInfoPageComponent},
+  {
+    path: 'product/:id',
+    loadChildren: () => import('./Pages/product/product.module')
+  },
   {
     path: 'profile/:id',
     loadChildren: () => import('./Pages/admin-page/admin-page.module')
@@ -100,9 +102,9 @@ const routes: Routes = [
     ListsModule,
     HomePageModule
   ],
-  declarations: [ProductsComponent,
-    ErrorImageLoading, CardSmall,
-    Product, CarouselComponent,
+  declarations: [
+    ProductsComponent,
+    ErrorImageLoading, CarouselComponent,
     CharactaricticsComponent, Comments, AuthPage,
     Slider, CategoriesListComponent,
     NotFoundPage, ContactPage,
@@ -113,7 +115,7 @@ const routes: Routes = [
     ServiceInfoPageComponent,
     DeliveryPageComponent,
     WarrantyPolicyPageComponent, ContactsInfoPageComponent,
-    ContractInfoPageComponent, SliceStringPipe,
+    ContractInfoPageComponent,
     UsersPageComponent, UserCardComponent,
   ],
   providers: [OnlyAuthGuard, OnlySuperAdminGuard, ProductResolver],

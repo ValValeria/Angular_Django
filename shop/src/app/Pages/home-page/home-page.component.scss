@@ -21,3 +21,19 @@
     display:none;
   }
 }
+
+.section__content {
+  position: relative;
+}
+
+.home__cards {
+  position: absolute;
+  z-index: 2;
+  left:0;
+  top: 230px;
+  width:100%;
+}
+
+.section {
+  min-height: 170vh !important;
+}

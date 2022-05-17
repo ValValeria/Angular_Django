@@ -8,7 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { URL_PATH } from 'src/app/app.component';
 import {tap} from 'rxjs/operators';
-import {DELETE_PRODUCT$} from '../Product/Product.component';
+import {DELETE_PRODUCT$} from '../product/product.component';
 
 interface IResponse {
     data: IAd[];

@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {IAd} from 'src/app/interfaces/interfaces';
 import {HttpService} from 'src/app/services/http.service';
 
@@ -7,14 +7,22 @@ import {HttpService} from 'src/app/services/http.service';
   templateUrl: './home-page.component.html',
   styleUrls: ['./home-page.component.scss']
 })
-export class HomePageComponent {
+export class HomePageComponent implements OnInit {
   public ads: IAd[] = [];
   public error = false;
   public items: { link: string, image: string }[];
   public responsiveOptions;
 
-  constructor(private http: HttpService) {
+  constructor(private httpService: HttpService) {
     this.items = [
+      {
+        link: '/product/1',
+        image: 'https://m.media-amazon.com/images/I/711Y9Al9RNL._SX3000_.jpg'
+      },
+      {
+        link: '/product/1',
+        image: 'https://m.media-amazon.com/images/I/711Y9Al9RNL._SX3000_.jpg'
+      },
       {
         link: '/product/1',
         image: 'https://m.media-amazon.com/images/I/711Y9Al9RNL._SX3000_.jpg'
@@ -38,5 +46,14 @@ export class HomePageComponent {
         numScroll: 1
       }
     ];
+  }
+
+  public ngOnInit(): void {
+    this.httpService.get<{ data: IAd[] }>(`/api/products?page=1`)
+      .subscribe(v => {
+        if (Array.isArray(v.data) && v.data?.length){
+          this.ads = v.data;
+        }
+      });
   }
 }

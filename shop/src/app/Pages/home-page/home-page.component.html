@@ -1,9 +1,9 @@
-<section class="section center">
-  <div class="section__content first-slide">
+<section class="section home">
+  <div class="section__content home__content first-slide">
     <p-carousel class="w-100"
                 styleClass="custom-carousel"
                 [value]="items"
-                [numVisible]="3"
+                [numVisible]="1"
                 [numScroll]="1"
                 [responsiveOptions]="responsiveOptions"
                 [autoplayInterval]="3000"
@@ -12,5 +12,14 @@
         <img src="{{item.image}}" alt="..." class="section__image w-100"/>
       </ng-template>
     </p-carousel>
+    <div class="home__cards">
+      <app-grid-layout [max]="4" [min]="1">
+        <div class="center flex-wrap grid_media" *ngIf="ads.length">
+          <ng-template ngFor let-card [ngForOf]="ads">
+            <app-card [card]="card" class="center w-100"></app-card>
+          </ng-template>
+        </div>
+      </app-grid-layout>
+    </div>
   </div>
 </section>

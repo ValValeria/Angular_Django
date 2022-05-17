@@ -8,11 +8,11 @@ import { UserService } from 'src/app/services/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-    selector: 'card',
-    templateUrl: './CardSmall.component.html',
-    styleUrls: ['./CardSmall.component.scss']
+    selector: 'app-card',
+    templateUrl: './card-small.component.html',
+    styleUrls: ['./card-small.component.scss']
 })
-export class CardSmall extends ImageLoading{
+export class CardSmallComponent extends ImageLoading{
     @Input() card: IAd;
     @Input() showFull = true;
     @ViewChild('img', {read: ElementRef}) public image: ElementRef;
@@ -22,20 +22,20 @@ export class CardSmall extends ImageLoading{
     constructor(private router: Router,
                 private user: UserService,
                 private http: HttpService,
-                private _snackBar: MatSnackBar){
+                private snackBar: MatSnackBar){
         super();
     }
 
     buyItem(): void {
         if (!this.user.is_auth) {
-            this._snackBar.open('Только авторизированные пользователи могут добавлять товар в корзину', 'Закрыть', {
+            this.snackBar.open('Только авторизированные пользователи могут добавлять товар в корзину', 'Закрыть', {
                 duration: 5000
             });
         } else {
             this.http.get<{ messages: string[], data: string[], status: string }>(`${URL_PATH}api/addorder?product_id=${this.card.id}&count=${1}`)
             .subscribe(v => {
                 if (v.status === 'ok') {
-                    this._snackBar.open('Товар добавлен в корзину', 'Закрыть', {
+                    this.snackBar.open('Товар добавлен в корзину', 'Закрыть', {
                         duration: 5000
                     });
                 }
@@ -44,7 +44,7 @@ export class CardSmall extends ImageLoading{
     }
 
     goToCat(): void{
-        this.router.navigate(['category', this.card.category]).then(r => console.log("navigated"));
+        this.router.navigate(['category', this.card.category]).then(r => console.log('navigated'));
     }
 
     get styles(): any{

@@ -25,7 +25,7 @@
 
                <div class="product__area center flex-column">
                   <div class="product__content"  @fadeInOut *ngIf="!disabled && products.length" >
-                       <card [card]="card" *ngFor="let card of products"class="center"></card>
+                       <app-card [card]="card" *ngFor="let card of products"class="center"></app-card>
                   </div>
                   <div class="product__loading center" *ngIf="!isEmpty && sentHttp">
                     <div class="center wrap-md">

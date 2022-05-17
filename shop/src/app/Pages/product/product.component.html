@@ -10,7 +10,6 @@
             <div class="product__content wrap-md center" *ngIf="post">
               <div class="product__wrap wrap-md-pd pt-4">
                 <div class="product__bread-crumps mb">
-                  <app-breadcrumbs [urls]="[['/','Главная'], ['/products','Товары']]"></app-breadcrumbs>
                 </div>
                 <div class="product__actions w-100 center justify-content-end mb mt" *ngIf="user.isSuperUser()">
                   <div class="mr">
@@ -27,14 +26,12 @@
                 <div class="product__container">
                   <div class="product__title h3 center" #editable data-role="title">{{post.title}}</div>
                   <div class="product__navigation">
-                    <app-product-navigation></app-product-navigation>
                   </div>
                   <div class="product__images center" (click)="showImages()" id="images">
                     <div class="w-100 center" style="min-height:70%;">
                       <div class="img-container w-100 position-relative" style="height:100%; width:100%;">
                         <img src="{{post.image}}" alt="" #image>
                         <div (click)="$event.preventDefault()">
-                          <app-like [id]="post.id"></app-like>
                         </div>
                       </div>
                     </div>
@@ -73,14 +70,12 @@
                       <div class="w-100" (click)="$event.preventDefault()">
                         <mat-tab-group color="accent" dynamicHeight mat-align-tabs="center" class="product__tabs">
                           <mat-tab label="О товаре" class="w-100">
-                             <div class="product__manufacter w-100 mt">
-                               <app-charactarictics [data]="manufactureInfo" (changeData)="manufactureInfo = $event"></app-charactarictics>
-                             </div>
+                            <div class="product__manufacter w-100 mt">
+                            </div>
                           </mat-tab>
 
                           <mat-tab label="Характеристики">
                             <div class="product__tab-content  w-100">
-                              <app-charactarictics [data]="charactarictics" (changeData)="charactarictics = $event"></app-charactarictics>
                             </div>
                           </mat-tab>
 
@@ -100,7 +95,6 @@
                       <div class="h4 text-center w-100">Отзывы покупателей</div>
                       <div class="w-100 center" (click)="$event.preventDefault()" *ngIf="user.is_auth">
                         <div class="product__related-content center flex-column wrap-md w-100">
-                          <comments [postId]="postId"></comments>
                         </div>
                       </div>
 
@@ -108,7 +102,7 @@
                         <div class="outline-card text-center">
                           <h6>Чтобы оставлять комментарии, вам нужно зарегестрироваться</h6>
                           <div class="mt-half w-100 center">
-                            <button mat-flat-button color="warn" (click)="navigateToAuthPage()" >Войти в систему</button>
+                            <button mat-flat-button color="warn" (click)="navigateToAuthPage()">Войти в систему</button>
                           </div>
                         </div>
                       </div>
@@ -120,20 +114,15 @@
                       <div class="h4 text-center w-100">Другие товары</div>
                       <div class="w-100 center" (click)="$event.preventDefault()">
                         <div class="product__related-content center wrap-md">
-                            <div class="product__related-card w-100" *ngFor="let card of products">
-                              <card [card]="card" class="center" [showFull]='false'></card>
-                            </div>
+                          <div class="product__related-card w-100" *ngFor="let card of products">
+                            <app-card [card]="card" class="center" [showFull]='false'></app-card>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
 
                   <div class="product__carousel mt w-100 product__related" #hot_ads>
-                    <app-carousel
-                      [pageType]="'product'"
-                      (empty)="handleNoHotAds()"
-                      (errorLoading)="handleNoHotAds()"
-                    ></app-carousel>
                   </div>
                 </div>
               </div>
@@ -141,7 +130,7 @@
 
             <div class="product__sidebar center" (click)="showOtherBrands()" hidden>
               <div class="product__sidebar-title h5">
-                  {{post.brand | uppercase}}
+                {{post.brand | uppercase}}
               </div>
             </div>
           </ng-container>
@@ -152,16 +141,16 @@
     <mat-drawer #drawer [mode]="'over'" position="end" [opened]="showDrawer">
       <div class="product__drawer w-100">
         <div class="product__drawer-content">
-            <div class="product__drawer-title text-center mt">
-              <h3 class="mb">Другие товары</h3>
-            </div>
-            <div class="product__drawer-items">
-              <app-grid-layout>
-                <div class="product__drawer-item" *ngFor="let otherPost of otherPosts">
-                  <card [showButton]="false" [showFull]="false" [card]="otherPost"></card>
-                </div>
-              </app-grid-layout>
-            </div>
+          <div class="product__drawer-title text-center mt">
+            <h3 class="mb">Другие товары</h3>
+          </div>
+          <div class="product__drawer-items">
+            <app-grid-layout>
+              <div class="product__drawer-item" *ngFor="let otherPost of otherPosts">
+                <app-card [showButton]="false" [showFull]="false" [card]="otherPost"></app-card>
+              </div>
+            </app-grid-layout>
+          </div>
         </div>
       </div>
     </mat-drawer>
