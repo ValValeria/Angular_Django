@@ -1,4 +1,4 @@
-<a class="card-sm flex-33 shadow center" routerLink="/product/{{card.id}}" [ngStyle]="styles">
+<a class="card-sm flex-33 shadow center" routerLink="/product/{{card.id}}" [ngStyle]="styles" (click)="handleClick()">
   <div class="cards-sm__body center flex-column">
     <ng-container *ngIf="!emptyCard">
       <div class="card-sm__headline center justify-content-between wrap-md">
@@ -21,7 +21,7 @@
         <div class="card-sm__title {{showFull?'':'h5'}}">{{card.title}}</div>
         <div class="card-sm__subtitle text-grey h6" *ngIf="showFull">{{card.short_description | sliceString:3}}</div>
         <div class="card__buy-btn w-100" *ngIf="showButton">
-          <p-button label="Buy now" on-click="buyItem()" class="w-100">
+          <p-button label="Buy now" on-click="buyItem($event)" class="w-100">
           </p-button>
         </div>
       </div>

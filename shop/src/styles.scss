@@ -299,7 +299,7 @@ a {
 
 .wrap-md {
   @extend %wrap;
-  max-width: 1000px;
+  max-width: 1350px;
 }
 
 .section__items {
@@ -316,8 +316,15 @@ p.h6 {
 
 .wrap-md-pd {
   @extend %wrap;
-  max-width: 1000px;
+  max-width: 1350px;
   padding: 5rem 0;
+}
+
+.p-all {
+  padding: 5rem 0;
+  width: 90%;
+  margin: 0 auto;
+  max-width: 1350px;
 }
 
 .bg-vlight {

@@ -1,7 +1,7 @@
 @import "src/variables";
 
 .section{
-  min-height: 80vh !important;
+  min-height: 90vh !important;
 }
 
 .headline-md{
@@ -26,14 +26,16 @@
   position: relative;
 }
 
-.home__cards {
+.home__carousel {
   position: absolute;
   z-index: 2;
-  left:0;
-  top: 230px;
-  width:100%;
+  left: 0;
+  top: 40px;
+  width: 100%;
 }
 
-.section {
-  min-height: 170vh !important;
+.home__cards {
+  padding-top: 177px;
+  position: relative;
+  z-index: 33;
 }
