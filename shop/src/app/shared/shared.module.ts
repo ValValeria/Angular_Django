@@ -25,6 +25,7 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatListModule} from '@angular/material/list';
 import {MatRadioModule} from '@angular/material/radio';
+import {ButtonModule} from "primeng/button";
 
 const modules = [
   MatCardModule,
@@ -42,7 +43,8 @@ const modules = [
   MatChipsModule, MatProgressBarModule,
   MatDialogModule,
   MatListModule,
-  MatRadioModule
+  MatRadioModule,
+  ButtonModule
 ];
 
 @NgModule({

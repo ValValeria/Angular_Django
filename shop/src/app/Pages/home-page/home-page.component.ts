@@ -1,4 +1,6 @@
 import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+
 import {IAd} from 'src/app/interfaces/interfaces';
 import {HttpService} from 'src/app/services/http.service';
 
@@ -13,7 +15,10 @@ export class HomePageComponent implements OnInit {
   public items: { link: string, image: string }[];
   public responsiveOptions;
 
-  constructor(private httpService: HttpService) {
+  constructor(
+    private readonly router: Router,
+    private readonly httpService: HttpService
+  ) {
     this.items = [
       {
         link: '/product/1',
@@ -55,5 +60,9 @@ export class HomePageComponent implements OnInit {
           this.ads = v.data;
         }
       });
+  }
+
+  async navigateToTheProduct(id: number): Promise<void> {
+    this.router.navigateByUrl(`/product/${id}`);
   }
 }

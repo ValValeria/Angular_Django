@@ -19,7 +19,7 @@
         <app-grid-layout [max]="'4'" [min]="'1'">
           <div class="center flex-wrap grid_media" *ngIf="ads.length">
             <ng-template ngFor let-card [ngForOf]="ads">
-              <app-card [card]="card" class="center w-100"></app-card>
+              <app-card [card]="card" class="center w-100" (navigate)="navigateToTheProduct(card.id)"></app-card>
             </ng-template>
           </div>
         </app-grid-layout>

@@ -1,11 +1,11 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-
-import {HomePageComponent} from './home-page.component';
-import {CarouselModule} from 'primeng/carousel';
 import {CommonModule} from '@angular/common';
+
+import {CarouselModule} from 'primeng/carousel';
+
 import {GridLayoutModule} from '../../Layouts/grid-layout/GridLayout.module';
-import {CardSmallModule} from '../../Components/card-small/card-small.module';
+import {HomePageComponent} from './home-page.component';
 
 const routes: Routes = [
   {path: '', pathMatch: 'full', component: HomePageComponent}
@@ -17,8 +17,7 @@ const routes: Routes = [
     CommonModule,
     CarouselModule,
     RouterModule.forChild(routes),
-    GridLayoutModule,
-    CardSmallModule
+    GridLayoutModule
   ],
   exports: [HomePageComponent]
 })

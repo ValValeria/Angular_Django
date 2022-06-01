@@ -8,7 +8,7 @@ import { filter } from 'rxjs/operators';
 import { HttpService } from 'src/app/services/http.service';
 import { UserService } from 'src/app/services/user.service';
 import {$DELETE_ITEMS, $ORDER_COUNT} from '../OrderList/OrderList.component';
-import { $CLOSE_SEARCH, SearchForm } from '../SearchForm/SearchForm.component';
+import { $CLOSE_SEARCH, SearchFormComponent } from '../search-form/search-form.component';
 import {Subject} from 'rxjs/internal/Subject';
 
 export const MEDIA$ = new Subject<boolean>();
@@ -123,7 +123,7 @@ export class HeaderComponent implements AfterViewInit {
 
     showSearch(): void {
         if (!this.isSearchClicked){
-          this.dialog.open(SearchForm, {
+          this.dialog.open(SearchFormComponent, {
             width: '100vw',
             height: '100vh',
             maxWidth: '100vw'

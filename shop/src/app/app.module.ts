@@ -9,7 +9,6 @@ import {HttpService} from './services/http.service';
 import {UserService} from './services/user.service';
 import {Authenticate} from './services/authenticate.service';
 import {MatBadgeModule} from '@angular/material/badge';
-import {SearchForm} from './Components/SearchForm/SearchForm.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {HeaderTop} from './Components/header-top/header-top.component';
@@ -24,6 +23,8 @@ import {SectionLayoutModule} from './Layouts/section-layout/section-layout.modul
 import {SharedModule} from './shared/shared.module';
 import {userReducer} from './store/store.reducer';
 import {StoreModule} from '@ngrx/store';
+import {SearchFormComponent} from './Components/search-form/search-form.component';
+import {SideBarModule} from "./Components/side-bar/side-bar.module";
 
 const modules = [
   MatIconModule,
@@ -36,7 +37,7 @@ const modules = [
 
 @NgModule({
   declarations: [
-    AppComponent, HeaderComponent, SearchForm,
+    AppComponent, HeaderComponent, SearchFormComponent,
     HeaderTop, AvatarComponent, FooterComponent, LogoComponent, AdminNavComponent
   ],
   imports: [
@@ -47,6 +48,7 @@ const modules = [
     SectionLayoutModule,
     ...modules,
     StoreModule.forRoot({auth: userReducer}),
+    SideBarModule,
   ],
   providers: [
     HttpService,
