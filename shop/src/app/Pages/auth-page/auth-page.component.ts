@@ -7,12 +7,12 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { merge } from 'rxjs';
 import { AuthenticateHelper } from 'src/app/Classes/authenticate-helper.service';
-import {IUser} from "../../interfaces/interfaces";
+import {IUser} from '../../interfaces/interfaces';
 
 @Component({
     selector: 'app-auth-page',
-    templateUrl: './AuthPage.component.html',
-    styleUrls: ['./AuthPage.component.scss']
+    templateUrl: './auth-page.component.html',
+    styleUrls: ['./auth-page.component.scss']
 })
 // tslint:disable-next-line:component-class-suffix
 export class AuthPage implements AfterViewInit{
@@ -120,8 +120,6 @@ export class AuthPage implements AfterViewInit{
             await this.router.navigateByUrl(`/profile/${this.user.id}`);
           }
         } catch (e){
-          console.log(e);
-
           if (this.isLogin) {
             this.showStatus = 'Извините, но вас нет в нашей системе';
           } else {

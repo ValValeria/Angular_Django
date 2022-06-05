@@ -1,0 +1,8 @@
+<div class="side-bar">
+  <mat-list role="button">
+    <div mat-subheader>Pages</div>
+    <mat-list-item [disableRipple]="false" role="button" *ngFor="let link of links" (click)="navigateToPage(link.link)">
+      {{link.text}}
+    </mat-list-item>
+  </mat-list>
+</div>

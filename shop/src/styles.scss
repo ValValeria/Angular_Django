@@ -287,19 +287,8 @@ a {
   }
 }
 
-
-%wrap {
-  width: 90%;
-  margin: 0 auto;
-}
-
 .section__items-2 > div {
   flex: 1 1 50%;
-}
-
-.wrap-md {
-  @extend %wrap;
-  max-width: 1350px;
 }
 
 .section__items {
@@ -312,12 +301,6 @@ a {
 
 p.h6 {
   font-weight: 400 !important;
-}
-
-.wrap-md-pd {
-  @extend %wrap;
-  max-width: 1350px;
-  padding: 5rem 0;
 }
 
 .p-all {

@@ -1,16 +1,16 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 
-import {ProductsComponent} from './Pages/Products/Products.component';
+import {ProductsComponent} from './Pages/products/products.component';
 import {ErrorImageLoading} from './Components/ErrorImageLoading/ErrorImageLoading.component';
 import {CharactaricticsComponent} from './Components/Charactarictics/Charactarictics.component';
 import {Comments} from './Components/Comments/Comments.component';
-import {AuthPage} from './Pages/AuthPage/AuthPage.component';
+import {AuthPage} from './Pages/auth-page/auth-page.component';
 import {ContactPage} from './Pages/ContactPage/ContactPage.component';
 import {SearchPageResultComponent} from './Pages/SearchPageResult/SearchPageResult.component';
 import {PurchasePage} from './Pages/PurchasePage/PurchasePage.component';
 import {CategoryPage} from './Pages/CategoryPage/CategoryPage.component';
-import {ProductPageImage} from './Components/ProductPageImage/ProductPageImage.component';
+import {ProductPageImageComponent} from './Components/product-page-image/product-page-image.component';
 import {NotFoundPage} from './Pages/NotFoundPage/NotFoundPage.component';
 import {Slider} from './Components/Slider/Slider.component';
 import {CarouselComponent} from './Components/carousel/carousel.component';
@@ -24,7 +24,6 @@ import {DeliveryPageComponent} from './Pages/delivery-page/delivery-page.compone
 import {WarrantyPolicyPageComponent} from './Pages/warranty-policy-page/warranty-policy-page.component';
 import {ContactsInfoPageComponent} from './Pages/contacts-info-page/contacts-info-page.component';
 import {ContractInfoPageComponent} from './Pages/contract-info-page/contract-info-page.component';
-import {SliceStringPipe} from './pipes/slice-string.pipe';
 import {OnlyAuthGuard} from './guards/only-auth-guard.guard';
 import {UsersPageComponent} from './Pages/users-page/users-page.component';
 import {UserCardComponent} from './Components/user-card/user-card.component';
@@ -40,6 +39,7 @@ import {BreadCrumbsModule} from './Components/bread-crumbs/bread-crumbs.module';
 import {LikeModule} from './Components/Like/like.module';
 import {ListsModule} from './Components/lists/lists.module';
 import {HomePageModule} from './Pages/home-page/home-page.module';
+import {ProductsSearchModule} from "./Components/products-search/products-search.module";
 
 const adminRoutes: Routes = [
   {
@@ -88,7 +88,6 @@ const routes: Routes = [
   {path: '**', component: NotFoundPage}
 ];
 
-
 @NgModule({
   imports: [
     RouterModule.forRoot(routes),
@@ -100,7 +99,7 @@ const routes: Routes = [
     BreadCrumbsModule,
     LikeModule,
     ListsModule,
-    HomePageModule
+    HomePageModule, ProductsSearchModule
   ],
   declarations: [
     ProductsComponent,
@@ -108,7 +107,8 @@ const routes: Routes = [
     CharactaricticsComponent, Comments, AuthPage,
     Slider, CategoriesListComponent,
     NotFoundPage, ContactPage,
-    ProductPageImage, SearchPageResultComponent,
+    ProductPageImageComponent,
+    SearchPageResultComponent,
     PurchasePage, CategoryPage,
     ProductNavigation,
     FlexLayoutComponent, ProductsCategoriesComponent,

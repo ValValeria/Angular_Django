@@ -1,7 +1,8 @@
-import { Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
-import { AuthenticateHelper } from './Classes/authenticate-helper.service';
-import {USER_AUTH, UserService} from './services/user.service';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {AuthenticateHelper} from './Classes/authenticate-helper.service';
+import {UserService} from './services/user.service';
+import {SubjectsService} from './services/subjects.service';
+import {MatDrawer} from "@angular/material/sidenav";
 
 export const URL_PATH = '/';
 
@@ -13,23 +14,32 @@ export const URL_PATH = '/';
 export class AppComponent implements OnInit {
   isButtonClicked = false;
   btn: HTMLButtonElement;
-  isDisplayScroll = false;
-  btnHeight = { height: '40px' };
+  btnHeight = {height: '40px'};
   initAppHeight: number;
 
-  constructor(
-    public user: UserService,
-    private auth: AuthenticateHelper,
-    private router: Router
-  ) { }
+  @ViewChild('drawer', {read: MatDrawer})
+  matDrawer: MatDrawer;
 
-  async ngOnInit(): Promise<void>{
-    try{
-      if (localStorage.getItem('auth')){
+  constructor(
+    public readonly user: UserService,
+    private readonly auth: AuthenticateHelper,
+    private readonly subjectsService: SubjectsService
+  ) {
+  }
+
+  async ngOnInit(): Promise<void> {
+    try {
+      if (localStorage.getItem('auth')) {
         await this.auth.authenticate(JSON.parse(localStorage.getItem('auth')), true);
       }
-    } catch (e){
+    } catch (e) {
       console.warn('Invalid json data');
     }
+
+    this.subjectsService
+      .getOpenSidebarSubject()
+      .subscribe(v => {
+        this.matDrawer.open();
+      });
   }
 }

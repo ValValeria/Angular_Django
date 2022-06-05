@@ -13,7 +13,6 @@ export class HomePageComponent implements OnInit {
   public ads: IAd[] = [];
   public error = false;
   public items: { link: string, image: string }[];
-  public responsiveOptions;
 
   constructor(
     private readonly router: Router,
@@ -33,24 +32,6 @@ export class HomePageComponent implements OnInit {
         image: 'https://m.media-amazon.com/images/I/711Y9Al9RNL._SX3000_.jpg'
       }
     ];
-
-    this.responsiveOptions = [
-      {
-        breakpoint: '1024px',
-        numVisible: 3,
-        numScroll: 3
-      },
-      {
-        breakpoint: '768px',
-        numVisible: 2,
-        numScroll: 2
-      },
-      {
-        breakpoint: '560px',
-        numVisible: 1,
-        numScroll: 1
-      }
-    ];
   }
 
   public ngOnInit(): void {
@@ -63,6 +44,6 @@ export class HomePageComponent implements OnInit {
   }
 
   async navigateToTheProduct(id: number): Promise<void> {
-    this.router.navigateByUrl(`/product/${id}`);
+    await this.router.navigateByUrl(`/product/${id}`);
   }
 }

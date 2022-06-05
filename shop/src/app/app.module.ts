@@ -24,7 +24,8 @@ import {SharedModule} from './shared/shared.module';
 import {userReducer} from './store/store.reducer';
 import {StoreModule} from '@ngrx/store';
 import {SearchFormComponent} from './Components/search-form/search-form.component';
-import {SideBarModule} from "./Components/side-bar/side-bar.module";
+import {SideBarModule} from './Components/side-bar/side-bar.module';
+import {InputTextModule} from "primeng/inputtext";
 
 const modules = [
   MatIconModule,
@@ -40,23 +41,24 @@ const modules = [
     AppComponent, HeaderComponent, SearchFormComponent,
     HeaderTop, AvatarComponent, FooterComponent, LogoComponent, AdminNavComponent
   ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    SharedModule,
-    SectionLayoutModule,
-    ...modules,
-    StoreModule.forRoot({auth: userReducer}),
-    SideBarModule,
-  ],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        HttpClientModule,
+        SharedModule,
+        SectionLayoutModule,
+        ...modules,
+        StoreModule.forRoot({auth: userReducer}),
+        SideBarModule,
+        InputTextModule,
+    ],
   providers: [
     HttpService,
     UserService,
     AuthenticateHelper,
     {provide: HTTP_INTERCEPTORS, useClass: Authenticate, multi: true},
   ],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
 export class AppModule {
 }

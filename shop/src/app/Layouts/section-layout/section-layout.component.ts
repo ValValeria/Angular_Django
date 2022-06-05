@@ -5,14 +5,19 @@ import {Component, Input} from '@angular/core';
   templateUrl: './section-layout.component.html',
   styleUrls: ['./section-layout.component.scss']
 })
-export class SectionLayoutComponent{
+export class SectionLayoutComponent {
   @Input() title: string;
   @Input() cssClass: string;
   @Input() hasTitle = true;
+  @Input() hasBreadCrumbs = false;
 
-  constructor() { }
+  getCssClass(block: string, ...classes: string[]): string[] {
+    const cssClasses = [`section__${block}`, ...classes.filter(v => v)];
 
-  getCssClass(block: string, ...classes: string[]): string[]{
-    return [`section__${block}`, `${this.cssClass}__${block}`, ... classes];
+    if (this.cssClass) {
+      cssClasses.push(`${this.cssClass}__${block}`);
+    }
+
+    return cssClasses;
   }
 }

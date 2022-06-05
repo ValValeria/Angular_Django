@@ -14,7 +14,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import {ActivatedRoute, Router} from '@angular/router';
 import {fromEvent} from 'rxjs';
 import {URL_PATH} from 'src/app/app.component';
-import {ProductPageImage} from 'src/app/Components/ProductPageImage/ProductPageImage.component';
+import {ProductPageImageComponent} from 'src/app/Components/product-page-image/product-page-image.component';
 import {IAd, IResponse} from 'src/app/interfaces/interfaces';
 import {HttpService} from 'src/app/services/http.service';
 import {USER_AUTH, UserService} from 'src/app/services/user.service';
@@ -172,7 +172,7 @@ export class ProductComponent implements OnInit, AfterViewInit {
 
   showImages(): void {
     if (this.post.image.length) {
-      this.dialog.open(ProductPageImage, {
+      this.dialog.open(ProductPageImageComponent, {
         data: {src: this.post.image},
         width: '100vw',
         height: '100vh',

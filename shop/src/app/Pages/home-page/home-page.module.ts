@@ -6,6 +6,7 @@ import {CarouselModule} from 'primeng/carousel';
 
 import {GridLayoutModule} from '../../Layouts/grid-layout/GridLayout.module';
 import {HomePageComponent} from './home-page.component';
+import {SectionLayoutModule} from '../../Layouts/section-layout/section-layout.module';
 
 const routes: Routes = [
   {path: '', pathMatch: 'full', component: HomePageComponent}
@@ -13,12 +14,13 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [HomePageComponent],
-  imports: [
-    CommonModule,
-    CarouselModule,
-    RouterModule.forChild(routes),
-    GridLayoutModule
-  ],
+    imports: [
+        CommonModule,
+        CarouselModule,
+        RouterModule.forChild(routes),
+        GridLayoutModule,
+        SectionLayoutModule
+    ],
   exports: [HomePageComponent]
 })
 export class HomePageModule {

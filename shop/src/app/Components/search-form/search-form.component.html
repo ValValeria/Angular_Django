@@ -1,51 +1,46 @@
-<div class="search center position-relative">
-    <div class="search__wrap wrap-md-pd">
-         <h3 class="search__title text-center">Поиск</h3>
-         <div class="search__form center shadow">
-            <div class="search__field">
-                <div class="search__input-container">
-                    <input type="text" #search/>
-                </div>
-            </div>
-            <button mat-flat-button class="search__icon ml" color="accent" on-click="click()">
-                 Найти
-            </button>
-         </div>
-         <div class="search__results">
-             <ul class="search__items">
-                 <li *ngFor="let item of results" on-click="close()" class="search__item shadow">
-                     <a routerLink="/product/{{item.id}}">
-                        <p>{{item.title}}</p>
-                        <div class="search__item-chips">
-                            <mat-chip-list>
-                                 <mat-chip color="accent" >
-                                     <button mat-button>
-                                        <a routerLink="/category/{{item.category}}" mat-button>
-                                            <span>Марка:</span><span>{{item.brand}}</span>
-                                        </a>
-                                     </button>
-                                 </mat-chip>
-                                 <mat-chip color="accent">
-                                     <a routerLink="/category/{{item.category}}" mat-button>
-                                        <span>Категория:</span><span>{{item.category}}</span>
-                                    </a>
-                                 </mat-chip>
-                            </mat-chip-list>
-                        </div>
+<app-section-layout title="Search" cssClass="search">
+  <div class="search__main-content center w-100">
+    <div class="search__form center shadow w-100">
+      <div class="search__field">
+        <div class="search__input-container">
+          <input pInputText type="text" #search/>
+        </div>
+      </div>
+      <p-button class="search__icon" (onClick)="click()">
+        Search
+      </p-button>
+    </div>
+    <div class="search__results">
+      <ul class="search__items">
+        <li *ngFor="let item of results" on-click="close()" class="search__item shadow">
+          <a routerLink="/product/{{item.id}}">
+            <p>{{item.title}}</p>
+            <div class="search__item-chips">
+              <mat-chip-list>
+                <mat-chip color="accent" >
+                  <button mat-button>
+                    <a routerLink="/category/{{item.category}}" mat-button>
+                      <span>Марка:</span><span>{{item.brand}}</span>
                     </a>
-                 </li>
-                <li *ngIf="!results.length && message">
-                     {{message}}
-                </li>
-             </ul>
-         </div>
-         <div class="search__page-link center justify-content-end" *ngIf="results.length" on-click="showMore()">
-             <a color="accent" mat-flat-button [routerLink]="['/search']" [queryParams]="{search: searchText}">Больше результатов</a>
-         </div>
+                  </button>
+                </mat-chip>
+                <mat-chip color="accent">
+                  <a routerLink="/category/{{item.category}}" mat-button>
+                    <span>Категория:</span><span>{{item.category}}</span>
+                  </a>
+                </mat-chip>
+              </mat-chip-list>
+            </div>
+          </a>
+        </li>
+        <li *ngIf="!results.length && message">
+          {{message}}
+        </li>
+      </ul>
     </div>
-    <div class="search__close">
-      <button mat-fab color="accent" (click)="close()">
-        <mat-icon>close</mat-icon>
-      </button>
+    <div class="search__page-link center justify-content-end" *ngIf="results.length" on-click="showMore()">
+      <a color="accent" mat-flat-button [routerLink]="['/search']" [queryParams]="{search: searchText}">Больше результатов</a>
     </div>
-</div>
+  </div>
+</app-section-layout>
+

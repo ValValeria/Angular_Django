@@ -1,29 +1,19 @@
 <div class="home">
-  <section class="section">
-    <div class="section__content home__content first-slide p-all">
-      <div class="home__carousel">
-        <p-carousel class="w-100"
-                    styleClass="custom-carousel"
-                    [value]="items"
-                    [numVisible]="1"
-                    [numScroll]="1"
-                    [responsiveOptions]="responsiveOptions"
-                    [autoplayInterval]="3000"
-                    [circular]="true">
-          <ng-template let-item pTemplate="item">
-            <img src="{{item.image}}" alt="..." class="section__image w-100"/>
-          </ng-template>
-        </p-carousel>
-      </div>
-      <div class="home__cards">
-        <app-grid-layout [max]="'4'" [min]="'1'">
-          <div class="center flex-wrap grid_media" *ngIf="ads.length">
-            <ng-template ngFor let-card [ngForOf]="ads">
-              <app-card [card]="card" class="center w-100" (navigate)="navigateToTheProduct(card.id)"></app-card>
+  <app-section-layout [hasTitle]="false" cssClass="home-slider">
+      <div class="home-slider__main-content w-100">
+        <div class="home__carousel">
+          <p-carousel class="w-100"
+                      styleClass="custom-carousel"
+                      [value]="items"
+                      [numVisible]="1"
+                      [numScroll]="1"
+                      [autoplayInterval]="3000"
+                      [circular]="true">
+            <ng-template let-item pTemplate="item">
+              <img src="{{item.image}}" alt="..." class="section__image w-100"/>
             </ng-template>
-          </div>
-        </app-grid-layout>
+          </p-carousel>
+        </div>
       </div>
-    </div>
-  </section>
+  </app-section-layout>
 </div>
