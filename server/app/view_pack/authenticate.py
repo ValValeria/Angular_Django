@@ -50,7 +50,7 @@ class SignUpView(View):
                 email=form.cleaned_data["email"])).first()
 
             if not user:
-                f = open(r"./app/static/avatars/blank.jpg", 'rb')
+                f = open(r"./app/static/avatars/blank.png", 'rb')
                 file = File(f)
                 user = User.objects.create_user(
                     username=form.cleaned_data["username"], email=form.cleaned_data["email"],

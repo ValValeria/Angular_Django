@@ -9,7 +9,7 @@ import {AuthPage} from './Pages/auth-page/auth-page.component';
 import {ContactPage} from './Pages/ContactPage/ContactPage.component';
 import {SearchPageResultComponent} from './Pages/SearchPageResult/SearchPageResult.component';
 import {PurchasePage} from './Pages/PurchasePage/PurchasePage.component';
-import {CategoryPage} from './Pages/CategoryPage/CategoryPage.component';
+import {CategoryPage} from './Pages/category-page/CategoryPage.component';
 import {ProductPageImageComponent} from './Components/product-page-image/product-page-image.component';
 import {NotFoundPage} from './Pages/NotFoundPage/NotFoundPage.component';
 import {Slider} from './Components/Slider/Slider.component';

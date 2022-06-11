@@ -1,10 +1,11 @@
-import {IUser} from '../interfaces/interfaces';
-import {UserService} from '../services/user.service';
 import {Injectable} from '@angular/core';
 
+import {IUser} from '../interfaces/interfaces';
+import {UserService} from '../services/user.service';
+
 @Injectable()
-export class AuthenticateHelper {
-  constructor(private userService: UserService) {
+export class AuthHelperService {
+  constructor(private readonly userService: UserService) {
   }
 
   public async authenticate(data: IUser, login?: boolean): Promise<boolean> {

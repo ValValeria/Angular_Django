@@ -1,8 +1,9 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {AuthenticateHelper} from './Classes/authenticate-helper.service';
+import {MatDrawer} from '@angular/material/sidenav';
+
+import {AuthHelperService} from './Classes/auth-helper.service';
 import {UserService} from './services/user.service';
 import {SubjectsService} from './services/subjects.service';
-import {MatDrawer} from "@angular/material/sidenav";
 
 export const URL_PATH = '/';
 
@@ -22,7 +23,7 @@ export class AppComponent implements OnInit {
 
   constructor(
     public readonly user: UserService,
-    private readonly auth: AuthenticateHelper,
+    private readonly auth: AuthHelperService,
     private readonly subjectsService: SubjectsService
   ) {
   }

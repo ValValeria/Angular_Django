@@ -1,15 +1,7 @@
-import { Injectable } from '@angular/core';
-import {
-  CanActivate,
-  ActivatedRouteSnapshot,
-  RouterStateSnapshot,
-  UrlTree,
-  Router,
-  CanLoad,
-  Route, UrlSegment
-} from '@angular/router';
+import {Injectable} from '@angular/core';
+import {CanLoad, Route, Router, UrlSegment, UrlTree} from '@angular/router';
 import {UserService} from '../services/user.service';
-import {AuthenticateHelper} from '../Classes/authenticate-helper.service';
+import {AuthHelperService} from '../Classes/auth-helper.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 
 export enum Roles {
@@ -21,16 +13,18 @@ export enum Roles {
   providedIn: 'root'
 })
 export class OnlySuperAdminGuard implements CanLoad {
-  constructor(private user: UserService,
-              private auth: AuthenticateHelper,
-              private router: Router,
-              private snackBar: MatSnackBar
-              ){}
+  constructor(
+    private readonly user: UserService,
+    private readonly auth: AuthHelperService,
+    private readonly router: Router,
+    private readonly snackBar: MatSnackBar
+  ) {
+  }
 
   async canLoad(route: Route, segments: UrlSegment[]): Promise<boolean | UrlTree> {
     await this.auth.authenticate(this.user, true);
 
-    if (this.user.role !== Roles.ADMIN){
+    if (this.user.role !== Roles.ADMIN) {
       this.snackBar.open('Only admin can visit the page', 'Close');
 
       await this.router.navigateByUrl('/');

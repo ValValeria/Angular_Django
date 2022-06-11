@@ -25,8 +25,6 @@
     </div>
 </section>
 
-
-
 <ng-template #formTemplate let-isLog="isLog">
     <form [formGroup]="form">
         <mat-card class="d-flex center flex-column">
@@ -36,7 +34,7 @@
                         <mat-form-field appearance="outline" class="w-100" color="accent">
                             <mat-label>Email</mat-label>
                             <input type="email" matInput [formControl]="email" maxlength="30" minlength="10" required>
-                            <mat-hint>Максимум - 30 букв, минимум 10</mat-hint>
+                            <mat-hint>Maximum size is 30 characters, minimum size is 10</mat-hint>
                         </mat-form-field>
                     </div>
                     <div class="auth__username mb-half">
@@ -44,7 +42,7 @@
                             <mat-label>Username</mat-label>
                             <input type="text" matInput formControlName="username" maxlength="30" minlength="10"
                                 required />
-                            <mat-hint>Максимум - 30 букв, минимум 10</mat-hint>
+                            <mat-hint>Maximum size is 30 characters, minimum size is 10</mat-hint>
                         </mat-form-field>
                     </div>
                     <div class="auth__password mb-half">
@@ -52,14 +50,16 @@
                             <mat-label>Password</mat-label>
                             <input type="password" matInput formControlName="password" maxlength="30" minlength="10"
                                 required>
-                            <mat-hint>Максимум - 30 букв, минимум 10</mat-hint>
+                          <mat-hint>Maximum size is 30 characters, minimum size is 10</mat-hint>
                         </mat-form-field>
                     </div>
                 </div>
             </mat-card-content>
             <mat-card-content *ngIf="form.touched">
                 <div class="auth__error center" *ngIf="!isValid ">
-                    <button mat-button color="warn">Проверьте правильность введенных данных</button>
+                    <button mat-button color="warn">
+                      The data is invalid
+                    </button>
                 </div>
             </mat-card-content>
             <mat-card-content *ngIf="showStatus">
@@ -71,6 +71,7 @@
             </mat-card-content>
             <mat-card-content class="w-100 center d-flex center">
                 <button mat-flat-button
+                        [disabled]="form.invalid"
                         color="accent"
                         (click)="submit($event)"
                         class="wrap-md auth__btn">

@@ -17,7 +17,7 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatIconModule} from '@angular/material/icon';
 import {FooterComponent} from './Components/footer/footer.component';
 import {LogoComponent} from './Components/logo/logo.component';
-import {AuthenticateHelper} from './Classes/authenticate-helper.service';
+import {AuthHelperService} from './Classes/auth-helper.service';
 import {AdminNavComponent} from './Components/admin-nav/admin-nav.component';
 import {SectionLayoutModule} from './Layouts/section-layout/section-layout.module';
 import {SharedModule} from './shared/shared.module';
@@ -25,7 +25,7 @@ import {userReducer} from './store/store.reducer';
 import {StoreModule} from '@ngrx/store';
 import {SearchFormComponent} from './Components/search-form/search-form.component';
 import {SideBarModule} from './Components/side-bar/side-bar.module';
-import {InputTextModule} from "primeng/inputtext";
+import {InputTextModule} from 'primeng/inputtext';
 
 const modules = [
   MatIconModule,
@@ -55,7 +55,7 @@ const modules = [
   providers: [
     HttpService,
     UserService,
-    AuthenticateHelper,
+    AuthHelperService,
     {provide: HTTP_INTERCEPTORS, useClass: Authenticate, multi: true},
   ],
   bootstrap: [AppComponent]
