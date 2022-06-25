@@ -2,92 +2,64 @@ import {Injectable} from '@angular/core';
 import {IAd, IUser} from '../interfaces/interfaces';
 import {compact, isEqual, uniqWith} from 'lodash';
 import {Subject} from 'rxjs';
-import {SubjectsService} from "./subjects.service";
+import {SubjectsService} from './subjects.service';
+import {UserModel} from '../models/user.model';
+import {Roles} from '../guards/only-super-admin.guard';
 
 export const USER_AUTH = new Subject<boolean>();
 
-
 @Injectable({providedIn: 'root'})
-export class UserService implements IUser {
-  username: string;
-  email: string;
-  password: string;
-  isAuth: boolean;
-  activeOrders: IAd[] = [];
-  avatar: string;
-  unactiveOrders: IAd[] = [];
-  likes: IAd[] = [];
-  id: number;
-  role: string;
+export class UserService {
+  private readonly userModel: UserModel;
 
   public constructor(private readonly subjectsService: SubjectsService) {
+    this.userModel = new UserModel();
   }
 
   login(data: Partial<IUser>): void {
-    this.username = data.username;
-    this.email = data.email;
-    this.password = data.password;
-    this.isAuth = true;
-    this.avatar = data.avatar;
-    this.id = data.id;
-    this.role = data.role;
+    this.userModel.username = data.username;
+    this.userModel.email = data.email;
+    this.userModel.password = data.password;
+    this.userModel.isAuth = true;
+    this.userModel.avatar = data.avatar;
+    this.userModel.id = data.id;
+    this.userModel.role = data.role === 'admin' ? Roles.ADMIN : Roles.USER;
 
     USER_AUTH.next(true);
     this.subjectsService.getAuthSubject().next();
-  }
 
-  loadUserData(obj: IUser): void {
-    Object.defineProperties(this, Object.getOwnPropertyDescriptors(obj));
+    localStorage.setItem('auth', JSON.stringify(this.userModel))
   }
 
   addActiveProducts(product: IAd[]): void {
-    this.activeOrders.push(...compact(product));
-    this.activeOrders = uniqWith(this.activeOrders, isEqual);
+    this.userModel.activeOrders.push(...compact(product));
+    this.userModel.activeOrders = uniqWith(this.userModel.activeOrders, isEqual);
   }
 
-  addUnactiveProducts(product: IAd[]): void {
-    this.unactiveOrders.push(...compact(product));
-    this.activeOrders = uniqWith(this.activeOrders, isEqual);
+  addUnActiveProducts(product: IAd[]): void {
+    this.userModel.inActiveOrders.push(...compact(product));
+    this.userModel.inActiveOrders = uniqWith(this.userModel.activeOrders, isEqual);
   }
 
   logout(): void {
-    const props: string[] = Object.getOwnPropertyNames(this);
-
-    props.forEach(v => {
-      const type = typeof this[v];
-      switch (type) {
-        case 'object':
-          if (Array.isArray(this[v])) {
-            this[v] = [];
-          } else {
-            this[v] = {};
-          }
-          break;
-        case 'number':
-          this[v] = 0;
-          break;
-        case 'string':
-          this[v] = '';
-          break;
-        case 'boolean':
-          this[v] = false;
-          break;
-        default:
-          break;
-      }
-    });
+    this.userModel.id = -1;
+    this.userModel.username = '';
   }
 
   isSuperUser(): boolean {
-    return this.role === 'admin';
+    return this.userModel.role === 'admin';
   }
 
   getQuantityOfAllOrders(): number {
-    return this.activeOrders.length + this.unactiveOrders.length;
+    return this.userModel.activeOrders.length + this.userModel.inActiveOrders.length;
   }
 
   get is_auth(): boolean {
-    return this.isAuth;
+    return this.userModel.isAuth;
+  }
+
+  get user(): UserModel {
+    return this.userModel;
   }
 }
 

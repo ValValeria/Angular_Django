@@ -9,7 +9,7 @@ import {BreadCrumbsModule} from '../../Components/bread-crumbs/bread-crumbs.modu
 import {ListsModule} from '../../Components/lists/lists.module';
 import {OrderListModule} from '../../Components/OrderList/order-list.module';
 import {LikeModule} from '../../Components/Like/like.module';
-import {OrdersLikesModule} from '../../Components/OrdersLikes/OrdersLikes.module';
+import {OrdersLikesModule} from '../../Components/orders-likes/orders-likes.module';
 import {RouterModule, Routes} from '@angular/router';
 import {SafePipe} from '../../pipes/safe.pipe';
 

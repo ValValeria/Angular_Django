@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {IAdminUsersResponse, IResponse, IUser} from '../../interfaces/interfaces';
 import {HttpService} from '../../services/http.service';
-import {UserService} from '../../services/user.service';
 import {PageEvent} from '@angular/material/paginator';
 import {MatCheckboxChange} from '@angular/material/checkbox';
 import {from} from 'rxjs';
 import {mergeMap} from 'rxjs/operators';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {UserModel} from '../../models/user.model';
 
 @Component({
   selector: 'app-users-page',
@@ -26,27 +26,28 @@ export class UsersPageComponent implements OnInit {
 
   constructor(private http: HttpService,
               private snackBar: MatSnackBar
-              ) { }
+  ) {
+  }
 
   ngOnInit(): void {
-      this.displayedFields = ['username', 'email', 'role'];
-      this.displayedAllFields = ['id', 'avatar', ...this.displayedFields, 'orders', 'link'];
+    this.displayedFields = ['username', 'email', 'role'];
+    this.displayedAllFields = ['id', 'avatar', ...this.displayedFields, 'orders', 'link'];
 
-      this.makeHttpRequest();
-      this.users = [];
+    this.makeHttpRequest();
+    this.users = [];
   }
 
-  changePage($event: PageEvent): void{
-      this.page = $event.pageIndex + 1;
-      this.perPage = $event.pageSize;
+  changePage($event: PageEvent): void {
+    this.page = $event.pageIndex + 1;
+    this.perPage = $event.pageSize;
 
-      this.makeHttpRequest();
+    this.makeHttpRequest();
   }
 
-  makeHttpRequest(): void{
+  makeHttpRequest(): void {
     this.http.get<IAdminUsersResponse>(`/api/users?page=${this.page}&per_page=${this.perPage}`).subscribe(v => {
       v.data.users = v.data.users.map(v1 => {
-        const user = new UserService();
+        const user = new UserModel();
         user.loadUserData(v1);
 
         return user;
@@ -59,23 +60,23 @@ export class UsersPageComponent implements OnInit {
     });
   }
 
-  change($event: MatCheckboxChange, id: number): void{
-    if ($event.checked){
+  change($event: MatCheckboxChange, id: number): void {
+    if ($event.checked) {
       this.ids.push(id);
     } else {
       this.ids = this.ids.filter(v => v !== id);
     }
   }
 
-  delete(): void{
+  delete(): void {
     from(this.ids).pipe(mergeMap(v => this.http.get<IResponse>(`/api/delete-user/${v}`)))
       .subscribe(v => {
-          this.snackBar.open('The users have been deleted', 'Close');
+        this.snackBar.open('The users have been deleted', 'Close');
 
-          setTimeout(() => {
-            this.page = 1;
-            this.makeHttpRequest();
-          }, 700);
+        setTimeout(() => {
+          this.page = 1;
+          this.makeHttpRequest();
+        }, 700);
       });
   }
 }

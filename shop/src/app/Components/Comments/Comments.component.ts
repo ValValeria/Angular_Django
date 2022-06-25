@@ -12,7 +12,7 @@ import {map, mergeMap} from 'rxjs/operators';
     templateUrl: './Comments.component.html',
     styleUrls: ['./Comments.component.scss']
 })
-export class Comments implements  OnInit{
+export class CommentsComponent implements  OnInit{
     comments: IComment[];
     @Input('postId') productId: number;
     isSentRequest: boolean;
@@ -23,7 +23,7 @@ export class Comments implements  OnInit{
     activePage = 1;
     ids: number[] = [];
 
-    constructor(private http: HttpService, public user: UserService){
+    constructor(private http: HttpService, public userService: UserService){
         this.comments = [];
     }
 
@@ -37,14 +37,14 @@ export class Comments implements  OnInit{
     }
 
     click(): void{
-        if (this.user.is_auth){
+        if (this.userService.is_auth){
             this.http.post<{ id: number, status: 'ok' }>(`${URL_PATH}api/addcomment`,
               {message: this.message, rating: this.rating, post_id: this.productId})
             .subscribe(v => {
                 if (v.status === 'ok'){
                     this.comments.unshift({id: (v as any).id,
                       message: this.message, rating: this.rating,
-                      sender: {username: this.user.username}});
+                      sender: {username: this.userService.user.username}});
                 }
             });
         }
@@ -71,7 +71,7 @@ export class Comments implements  OnInit{
     }
 
     deleteComments(): void{
-      if (this.user.isSuperUser()){
+      if (this.userService.isSuperUser()){
         from(this.ids)
           .pipe(mergeMap((i) => this.http.get(`/api/delete-comment/${i}`).pipe(map(v => i))))
           .subscribe(v => {

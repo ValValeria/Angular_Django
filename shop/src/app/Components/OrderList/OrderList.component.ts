@@ -25,7 +25,7 @@ export class OrderListComponent implements OnInit, OnChanges{
     @Input() showCount = true;
     @Input() role: string;
     @Output() selectItems = new EventEmitter<number>();
-    @Input() user: UserService;
+    @Input() userService: UserService;
     showSelect = false;
     productsCount: {[prop: string]: number} = {};
 
@@ -52,7 +52,7 @@ export class OrderListComponent implements OnInit, OnChanges{
                 return items.includes(v.id); // ?
             };
             remove(this.data, func);
-            remove(this.user.activeOrders, func);
+            remove(this.userService.user.activeOrders, func);
             this.detector.detectChanges();
         });
     }
@@ -62,7 +62,7 @@ export class OrderListComponent implements OnInit, OnChanges{
 
         if (data.isFirstChange() || !_.isEqual(data.previousValue, data.currentValue)){
             if (this.showCount){
-                $ORDER_COUNT.next([this.data.length, this.user]);
+                $ORDER_COUNT.next([this.data.length, this.userService]);
             }
 
             if (this.data.length){
@@ -77,7 +77,7 @@ export class OrderListComponent implements OnInit, OnChanges{
 
     change(event: MatCheckboxChange): void{
         const id = Number(event.source.value);
-        $CHOOSE_ITEM.next([this.role, id, this.user]);
+        $CHOOSE_ITEM.next([this.role, id, this.userService]);
         this.selectItems.emit(id);
     }
 

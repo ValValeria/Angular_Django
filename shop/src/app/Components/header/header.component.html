@@ -14,10 +14,6 @@
             </svg>
           </button>
         </li>
-        <li class="header__link center flex-column" on-click="showPopup=true" on-mouseleave="showPopup=false"
-            *ngIf="user.is_auth">
-          <app-avatar [showAuthAvatar]="true" [showPopup]="showPopup"></app-avatar>
-        </li>
         <li class="header__link menu">
           <button mat-icon-button color="accent" (click)="openSideBar()">
             <mat-icon>menu</mat-icon>

@@ -13,8 +13,7 @@ import {IUser} from '../../interfaces/interfaces';
   templateUrl: './auth-page.component.html',
   styleUrls: ['./auth-page.component.scss']
 })
-// tslint:disable-next-line:component-class-suffix
-export class AuthPage implements AfterViewInit {
+export class AuthPageComponent implements AfterViewInit {
   isLogin = true;
   form: FormGroup;
   isValid = false;
@@ -24,7 +23,7 @@ export class AuthPage implements AfterViewInit {
   selectedIndex = 0;
 
   constructor(
-    public readonly user: UserService,
+    public readonly userService: UserService,
     private readonly builder: FormBuilder,
     private readonly snackBar: MatSnackBar,
     private readonly router: Router,
@@ -72,7 +71,7 @@ export class AuthPage implements AfterViewInit {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      if (this.user.is_auth) {
+      if (this.userService.is_auth) {
         const duration = 2000;
 
         this.snackBar.open('Вы уже вошли в систему', 'Close', {
@@ -115,9 +114,9 @@ export class AuthPage implements AfterViewInit {
 
         await this.authHelper.authenticate(data, this.isLogin);
 
-        if (this.user.is_auth) {
-          localStorage.setItem('auth', JSON.stringify(this.user));
-          await this.router.navigateByUrl(`/profile/${this.user.id}`);
+        if (this.userService.is_auth) {
+          localStorage.setItem('auth', JSON.stringify(this.userService));
+          await this.router.navigateByUrl(`/profile/${this.userService.user.id}`);
         }
       } catch (e) {
         if (this.isLogin) {

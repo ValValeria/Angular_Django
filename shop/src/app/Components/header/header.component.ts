@@ -37,7 +37,7 @@ export class HeaderComponent implements AfterViewInit {
   isSearchClicked = false;
 
   constructor(
-    public readonly user: UserService,
+    public readonly userService: UserService,
     private readonly router: Router,
     private readonly http: HttpService,
     private readonly dialog: MatDialog,
@@ -46,13 +46,13 @@ export class HeaderComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     $ORDER_COUNT.subscribe(v => {
-      if (this.user.id === v[1].id) {
+      if (this.userService.user.id === v[1].user.id) {
         this.counter = v[0];
       }
     });
 
     $DELETE_ITEMS.subscribe((v) => {
-      if (v[1].id === this.user.id) {
+      if (v[1].user.id === this.userService.user.id) {
         this.counter -= v[0].length;
       }
     });

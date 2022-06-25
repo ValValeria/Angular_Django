@@ -9,7 +9,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 export class OnlyAuthGuard implements CanLoad {
 
   constructor(
-    private readonly user: UserService,
+    private readonly userService: UserService,
     private readonly auth: AuthHelperService,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
@@ -19,11 +19,11 @@ export class OnlyAuthGuard implements CanLoad {
   async canLoad(router: Route, segments: UrlSegment[]): Promise<boolean | UrlTree> {
     const id = parseInt(this.route.snapshot.paramMap.get('id'), 10);
 
-    if (!this.user.is_auth) {
-      await this.auth.authenticate(this.user, true);
+    if (!this.userService.is_auth) {
+      await this.auth.authenticate(this.userService.user, true);
     }
 
-    if (this.user.role !== Roles.ADMIN && this.user.id !== id) {
+    if (this.userService.user.role !== Roles.ADMIN && this.userService.user.id !== id) {
       await this.router.navigateByUrl('/');
 
       this.snackBar.open('Only admin can visit the page', 'Close');

@@ -4,8 +4,8 @@ import {RouterModule, Routes} from '@angular/router';
 import {ProductsComponent} from './Pages/products/products.component';
 import {ErrorImageLoading} from './Components/ErrorImageLoading/ErrorImageLoading.component';
 import {CharactaricticsComponent} from './Components/Charactarictics/Charactarictics.component';
-import {Comments} from './Components/Comments/Comments.component';
-import {AuthPage} from './Pages/auth-page/auth-page.component';
+import {CommentsComponent} from './Components/Comments/Comments.component';
+import {AuthPageComponent} from './Pages/auth-page/auth-page.component';
 import {ContactPage} from './Pages/ContactPage/ContactPage.component';
 import {SearchPageResultComponent} from './Pages/SearchPageResult/SearchPageResult.component';
 import {PurchasePage} from './Pages/PurchasePage/PurchasePage.component';
@@ -39,7 +39,7 @@ import {BreadCrumbsModule} from './Components/bread-crumbs/bread-crumbs.module';
 import {LikeModule} from './Components/Like/like.module';
 import {ListsModule} from './Components/lists/lists.module';
 import {HomePageModule} from './Pages/home-page/home-page.module';
-import {ProductsSearchModule} from "./Components/products-search/products-search.module";
+import {ProductsSearchModule} from './Components/products-search/products-search.module';
 
 const adminRoutes: Routes = [
   {
@@ -65,7 +65,7 @@ const adminRoutes: Routes = [
 const routes: Routes = [
   {path: 'buy-orders', component: PurchasePage},
   {path: 'products', component: ProductsComponent, resolve: {productsInfo: ProductsDataResolver}},
-  {path: 'authenticate', component: AuthPage},
+  {path: 'authenticate', component: AuthPageComponent},
   {path: 'search', component: SearchPageResultComponent},
   {path: 'contacts', component: ContactPage},
   {path: 'category/:category', component: CategoryPage},
@@ -88,6 +88,7 @@ const routes: Routes = [
   {path: '**', component: NotFoundPage}
 ];
 
+
 @NgModule({
   imports: [
     RouterModule.forRoot(routes),
@@ -104,7 +105,7 @@ const routes: Routes = [
   declarations: [
     ProductsComponent,
     ErrorImageLoading, CarouselComponent,
-    CharactaricticsComponent, Comments, AuthPage,
+    CharactaricticsComponent, CommentsComponent, AuthPageComponent,
     Slider, CategoriesListComponent,
     NotFoundPage, ContactPage,
     ProductPageImageComponent,

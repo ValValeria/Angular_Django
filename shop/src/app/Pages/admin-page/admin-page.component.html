@@ -3,7 +3,7 @@
        <app-breadcrumbs [urls]="urls"></app-breadcrumbs>
      </div>
      <div class="admin__area">
-       <app-admin-dashboard [user]="user" [currentUser]="currentUser"></app-admin-dashboard>
+       <app-admin-dashboard [user]="userService" [currentUser]="currentUser"></app-admin-dashboard>
 
        <div class="admin__items ">
          <div class="w-100">
@@ -43,7 +43,7 @@
                          </div>
                        </div>
                        <div class="admin__order-selected center"
-                            *ngIf="this.user.activeOrders.length">
+                            *ngIf="user.activeOrders.length">
                          <button class="text-center h6 " mat-button>
                            Выбрано {{selectedCount}}
                            тв.
@@ -59,7 +59,7 @@
                          <div class="admin__order-message" *ngIf="message">
                            <button mat-button color="accent">{{message}}</button>
                          </div>
-                         <div class="admin__order-btns" *ngIf="user.id === currentUser.id">
+                         <div class="admin__order-btns" *ngIf="user.id === user.id">
                            <button mat-flat-button color="warn"
                                    on-click="delete_orders()" *ngIf="selectedCount">
                              Убрать из корзины
@@ -68,15 +68,17 @@
                                    on-click="change_orders()" *ngIf="selectedCount">
                              Изменить количество
                            </button>
-                           <button mat-flat-button color="warn" *ngIf="currentUser.activeOrders.length" on-click="oplata()">Оплатить</button>
+                           <button mat-flat-button color="warn" *ngIf="user.activeOrders.length" on-click="oplata()">Оплатить</button>
                          </div>
                        </div>
                      </div>
                    </mat-tab>
                    <mat-tab label="Купленные товары">
-                     <app-list class="w-100" [data]="user.unactiveOrders"
-                               *ngIf="user.unactiveOrders.length && user.is_auth" [user]="user"></app-list>
-                     <div class="admin__order-empty" *ngIf="!user.unactiveOrders.length">
+                     <app-list class="w-100" [data]="user.inActiveOrders"
+                               *ngIf="user.inActiveOrders.length && userService.is_auth"
+                               [userService]="userService">
+                     </app-list>
+                     <div class="admin__order-empty" *ngIf="!user.inActiveOrders.length">
                        <h6>У пользователя нет купленных товаров</h6>
                      </div>
                    </mat-tab>
@@ -88,8 +90,9 @@
                <mat-card-content>
                  <mat-tab-group color="accent" mat-align-tabs="center">
                    <mat-tab label="Понравившиеся">
-                     <app-likes *ngIf="user.is_auth" [user]="user"></app-likes>
-                     <div class="likes-btns w-100" *ngIf="user.id === currentUser.id && selectedLikes.length">
+                     <app-likes *ngIf="userService.is_auth" [userService]="userService">
+                     </app-likes>
+                     <div class="likes-btns w-100" *ngIf="user.id === currentUser.user.id && selectedLikes.length">
                        <button class="w-100" mat-flat-button color="warn" on-click="deleteLike()">Удалить выбранные</button>
                      </div>
                    </mat-tab>
@@ -111,7 +114,7 @@
                  <mat-card-title class="text-center"> За всё время пользователь купил </mat-card-title>
                  <mat-card-subtitle>
                    <div class="admin__chart-count text-left h6">
-                     Примерно {{user.unactiveOrders.length}} тв.
+                     Примерно {{user.inActiveOrders.length}} тв.
                    </div>
                  </mat-card-subtitle>
                </mat-card>

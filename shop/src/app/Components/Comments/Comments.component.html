@@ -1,6 +1,6 @@
 <div class="comments">
     <div class="comments__wrap">
-        <div class="comments__form mb w-100" *ngIf="user?.is_auth">
+        <div class="comments__form mb w-100" *ngIf="userService?.is_auth">
           <div class="w-100">
               <div class="w-100">
                 <div class="w-100 ">
@@ -26,21 +26,21 @@
               </div>
           </div>
         </div>
-        <div class="comments__actions w-100 mb center justify-content-end" *ngIf="user.is_auth && comments.length">
+        <div class="comments__actions w-100 mb center justify-content-end" *ngIf="userService.is_auth && comments.length">
            <button mat-flat-button color="warn">Удалить комментарий/ии</button>
         </div>
         <div class="comments__items center flex-column" *ngIf="comments.length">
             <div class="comments__item" *ngFor="let comment of comments">
                   <div class="card">
                       <div class="card-header card-author w-100 center justify-content-between">
-                          <span *ngIf="user.isSuperUser()">
+                          <span *ngIf="userService.isSuperUser()">
                             <mat-checkbox class="example-margin"
                                           color="accent"
                                           (change)="selectComment(comment.id, $event.checked)">
                                           {{comment.sender.username}}
                             </mat-checkbox>
                           </span>
-                          <span *ngIf="!user.isSuperUser()">
+                          <span *ngIf="!userService.isSuperUser()">
                             {{comment.sender.username}}
                           </span>
                       </div>

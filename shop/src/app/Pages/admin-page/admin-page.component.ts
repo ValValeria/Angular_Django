@@ -15,10 +15,11 @@ import {IAd, IUser} from 'src/app/interfaces/interfaces';
 import {from, fromEvent, of} from 'rxjs';
 import {auditTime, catchError, mergeMap} from 'rxjs/operators';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {LIKES$} from 'src/app/Components/OrdersLikes/OrdersLikes.component';
+import {LIKES$} from 'src/app/Components/orders-likes/orders-likes.component';
 import {URL_PATH} from 'src/app/app.component';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {AdminDashboardFullComponent} from '../../Components/admin-dashboard-full/admin-dashboard-full.component';
+import {UserModel} from '../../models/user.model';
 
 @Component({
   selector: 'app-admin',
@@ -50,12 +51,10 @@ export class AdminPageComponent implements AfterViewInit, AfterContentInit {
     private snackBar: MatSnackBar,
     private matDialog: MatDialog,
     private route: ActivatedRoute,
-    public user: UserService,
+    public userService: UserService,
     @SkipSelf() public currentUser: UserService
   ) {
     this.urls = [['/', 'Главная'], [router.url, 'Профиль']];
-
-    this.user = new UserService();
 
     route.paramMap.subscribe(v => {
       this.id = parseInt(v.get('id'), 10);
@@ -69,17 +68,17 @@ export class AdminPageComponent implements AfterViewInit, AfterContentInit {
               await this.router.navigateByUrl('/');
             }, 1000);
 
-            return of({data: {user: new UserService()}});
+            return of({data: {user: new UserModel()}});
           }))
           .subscribe(v1 => {
-            this.user.loadUserData(v1.data.user);
+            this.userService.user.loadUserData(v1.data.user as IUser);
 
-            this.isUserProfile = this.user.id === this.id;
+            this.isUserProfile = this.userService.user.id === this.id;
 
-            this.http.get<{ data: { active: IAd[], unactive: IAd[] }, amount_of_orders: number, amount_of_products: number }>(`/api/get-orders/${this.user.id}`)
+            this.http.get<{ data: { active: IAd[], unactive: IAd[] }, amount_of_orders: number, amount_of_products: number }>(`/api/get-orders/${this.userService.user.id}`)
               .subscribe(v2 => {
-                this.user.addActiveProducts(v2.data.active);
-                this.user.addUnactiveProducts(v2.data.unactive);
+                this.userService.addActiveProducts(v2.data.active);
+                this.userService.addUnActiveProducts(v2.data.unactive);
               });
           });
       } else {
@@ -105,15 +104,15 @@ export class AdminPageComponent implements AfterViewInit, AfterContentInit {
 
     $ORDER_COUNT.subscribe(elem => {
       setTimeout(() => {
-        if (elem[1].id === this.user.id) {
+        if (elem[1].user.id === this.userService.user.id) {
           this.orderCount = elem[0];
 
-          this.doughnutChartLabels = uniq(this.user.activeOrders.map(v => v.brand));
+          this.doughnutChartLabels = uniq(this.userService.user.activeOrders.map(v => v.brand));
 
           const numbers: number[] = [];
 
           this.doughnutChartLabels.forEach(item => {
-            const sortByCat: IAd[] = this.user.activeOrders.filter(v => v.brand === item);
+            const sortByCat: IAd[] = this.userService.user.activeOrders.filter(v => v.brand === item);
             let num = sortByCat.reduce((prev, current) => prev + current.count, 0);
             console.log(num);
             num = Math.round((num * 100) / this.orderCount);
@@ -147,7 +146,7 @@ export class AdminPageComponent implements AfterViewInit, AfterContentInit {
 
   ngAfterContentInit(): void {
     $CHOOSE_ITEM.subscribe(v => {
-      if (v[0] === 'products_buy' && v[2].id === this.user.id) {
+      if (v[0] === 'products_buy' && v[2].user.id === this.userService.user.id) {
         if (!this.selectedItems.includes(v[1])) {
           this.selectedCount += 1;
           this.selectedItems.push(v[1]);
@@ -177,7 +176,7 @@ export class AdminPageComponent implements AfterViewInit, AfterContentInit {
           this.snackBar.open('Товары удалены', 'Закрыть', {
             duration: 10000
           });
-          $DELETE_ITEMS.next([this.selectedItems, this.user]);
+          $DELETE_ITEMS.next([this.selectedItems, this.userService]);
           this.orderCount -= 1;
         },
         e => {
@@ -238,7 +237,7 @@ export class AdminPageComponent implements AfterViewInit, AfterContentInit {
       if (v.status === 'ok') {
         this.snackBar.open('Удалено');
       }
-      $DELETE_ITEMS.next([this.selectedLikes, this.user]);
+      $DELETE_ITEMS.next([this.selectedLikes, this.userService]);
     });
   }
 
@@ -259,7 +258,11 @@ export class AdminPageComponent implements AfterViewInit, AfterContentInit {
   }
 
   public isSuperUser(): boolean {
-    return this.user.is_auth && this.user.role === 'admin';
+    return this.userService.is_auth && this.userService.user.role === 'admin';
+  }
+
+  public get user(): UserModel {
+    return this.userService.user;
   }
 }
 
