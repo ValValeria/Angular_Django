@@ -2,7 +2,6 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 
 import {ProductsComponent} from './Pages/products/products.component';
-import {ErrorImageLoading} from './Components/ErrorImageLoading/ErrorImageLoading.component';
 import {CharactaricticsComponent} from './Components/Charactarictics/Charactarictics.component';
 import {CommentsComponent} from './Components/Comments/Comments.component';
 import {AuthPageComponent} from './Pages/auth-page/auth-page.component';
@@ -104,7 +103,7 @@ const routes: Routes = [
   ],
   declarations: [
     ProductsComponent,
-    ErrorImageLoading, CarouselComponent,
+    CarouselComponent,
     CharactaricticsComponent, CommentsComponent, AuthPageComponent,
     Slider, CategoriesListComponent,
     NotFoundPage, ContactPage,

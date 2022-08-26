@@ -51,7 +51,7 @@ export class AuthPageComponent implements AfterViewInit {
         auditTime(300)
       ).subscribe(v => {
       this.isValid = this.form.valid;
-      if (this.form.valid && !this.isLogin) {// signup page
+      if (this.form.valid && !this.isLogin) {
         this.isValid = this.email.valid;
       }
     });

@@ -45,7 +45,10 @@ export class AuthHelperService {
           reject('Guest');
         }
       } catch (e) {
+        console.error(e);
+
         localStorage.removeItem('auth');
+
         reject(e);
       }
 
