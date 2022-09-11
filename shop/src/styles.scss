@@ -304,7 +304,7 @@ p.h6 {
 }
 
 .p-all {
-  padding: 5rem 0;
+  padding: 5rem 0 !important;
   width: 90%;
   margin: 0 auto;
   max-width: 1350px;
@@ -510,6 +510,9 @@ a:hover {
   border: 1px solid rgba(0, 0, 0, .12) !important;
 }
 
+.p-all-sm {
+  padding: $margin !important;
+}
 
 @import 'media.scss';
 

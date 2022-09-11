@@ -1,0 +1,15 @@
+.product-card ::ng-deep .p-component {
+  height: 100% !important;
+}
+
+.product-card__img {
+  height: 200px;
+}
+
+.product-card__main-content {
+  height: 150px;
+}
+
+.product-card {
+  cursor: pointer;
+}

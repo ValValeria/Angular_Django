@@ -39,6 +39,7 @@ import {LikeModule} from './Components/Like/like.module';
 import {ListsModule} from './Components/lists/lists.module';
 import {HomePageModule} from './Pages/home-page/home-page.module';
 import {ProductsSearchModule} from './Components/products-search/products-search.module';
+import {ProductCardModule} from './Components/product-card/product-card.module';
 
 const adminRoutes: Routes = [
   {
@@ -76,6 +77,7 @@ const routes: Routes = [
   {
     path: 'product/:id',
     loadChildren: () => import('./Pages/product/product.module')
+      .then(v => v.ProductModule)
   },
   {
     path: 'profile/:id',
@@ -89,18 +91,18 @@ const routes: Routes = [
 
 
 @NgModule({
-  imports: [
-    RouterModule.forRoot(routes),
-    GridLayoutModule, MatPaginatorModule,
-    MatTooltipModule,
-    AdminPageModule,
-    SectionLayoutModule,
-    SharedModule,
-    BreadCrumbsModule,
-    LikeModule,
-    ListsModule,
-    HomePageModule, ProductsSearchModule
-  ],
+    imports: [
+        RouterModule.forRoot(routes),
+        GridLayoutModule, MatPaginatorModule,
+        MatTooltipModule,
+        AdminPageModule,
+        SectionLayoutModule,
+        SharedModule,
+        BreadCrumbsModule,
+        LikeModule,
+        ListsModule,
+        HomePageModule, ProductsSearchModule, ProductCardModule
+    ],
   declarations: [
     ProductsComponent,
     CarouselComponent,

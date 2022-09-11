@@ -6,13 +6,17 @@ import {Component, Input} from '@angular/core';
   styleUrls: ['./section-layout.component.scss']
 })
 export class SectionLayoutComponent {
-  @Input() title: string;
-  @Input() cssClass: string;
-  @Input() hasTitle = true;
-  @Input() hasBreadCrumbs = false;
+  @Input()
+  title: string;
+  @Input()
+  cssClass = 'class';
+  @Input()
+  hasTitle = true;
+  @Input()
+  hasBreadCrumbs = false;
 
   getCssClass(block: string, ...classes: string[]): string[] {
-    const cssClasses = [`section__${block}`, ...classes.filter(v => v)];
+    const cssClasses = [`section__${block}`, ...classes];
 
     if (this.cssClass) {
       cssClasses.push(`${this.cssClass}__${block}`);

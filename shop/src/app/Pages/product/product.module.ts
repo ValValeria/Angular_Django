@@ -11,7 +11,7 @@ import {SharedModule} from '../../shared/shared.module';
 import {GridLayoutModule} from '../../Layouts/grid-layout/GridLayout.module';
 
 const routes: Routes = [
-  {path: 'product/:id', component: ProductComponent}
+  {path: '', component: ProductComponent, pathMatch: 'exact'}
 ];
 
 @NgModule({

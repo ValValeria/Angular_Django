@@ -1,1 +1,25 @@
-<p>product-card works!</p>
+<div class="product-card h-100">
+  <div class="product-card__wrap h-100">
+    <div class="product-card__container h-100">
+      <p-card class="h-100" (click)="navigateToProductPage($event)">
+        <div class="p-all-sm">
+          <div class="product-card__content h-100">
+            <div class="product-card__img">
+              <img/>
+            </div>
+            <div class="product-card__main-content">
+              <div class="product-card__title">
+                <h5>
+                  {{product.title}}
+                </h5>
+              </div>
+              <div class="product-card__description">
+                {{product.short_description}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </p-card>
+    </div>
+  </div>
+</div>

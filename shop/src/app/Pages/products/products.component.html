@@ -1,5 +1,12 @@
-<app-section-layout title="Our goods" [hasBreadCrumbs]="true">
-  <div class="section__bread-crumps" breadCrumbs>
+<app-section-layout title="Our goods" [hasBreadCrumbs]="true" cssClass="products">
+  <div class="section__products-bread-crumps" breadCrumbs>
     <app-breadcrumbs [urls]="urls"></app-breadcrumbs>
+  </div>
+  <div class="section__product-items">
+    <app-grid-layout [max]="'400px'" [min]="'200px'">
+      <div class="section__product-item h-100" *ngFor="let product of products">
+        <app-product-card [product]="product"></app-product-card>
+      </div>
+    </app-grid-layout>
   </div>
 </app-section-layout>
