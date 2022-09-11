@@ -9,6 +9,8 @@ import {MatButtonModule} from '@angular/material/button';
 import {ProductComponent} from './product.component';
 import {SharedModule} from '../../shared/shared.module';
 import {GridLayoutModule} from '../../Layouts/grid-layout/GridLayout.module';
+import {CardModule} from 'primeng/card';
+import {SectionLayoutModule} from '../../Layouts/section-layout/section-layout.module';
 
 const routes: Routes = [
   {path: '', component: ProductComponent, pathMatch: 'exact'}
@@ -21,7 +23,8 @@ const routes: Routes = [
     MatSidenavModule,
     GridLayoutModule, SharedModule,
     MatTabsModule, MatSliderModule,
-    MatProgressSpinnerModule, MatButtonModule
+    MatProgressSpinnerModule, MatButtonModule,
+    CardModule, SectionLayoutModule
   ]
 })
 export class ProductModule {

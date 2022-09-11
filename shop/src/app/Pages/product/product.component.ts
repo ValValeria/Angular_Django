@@ -1,13 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  OnInit,
-  QueryList,
-  SkipSelf,
-  ViewChild,
-  ViewChildren
-} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, QueryList, SkipSelf, ViewChild, ViewChildren} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {MatDrawer} from '@angular/material/sidenav';
 import {MatSnackBar} from '@angular/material/snack-bar';
@@ -20,7 +11,7 @@ import {HttpService} from 'src/app/services/http.service';
 import {USER_AUTH, UserService} from 'src/app/services/user.service';
 import {HttpParams} from '@angular/common/http';
 import {Subject} from 'rxjs/internal/Subject';
-import {filter} from 'rxjs/operators';
+import {filter, map, mergeMap} from 'rxjs/operators';
 import {ProductService} from '../../services/product.service';
 import {CharactaricticsComponent} from '../../Components/Charactarictics/Charactarictics.component';
 import _ from 'lodash';
@@ -71,12 +62,14 @@ export class ProductComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.route.data.subscribe(async (data) => {
-      const v = data.product as IProductResponse;
+    this.route.paramMap
+      .pipe(
+        map(v => v.get('id')),
+        mergeMap(v => this.http.get(`${URL_PATH}api/product/${v}`))
+      )
+      .subscribe(async (data) => {
+        const v = data as IProductResponse;
 
-      if (v.status === '404') {
-        await this.router.navigateByUrl('/products');
-      } else {
         this.post = v.data;
         this.charactarictics = this.post.characterictics.split(';').map(str => {
           const array = str.split(':');
@@ -92,8 +85,7 @@ export class ProductComponent implements OnInit, AfterViewInit {
             this.products = v1.data;
           }
         });
-      }
-    });
+      });
 
     handleClose$.subscribe(v => {
       this.dialog.closeAll();
@@ -268,10 +260,5 @@ export class ProductComponent implements OnInit, AfterViewInit {
 
   async navigateToAuthPage(): Promise<void> {
     await this.router.navigateByUrl('/authenticate?isLogin=true');
-  }
-
-  handleNoHotAds() {
-    const adsElement = this.hotAds.nativeElement;
-    adsElement.setAttribute('hidden', 'true');
   }
 }

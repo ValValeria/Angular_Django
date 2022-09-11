@@ -1,7 +1,7 @@
 <section [ngClass]="['section', cssClass]">
   <div [ngClass]="getCssClass('wrap')">
     <div [ngClass]="getCssClass('content')">
-      <div [ngClass]="getCssClass('bread-crumbs')" *ngIf="hasBreadCrumbs">
+      <div [ngClass]="getCssClass('bread-crumbs', 'mb')" *ngIf="hasBreadCrumbs">
         <ng-content select="[breadCrumbs]"></ng-content>
       </div>
       <div [ngClass]="getCssClass('title','text-center')" *ngIf="hasTitle">

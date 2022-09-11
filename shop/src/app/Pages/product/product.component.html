@@ -1,158 +1,38 @@
-<section class="product product-sm section first-slide center position-relative">
-  <mat-drawer-container class="w-100">
-    <mat-drawer-content>
-      <div class="w-100 center align-items-start ">
-        <div class="product__area center w-100">
-          <div *ngIf="!post" class="center pt-4" style="height:60vh;">
-            <mat-spinner color="accent"></mat-spinner>
-          </div>
-          <ng-container *ngIf="post">
-            <div class="product__content wrap-md center" *ngIf="post">
-              <div class="product__wrap wrap-md-pd pt-4">
-                <div class="product__bread-crumps mb">
-                </div>
-                <div class="product__actions w-100 center justify-content-end mb mt" *ngIf="user.isSuperUser()">
-                  <div class="mr">
-                    <button mat-flat-button color="warn" (click)="deleteProduct()">Удалить товар</button>
-                  </div>
-                  <div class="mr">
-                    <button mat-flat-button color="accent" (click)="saveChanges()">Сохранить изменения</button>
-                  </div>
-                  <div>
-                    <button mat-flat-button color="accent" (click)="file.click()">Загрузить изображение</button>
-                    <input type="file" hidden #file (change)="uploadImage(file.files)"/>
-                  </div>
-                </div>
-                <div class="product__container">
-                  <div class="product__title h3 center" #editable data-role="title">{{post.title}}</div>
-                  <div class="product__navigation">
-                  </div>
-                  <div class="product__images center" (click)="showImages()" id="images">
-                    <div class="w-100 center" style="min-height:70%;">
-                      <div class="img-container w-100 position-relative" style="height:100%; width:100%;">
-                        <img src="{{post.image}}" alt="" #image>
-                        <div (click)="$event.preventDefault()">
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="product__short-descr text-left">
-                    <h5>Кратко о товаре</h5>
-                    <h6 #editable data-role="short_description">
-                      {{post.short_description}}
-                    </h6>
-                    <div class="product__price">
-                      <div class="product__price-label text-left mb">
-                        <span>Цена:</span>
-                        <span #editable data-role="price">{{post.price|currency}}</span>
-                      </div>
-                      <div class="product__price-label text-left" *ngIf="user.is_auth && maxCount">
-                        <span>Количество:</span>
-                        <div>
-                          <mat-slider color="accent" min="0" max="{{maxCount}}" thumbLabel (input)="count=$event.value">
-                          </mat-slider>
-                        </div>
-                        <div class="mt">
-                          <h6 class="product__buy-counter mb-half">Вы хотите купить:
-                            <button mat-button color="accent">{{count}} шт.</button>
-                          </h6>
-                        </div>
-                      </div>
-                      <div class="product__buy-btn">
-                        <button class="bg-warn price-btn" on-click="buyItem()">Купить</button>
-                      </div>
-                    </div>
-                  </div>
-                  <!--Start-->
-                  <div class="product__info-container center flex-column mb" id="info">
-                    <div class="product__full-descr w-100">
-                      <div class="h4 text-center w-100">Описание</div>
-                      <div class="w-100" (click)="$event.preventDefault()">
-                        <mat-tab-group color="accent" dynamicHeight mat-align-tabs="center" class="product__tabs">
-                          <mat-tab label="О товаре" class="w-100">
-                            <div class="product__manufacter w-100 mt">
-                            </div>
-                          </mat-tab>
-
-                          <mat-tab label="Характеристики">
-                            <div class="product__tab-content  w-100">
-                            </div>
-                          </mat-tab>
-
-                          <mat-tab label="Полное описание">
-                            <div class="product__tab-content w-100">
-                              <p class="h6" #editable data-role="long_description">{{post.long_description}}</p>
-                            </div>
-                          </mat-tab>
-                        </mat-tab-group>
-                      </div>
-                    </div>
-                  </div>
-                  <!--End-->
-
-                  <div class="product__related center flex-column mb" id="comments">
-                    <div class="product__related-container w-100">
-                      <div class="h4 text-center w-100">Отзывы покупателей</div>
-                      <div class="w-100 center" (click)="$event.preventDefault()" *ngIf="user.is_auth">
-                        <div class="product__related-content center flex-column wrap-md w-100">
-                        </div>
-                      </div>
-
-                      <div class="product__related-not-auth mt" *ngIf="!user.is_auth">
-                        <div class="outline-card text-center">
-                          <h6>Чтобы оставлять комментарии, вам нужно зарегестрироваться</h6>
-                          <div class="mt-half w-100 center">
-                            <button mat-flat-button color="warn" (click)="navigateToAuthPage()">Войти в систему</button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="product__related center flex-column mb" id="ads">
-                    <div class="product__related-container w-100">
-                      <div class="h4 text-center w-100">Другие товары</div>
-                      <div class="w-100 center" (click)="$event.preventDefault()">
-                        <div class="product__related-content center wrap-md">
-                          <div class="product__related-card w-100" *ngFor="let card of products">
-                            <app-card [card]="card" class="center" [showFull]='false'></app-card>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="product__carousel mt w-100 product__related" #hot_ads>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="product__sidebar center" (click)="showOtherBrands()" hidden>
-              <div class="product__sidebar-title h5">
-                {{post.brand | uppercase}}
-              </div>
-            </div>
-          </ng-container>
+<app-section-layout cssClass="product" [title]="post.title">
+  <div class="product__info w-100">
+    <p-card class="product__short-info w-100">
+      <div class="product__description p-all-sm w-100">
+        <div class="product__text w-100">
+          <h6>
+            Description
+          </h6>
+          <h5>
+            {{post.short_description}}
+          </h5>
+        </div>
+        <div class="product__image center">
+          <img src="{{post.image}}" alt="..."/>
+        </div>
+        <div class="product__price">
+          <h6>Price</h6>
+          <h5>{{post.price}}</h5>
+        </div>
+        <div class="product__btn-buy w-100">
+          <button pButton type="button" label="Buy" class="p-button-danger w-100"></button>
         </div>
       </div>
-    </mat-drawer-content>
-
-    <mat-drawer #drawer [mode]="'over'" position="end" [opened]="showDrawer">
-      <div class="product__drawer w-100">
-        <div class="product__drawer-content">
-          <div class="product__drawer-title text-center mt">
-            <h3 class="mb">Другие товары</h3>
-          </div>
-          <div class="product__drawer-items">
-            <app-grid-layout>
-              <div class="product__drawer-item" *ngFor="let otherPost of otherPosts">
-                <app-card [showButton]="false" [showFull]="false" [card]="otherPost"></app-card>
-              </div>
-            </app-grid-layout>
-          </div>
+    </p-card>
+    <div class="product__long-description">
+      <p-card class="w-100 p-all-sm">
+        <div>
+          <h6 class="mb-half">
+            Full description
+          </h6>
+          <h5 class="h5-small">
+            {{post.long_description}}
+          </h5>
         </div>
-      </div>
-    </mat-drawer>
-  </mat-drawer-container>
-</section>
+      </p-card>
+    </div>
+  </div>
+</app-section-layout>

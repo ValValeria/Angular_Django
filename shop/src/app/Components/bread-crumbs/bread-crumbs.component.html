@@ -1,5 +1,5 @@
 <nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
+    <ol class="breadcrumb p-all-sm">
         <ng-container *ngFor="let url of urls">
             <li class="breadcrumb-item" *ngIf="!isActivePage(url[0])">
                 <a routerLink="{{url[0]}}">{{url[1]}}</a>

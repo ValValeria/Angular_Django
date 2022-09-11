@@ -1,19 +1,2 @@
 <div class="home">
-  <app-section-layout [hasTitle]="false" cssClass="home-slider">
-      <div class="home-slider__main-content w-100">
-        <div class="home__carousel">
-          <p-carousel class="w-100"
-                      styleClass="custom-carousel"
-                      [value]="items"
-                      [numVisible]="1"
-                      [numScroll]="1"
-                      [autoplayInterval]="3000"
-                      [circular]="true">
-            <ng-template let-item pTemplate="item">
-              <img src="{{item.image}}" alt="..." class="section__image w-100"/>
-            </ng-template>
-          </p-carousel>
-        </div>
-      </div>
-  </app-section-layout>
 </div>
