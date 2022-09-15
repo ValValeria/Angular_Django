@@ -1,7 +1,8 @@
-from django.views.generic import ListView
+from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.http import *
-from django.contrib.auth.models import User
+from django.views.generic import ListView
+
 from ..classes.UserParser import UserParser
 
 

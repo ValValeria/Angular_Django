@@ -1,8 +1,9 @@
 from django.contrib import admin
-from django.views.generic import ListView
-from ..models import Product
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.shortcuts import render
+from django.views.generic import ListView
+
+from ..models import Product
 
 
 class AdminView(UserPassesTestMixin, ListView):

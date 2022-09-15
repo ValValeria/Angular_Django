@@ -1,14 +1,15 @@
-from django.core.paginator import Paginator
-from ..serializers.comment_serializer import CommentSerializer
-from django.contrib.auth.models import User
-from ..models import Comment, Product
-from ..forms import CommentForm
-from django.contrib.auth.mixins import UserPassesTestMixin, PermissionRequiredMixin
-from django.http.response import JsonResponse
-from django.views.generic import ListView
-from json import loads
 import datetime
+from json import loads
+
+from django.contrib.auth.mixins import UserPassesTestMixin, PermissionRequiredMixin
+from django.core.paginator import Paginator
+from django.http.response import JsonResponse
 from django.shortcuts import get_object_or_404
+from django.views.generic import ListView
+
+from ..forms import CommentForm
+from ..models import Comment, Product
+from ..serializers.comment_serializer import CommentSerializer
 
 
 class Comment_View(UserPassesTestMixin, ListView, PermissionRequiredMixin):
@@ -21,7 +22,7 @@ class Comment_View(UserPassesTestMixin, ListView, PermissionRequiredMixin):
         self.user = self.request.user;
 
     def test_func(self):
-        return self.user.is_authenticated;
+        return self.user.is_authenticated
 
     def post(self, request, *args, **kw):
         try:

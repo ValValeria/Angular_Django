@@ -1,8 +1,10 @@
+import re
+
+from django.db.models import Q
 from django.http.response import JsonResponse
 from django.views.generic import View
+
 from ..models import Product
-import re
-from django.db.models import Q
 
 
 class Search(View):

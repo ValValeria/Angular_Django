@@ -1,11 +1,11 @@
 import os
-from django.http import JsonResponse, HttpResponseForbidden, HttpResponseNotFound
-from django.shortcuts import get_object_or_404
-from django.views.generic import View
-from ..forms import CreateProductForm, ValidateImages
-from ..models import ProductImages, Product
 import os.path as path
-import time
+
+from django.http import JsonResponse, HttpResponseForbidden, HttpResponseNotFound
+from django.views.generic import View
+
+from ..forms import CreateProductForm
+from ..models import Product
 
 
 class UpdateProductView(View):

@@ -1,9 +1,12 @@
+import json
+import os
+
 from django.http import HttpResponseForbidden, HttpResponseBadRequest, JsonResponse, HttpResponseNotFound
 from django.views.generic import ListView
-from ..models import Carousel
+
 from ..forms import CarouselImagesForm
-import os
-import json
+from ..models import Carousel
+
 
 class CarouselView(ListView):
     allowed_types = list(('product', 'home', 'products'))
@@ -46,8 +49,8 @@ class CarouselDeleteView(ListView):
         filename = os.path.normpath(os.path.join(base_path, carousel.image.name))
 
         if os.path.exists(filename):
-           os.remove(filename)
-        
+            os.remove(filename)
+
         Carousel.objects.get(id=int(carousel_id)).delete()
         self.response['status'] = 'ok'
 
@@ -63,7 +66,7 @@ class CarouselDownloadView(ListView):
         carousel_type = kw['type']
 
         if not request.user.is_superuser or not self.allowed_types.count(carousel_type):
-            return HttpResponseForbidden()  
+            return HttpResponseForbidden()
 
         if form.is_valid():
             imagesList = request.FILES.getlist(carousel_type)
@@ -72,7 +75,7 @@ class CarouselDownloadView(ListView):
 
             for index, image in enumerate(imagesList):
                 filename = carousel_type + image.name
-               
+
                 carousel = Carousel()
                 carousel.url = urls[index] if urls[index] else ""
                 carousel.image = image
@@ -85,14 +88,14 @@ class CarouselDownloadView(ListView):
                 prev_file = os.path.normpath(os.path.join(base_path, image.name))
 
                 if os.path.exists(prev_file):
-                   os.remove(prev_file)
+                    os.remove(prev_file)
 
                 with open(filename, 'wb+') as destination:
-                     for chunk in image.chunks():
-                         destination.write(chunk)
+                    for chunk in image.chunks():
+                        destination.write(chunk)
 
-                     self.response['status'] = 'ok'
-                     print("File is uploaded. Filename is " + filename)
+                    self.response['status'] = 'ok'
+                    print("File is uploaded. Filename is " + filename)
         else:
             self.response['errors'].append(form.errors.as_json())
 

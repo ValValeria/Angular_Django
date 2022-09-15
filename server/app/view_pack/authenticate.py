@@ -4,10 +4,10 @@ from django.core.files import File
 from django.db.models import Q
 from django.http import JsonResponse
 from django.views import View
+
 from ..classes.UserParser import UserParser
 from ..forms import AuthenticateForm
 from ..models import Avatar, UserData
-from django.contrib.auth.hashers import make_password
 
 
 class LoginView(View):
