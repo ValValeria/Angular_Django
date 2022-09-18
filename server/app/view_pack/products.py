@@ -6,6 +6,7 @@ from django.http.response import HttpResponse, HttpResponseBadRequest, HttpRespo
     HttpResponseNotFound
 from django.views.generic import ListView
 
+from ..classes.response import Response
 from ..models import Product
 from ..serializers.post_serializer import PostSerializer
 
@@ -38,10 +39,9 @@ class ProductsView(ListView):
 
 
 class ProductInfo(ListView):
-    response = {"data": []}
+    response = Response()
 
     def get(self, request, *args, **kw):
-        products = None
         cat = request.GET.get("category", "")
         search = request.GET.get("search", "")
 
@@ -57,8 +57,8 @@ class ProductInfo(ListView):
                          products.distinct().all().values("category"))
         max_price = Product.objects.aggregate(max_price=Max("price"))
         min_price = Product.objects.aggregate(min_price=Min("price"))
-        self.response["data"] = {"categories": list(categories), "price": [
-            min_price, max_price]}
+        self.response.data.result.update({"categories": list(categories), "price": [
+            min_price, max_price]})
         return JsonResponse(self.response, json_dumps_params={'ensure_ascii': False})
 
 

@@ -17,8 +17,8 @@ class CorsMiddleware:
         return response
 
     def process_view(self, request, view_func, *view_args, **view_kwargs):
-        auth_str = request.headers.get("Auth", "{}");
-        print(1)
+        auth_str = request.headers.get("Auth", "{}")
+
         try:
             auth = loads(auth_str)
 
@@ -27,8 +27,6 @@ class CorsMiddleware:
 
                 if user:
                     login(request, user)
-                print(user)
-        except Exception:
+        except:
             print("Error has occured :" + str(sys.exc_info()[0]))
-
         return None

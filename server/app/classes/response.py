@@ -25,13 +25,16 @@ class Data(object):
 class Info(object):
     __url: str = ""
     __status: ResponseStatus
+    __additional_info = {}
 
     def __init__(self):
         self.__url = ""
         self.__status = ResponseStatus.ERROR
 
     def as_dict(self):
-        return {"url": self.__url}
+        return {"url": self.__url,
+                "status": self.__status.name,
+                "additional_info": self.__additional_info}
 
     @property
     def url(self):
@@ -40,6 +43,10 @@ class Info(object):
     @property
     def status(self):
         return self.__status
+
+    @property
+    def additional_info(self):
+        return self.__additional_info
 
     @status.setter
     def status(self, status: ResponseStatus):
@@ -67,6 +74,10 @@ class Response(object):
     @property
     def errors(self) -> list[Any]:
         return self.__errors
+
+    @property
+    def info(self):
+        return self.__info
 
     def status(self, status: ResponseStatus):
         self.__info.status = status

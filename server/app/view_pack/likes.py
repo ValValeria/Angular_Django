@@ -1,10 +1,10 @@
-from django.http.response import HttpResponseForbidden
-from ..serializers.favorite_serializer import FavoriteSerializer
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
 from django.db.models import Q
-from django.views.generic import ListView, View;
-from ..models import Favorite, Product
 from django.http import JsonResponse;
+from django.http.response import HttpResponseForbidden
+from django.views.generic import ListView, View;
+
+from ..models import Favorite, Product
+from ..serializers.favorite_serializer import FavoriteSerializer
 
 
 class ProductLikesShow(ListView):
@@ -58,7 +58,7 @@ class ProductLikes(ListView):
     response = {"data": [], "errors": [], "status": ""}
 
     def test_func(self):
-        self.user = self.request.user;
+        self.user = self.request.user
         self.productId = self.request.GET.get("productId", "")
         user_like = Favorite.objects.filter(Q(product__id=self.productId) & Q(user__id=self.user.id)).count();
         return user_like == 0 and self.request.user.is_authenticated and self.productId.isdigit();
@@ -70,7 +70,7 @@ class ProductLikes(ListView):
 
             if product:
                 favorite = Favorite(user=self.user, product=product)
-                favorite.save();
+                favorite.save()
                 self.response["status"] = "ok"
             else:
                 self.response["errors"].append("The product doesn't exist")

@@ -13,16 +13,16 @@ class CarouselView(ListView):
     response = {'data': {"images": [], "pageType": ""}, 'type': '', 'errors': []}
 
     def get(self, request, *args, **kw):
-        pageType = kw.get('type')
-        self.response['type'] = pageType
+        page_type = kw.get('type')
+        self.response['type'] = page_type
         self.response['data']['images'].clear()
 
-        if pageType not in self.allowed_types:
+        if page_type not in self.allowed_types:
             return HttpResponseBadRequest()
         else:
-            self.response['data']['pageType'] = pageType
+            self.response['data']['page_type'] = page_type
 
-        for image in Carousel.objects.filter(type__exact=pageType):
+        for image in Carousel.objects.filter(type__exact=page_type):
             obj = {'postUrl': image.url,
                    'id': image.id,
                    'file': image.image.url,
@@ -69,11 +69,11 @@ class CarouselDownloadView(ListView):
             return HttpResponseForbidden()
 
         if form.is_valid():
-            imagesList = request.FILES.getlist(carousel_type)
+            images_list = request.FILES.getlist(carousel_type)
             file_data = form.cleaned_data['urls_list']
             urls = json.load(file_data)
 
-            for index, image in enumerate(imagesList):
+            for index, image in enumerate(images_list):
                 filename = carousel_type + image.name
 
                 carousel = Carousel()

@@ -12,7 +12,8 @@ from ..models import Product
 class UpdateProductView(View):
     response: Response
 
-    def __init__(self):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.response = Response()
 
     def post(self, request, *args, **kw):
@@ -42,54 +43,49 @@ class UpdateProductView(View):
                     print("File is uploaded. Filename is " + filename)
 
                 for k, v in form.cleaned_data.items():
-                    setattr(product, k, v)
+                    if hasattr(product, k):
+                        setattr(product, k, v)
+
+                product.image = '/app/static/images/' + image.name
+                product.save()
+                self.response.status(ResponseStatus.SUCCESS)
+            else:
+                self.response.errors.append('Invalid extension of image')
+        else:
+            self.response.errors.append(form.errors)
+        return JsonResponse(self.response)
+
+
+class AddProductView(View):
+    response = Response()
+
+    def post(self, request, *args, **kw):
+        if not request.user.is_superuser:
+            return HttpResponseForbidden()
+        form = CreateProductForm(request.POST, request.FILES)
+        image = request.FILES.get('image')
+        if form.is_valid():
+            if image and hasattr(image, 'content_type'):
+                base_path = path.realpath("./app/static/images/")
+                filename = path.join(base_path, image.name)
+                product = Product()
+
+                with open(filename, 'wb+') as destination:
+                    for chunk in image.chunks():
+                        destination.write(chunk)
+
+                for k, v in form.cleaned_data.items():
+                    if hasattr(product, k):
+                        setattr(product, k, v)
 
                 product.image = '/app/static/images/' + image.name
                 product.user = request.user
                 product.save()
 
                 self.response.status(ResponseStatus.SUCCESS)
+                self.response.info.additional_info.update({"id": product.id})
             else:
                 self.response.errors.append('Invalid extension of image')
         else:
             self.response.errors.append(form.errors)
-
-        return JsonResponse(self.response)
-
-
-class AddProductView(View):
-    response = {"errors": [], "data": {"url": ""}, "status": ""}
-
-    def post(self, request, *args, **kw):
-        if not request.user.is_superuser:
-            return HttpResponseForbidden()
-
-        form = CreateProductForm(request.POST, request.FILES)
-        image = request.FILES.get('image')
-
-        if form.is_valid():
-            if image and hasattr(image, 'content_type'):
-                base_path = path.realpath("./app/static/images/")
-                filename = path.join(base_path, image.name)
-
-                with open(filename, 'wb+') as destination:
-                    for chunk in image.chunks():
-                        destination.write(chunk)
-
-                product = Product()
-
-                for k, v in form.cleaned_data.items():
-                    setattr(product, k, v)
-
-                product.image = '/app/static/images/' + image.name
-                product.user = request.user
-                product.save()
-
-                self.response['status'] = 'ok'
-                self.response['data']['id'] = product.id
-            else:
-                self.response['errors'].append('Invalid extension of image')
-        else:
-            self.response['errors'].append(form.errors)
-
         return JsonResponse(self.response)

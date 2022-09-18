@@ -1,19 +1,19 @@
 from app.view_pack.add_product import AddProductView, UpdateProductView
 from app.view_pack.admin_users import AdminDeleteUsers, AdminUsers, AdminViewUser
-from app.view_pack.admin_view import AdminProductImages
 from app.view_pack.authenticate import SignUpView, LoginView
-from app.view_pack.carousel_view import CarouselView, CarouselDownloadView, CarouselDeleteView
+from app.view_pack.carousel import CarouselView, CarouselDownloadView, CarouselDeleteView
 from app.view_pack.categories import CategoryView
-from app.view_pack.comment_view import Comment_View, CommentList_View
-from app.view_pack.likes_view import ProductLikesDelete, ProductLikesShow, ProductLikes
-from app.view_pack.order_view import Delete_Order, Order_View, Get_Order, Order_Buy
+from app.view_pack.comments import Comment_View, CommentList_View
+from app.view_pack.likes import ProductLikesDelete, ProductLikesShow, ProductLikes
+from app.view_pack.orders import Delete_Order, Order_View, Get_Order, Order_Buy
 from app.view_pack.products import ProductDeleteView
 from app.view_pack.products import ProductInfo, ProductsView, ProductView, ProductSort, ProductInfoBrands, \
     ProductAvailableCount
-from app.view_pack.search_view import Search
+from app.view_pack.search import Search
 from app.views import ChangeAvatar, UserProfile, SendLetter, NotFound
 from app.views import ServeAssestView
 from django.urls import re_path
+
 
 urlpatterns = [
     re_path(r"^api/product-count", ProductAvailableCount.as_view()),
@@ -47,7 +47,6 @@ urlpatterns = [
     re_path(r"^api/change-avatar", ChangeAvatar.as_view()),
     re_path(r"^api/delete-product", ProductDeleteView.as_view()),
     re_path(r'^api/categories', CategoryView.as_view()),
-    re_path(r'^admin/products/<int:id>/addimages', AdminProductImages.as_view()),
     re_path(r"^assets/(?P<filename>\w+)", ServeAssestView.as_view()),
     re_path(r"^((?!app/static).)*$", NotFound.as_view())
 ]
