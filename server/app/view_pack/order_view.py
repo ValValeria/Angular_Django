@@ -1,10 +1,9 @@
-from django.contrib.auth.models import User
-
-from ..serializers.user_serializer import UserSerializer
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
 from django.db.models.aggregates import Sum
 from django.http.response import Http404, HttpResponseForbidden, JsonResponse, HttpResponseNotFound
-from django.views.generic import ListView, View;
+from django.views.generic import ListView
+
 from ..models import Product, Order
 
 
@@ -140,13 +139,13 @@ class Order_View(ListView):
                     return JsonResponse(self.response);
             else:
                 order = Order(user=user, count=count, product=product)
-                product.count = ostatok;
-                product.save();
-                order.save();
-                self.response["status"] = "ok";
+                product.count = ostatok
+                product.save()
+                order.save()
+                self.response["status"] = "ok"
         else:
             self.response["messages"].append("The product is out of stock.");
 
             if product_count > 0:
                 self.response["data"].append({"available": product_count})
-                self.response["status"] = "ok";
+                self.response["status"] = "ok"

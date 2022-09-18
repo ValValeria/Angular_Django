@@ -22,9 +22,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.auth',
-    'app',
     'django.contrib.admin',
     'rest_framework',
+    'app'
 ]
 
 # Middleware framework

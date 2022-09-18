@@ -4,12 +4,16 @@ import os.path as path
 from django.http import JsonResponse, HttpResponseForbidden, HttpResponseNotFound
 from django.views.generic import View
 
+from ..classes.response import Response, ResponseStatus
 from ..forms import CreateProductForm
 from ..models import Product
 
 
 class UpdateProductView(View):
-    response = {"errors": [], "data": {"url": ""}, "status": ""}
+    response: Response
+
+    def __init__(self):
+        self.response = Response()
 
     def post(self, request, *args, **kw):
         if not request.user.is_superuser:
@@ -44,11 +48,11 @@ class UpdateProductView(View):
                 product.user = request.user
                 product.save()
 
-                self.response['status'] = 'ok'
+                self.response.status(ResponseStatus.SUCCESS)
             else:
-                self.response['errors'].append('Invalid extension of image')
+                self.response.errors.append('Invalid extension of image')
         else:
-            self.response['errors'].append(form.errors)
+            self.response.errors.append(form.errors)
 
         return JsonResponse(self.response)
 

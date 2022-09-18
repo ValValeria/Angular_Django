@@ -37,8 +37,9 @@ class AdminUsers(ListView):
 class AdminDeleteUsers(ListView):
     response = {"data": {"users": []}, "errors": [], "status": ""}
 
-    def get(self, request, number):
+    def get(self, request, *args, **kwargs):
         auth_user = request.user
+        number = kwargs.get("number")
 
         if number and number > 0:
             user = User.objects.all().filter(id=number).exclude(id=auth_user.id)[0]

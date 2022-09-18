@@ -2,11 +2,13 @@ from django.contrib.auth import get_user_model
 from django.db import models
 
 
-class CategoryModel(models.Model):
+class Category(models.Model):
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=30)
     long_description = models.TextField(max_length=100)
-    parent_category = models.ForeignKey("self")
+    parent_category = models.ForeignKey("self", on_delete=models.CASCADE)
     objects = models.Manager()
+
 
 class Carousel(models.Model):
     objects = models.Manager()
@@ -16,6 +18,7 @@ class Carousel(models.Model):
 
 
 class Product(models.Model):
+    objects = models.Manager()
     title = models.CharField(max_length=30)
     price = models.IntegerField()
     short_description = models.CharField("Excerpt", max_length=200, help_text="Excerpt")
@@ -28,7 +31,7 @@ class Product(models.Model):
     rating = models.IntegerField(default=5, choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)])
     characterictics = models.TextField("Characteristics", max_length=300, blank=True,
                                        help_text="Используйте форму записи name:value;")
-    category = models.ForeignKey(CategoryModel, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title

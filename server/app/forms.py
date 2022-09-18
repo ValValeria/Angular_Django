@@ -1,44 +1,35 @@
+import os
+
 from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.forms import ModelForm
-from .models import Product
-from django.core.exceptions import ValidationError
-import json
-import os
+
+from .models import Product, Category
+
 
 class CarouselImagesForm(forms.Form):
-    home = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}), required = False)
-    products = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}), required = False)
-    product = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}), required = False)
+    home = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}), required=False)
+    products = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}), required=False)
+    product = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}), required=False)
     urls_list = forms.FileField()
 
     def clean(self):
         cleaned_data = super().clean()
         images = [cleaned_data.get(type) for type in ['home', 'products', 'product'] if type in cleaned_data.keys()]
-        
-        for image in images:
-            if not image: continue
 
+        for image in images:
             allowed_ext = ('.png', '.jpeg', '.svg', '.jpg')
             filename, ext = os.path.splitext(image.name)
 
             if not ext in allowed_ext:
-                raise ValidationError( "Invalid extension of file ", "Error")
+                raise ValidationError("Invalid extension of file ", "Error")
 
         return cleaned_data
-             
 
 
 class ValidateImages(forms.Form):
     images = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
-
-    def clean_images(self):
-        images = self.images
-
-        for image in images:
-            if "image/" not in image.content_type:
-                raise ValidationError("Invalid type of file", code="invalid")
 
 
 class ValidateUserForm(ModelForm):
@@ -46,7 +37,7 @@ class ValidateUserForm(ModelForm):
         model = User
         fields = [
             'username', 'password', 'email'
-        ];
+        ]
 
 
 class CreateProductForm(ModelForm):
@@ -54,9 +45,14 @@ class CreateProductForm(ModelForm):
         model = Product
         fields = ['title', 'price', 'short_description',
                   'count', 'long_description',
-                  'brand', 'category', 'status', 'rating',
-                  'characterictics'
-                  ]
+                  'brand', 'status', 'rating',
+                  'characterictics']
+
+
+class CategoryForm(ModelForm):
+    class Meta:
+        model = Category
+        fields = ['name', 'long_description', 'parent_category']
 
 
 class AuthenticateForm(forms.Form):
@@ -64,8 +60,8 @@ class AuthenticateForm(forms.Form):
     password = forms.CharField(max_length=30, min_length=10)
     username = forms.CharField(max_length=30, min_length=10)
 
-    def __init__(self, form, isLogin=False):
-        self.isLogin = isLogin
+    def __init__(self, form, is_login: bool = False):
+        self.isLogin = is_login
         super().__init__(form)
 
     def clean_email(self):

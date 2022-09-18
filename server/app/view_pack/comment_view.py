@@ -19,7 +19,7 @@ class Comment_View(UserPassesTestMixin, ListView, PermissionRequiredMixin):
 
     def __init__(self, **kwargs):
         super().__init__(kwargs)
-        self.user = self.request.user;
+        self.user = self.request.user
 
     def test_func(self):
         return self.user.is_authenticated

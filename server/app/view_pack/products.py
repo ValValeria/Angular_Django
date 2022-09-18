@@ -1,10 +1,11 @@
-from django.http.response import FileResponse, Http404, HttpResponse, HttpResponseBadRequest, HttpResponseForbidden, \
-    HttpResponseNotFound
-from django.views.generic import ListView, View
-from django.http import JsonResponse
-from django.db.models import Max, Min
 from django.core.paginator import Paginator
+from django.db.models import Max, Min
 from django.db.models import Q
+from django.http import JsonResponse
+from django.http.response import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden, \
+    HttpResponseNotFound
+from django.views.generic import ListView
+
 from ..models import Product
 from ..serializers.post_serializer import PostSerializer
 
@@ -97,7 +98,7 @@ class ProductAvailableCount(ListView):
 
 
 class ProductView(ListView):
-    response = {"data": {}, "status":''}
+    response = {"data": {}, "status": ''}
 
     def get(self, request, *args, **kwargs):
         product = Product.objects.filter(id__contains=kwargs["pk"]).first()

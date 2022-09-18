@@ -4,11 +4,14 @@ from django.db.models import Q
 from django.http.response import JsonResponse
 from django.views.generic import View
 
+from ..classes.response import Response
 from ..models import Product
 
 
 class Search(View):
-    response = {"errors": [], "data": {"results": []}}
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.response = Response()
 
     def get(self, request, *args, **kw):
         search = request.GET.get("search")
@@ -19,8 +22,8 @@ class Search(View):
                 short_description__contains=search)).distinct().values())
 
             if len(products):
-                self.response["data"]['results'] = products
+                self.response.data.result.update({"results": products})
         else:
-            self.response["errors"].append("Invalid token")
+            self.response["errors"].append("Invalid search word")
 
         return JsonResponse(self.response, json_dumps_params={'ensure_ascii': False})
