@@ -29,7 +29,7 @@ class Info(object):
 
     def __init__(self):
         self.__url = ""
-        self.__status = ResponseStatus.ERROR
+        self.__status = ResponseStatus.UNKNOWN
 
     def as_dict(self):
         return {"url": self.__url,

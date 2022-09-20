@@ -11,9 +11,6 @@ export class SubjectsService {
   private readonly openSidebarSubject$ = new Subject<void>();
   private readonly authSubject$ = new Subject<IUser>();
 
-  constructor() {
-  }
-
   public getOpenSidebarSubject(): Subject<void> {
     return this.openSidebarSubject$;
   }

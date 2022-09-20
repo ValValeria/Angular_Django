@@ -1,10 +1,9 @@
 import {image} from '../Pages/slider-info-page/slider-info-page.component';
-import {UserModel} from "../models/user.model";
+import {UserModel} from '../models/user.model';
 
-export interface ICarouselResponse {
-  data: {
-    images: string[]
-  };
+export enum ResponseStatus {
+  ERROR,
+  SUCCESS
 }
 
 export interface IAllCarouselResponse {
@@ -33,7 +32,11 @@ export interface IAd {
 export type stringArray = [string, string][];
 
 export interface IResponse {
-  data: any[];
+  data: {
+    result: any
+  };
+  status: ResponseStatus;
+  info: any;
 }
 
 export interface IProductsResponse {
@@ -54,8 +57,10 @@ export interface IAdminUsersResponse {
 
 export interface ProductsInfo {
   data: {
-    categories: string[],
-    price: [{ min_price: number }, { max_price: number }]
+    result: {
+      categories: string[],
+      price: [{ min_price: number }, { max_price: number }]
+    }
   };
 }
 

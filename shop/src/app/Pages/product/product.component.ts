@@ -179,7 +179,7 @@ export class ProductComponent implements OnInit, AfterViewInit {
         params: new HttpParams().set('brand', this.post.brand).set('page', '1')
       };
       const response: IResponse = await this.http.get('/api/sort/', config).toPromise() as IResponse;
-      const data = response?.data || [];
+      const data = response?.data.result || [];
 
       this.otherPosts.push(...data);
       this.showDrawer = true;

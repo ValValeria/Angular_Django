@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import {CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Resolve} from '@angular/router';
-import { Observable } from 'rxjs';
+import {Injectable} from '@angular/core';
+import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router';
+import {Observable} from 'rxjs';
 import {IProductsResponse, ProductsInfo} from '../interfaces/interfaces';
 import {map} from 'rxjs/operators';
 import {HttpService} from '../services/http.service';
@@ -9,7 +9,8 @@ import {HttpService} from '../services/http.service';
   providedIn: 'root'
 })
 export class ProductsDataResolver implements Resolve<IProductsResponse> {
-  constructor(private http: HttpService){}
+  constructor(private http: HttpService) {
+  }
 
   resolve(
     route: ActivatedRouteSnapshot,
@@ -17,9 +18,9 @@ export class ProductsDataResolver implements Resolve<IProductsResponse> {
     const url = '/api/info-products/';
 
     return this.http.get<ProductsInfo>(url).pipe(map(v => {
-      const categories = v.data.categories;
-      const maxPrice = v.data.price[1].max_price;
-      const maxPriceValue = v.data.price[1].max_price;
+      const categories = v.data.result.categories;
+      const maxPrice = v.data.result.price[1].max_price;
+      const maxPriceValue = v.data.result.price[1].max_price;
       const obj: IProductsResponse = {categories, maxPrice, maxPriceValue};
 
       return obj;

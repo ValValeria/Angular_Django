@@ -16,6 +16,6 @@ export class ProductResolver implements Resolve<IProductResponse>{
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IProductResponse>{
     const id = route.paramMap.get('id');
 
-    return  this.http.get<{ data: IAd, status: string }>(`${URL_PATH}api/product/` + id);
+    return  this.http.get<any>(`${URL_PATH}api/product/` + id);
   }
 }

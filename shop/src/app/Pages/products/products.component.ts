@@ -37,16 +37,19 @@ interface IResponse {
   ]
 })
 export class ProductsComponent implements OnInit, AfterViewInit {
-  products: IAd[];
-  disabled = true;
-  panelOpenState = false;
-  categories: string[];
-  @ViewChild('productsElem', {read: ElementRef}) productsElem: ElementRef;
-  @ViewChild('mediaSearch', {read: TemplateRef}) matMediaSearchContainer: TemplateRef<any>;
-  @Input() isSearch = false;
-  @Input() isCategoryPage = false;
-  @Input() searchText = '';
-  maxPrice: number;
+  @ViewChild('productsElem', {read: ElementRef})
+  productsElem: ElementRef;
+  @ViewChild('mediaSearch', {read: TemplateRef})
+  matMediaSearchContainer: TemplateRef<any>;
+
+  @Input()
+  isSearch = false;
+  @Input()
+  isCategoryPage = false;
+  @Input()
+  searchText = '';
+
+  maxPrice = 0;
   brands: string[];
   activeCategory: string;
   activeBrand: string;
@@ -59,7 +62,11 @@ export class ProductsComponent implements OnInit, AfterViewInit {
   showModel = false;
   minPrice = 0;
   urls: [string, string][];
-  hasError = false;
+
+  products: IAd[];
+  disabled = true;
+  panelOpenState = false;
+  categories: string[];
 
   constructor(
     private http: HttpService,

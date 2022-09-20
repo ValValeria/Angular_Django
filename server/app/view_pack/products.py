@@ -1,12 +1,14 @@
+from typing import Optional, Callable, Dict
+
 from django.core.paginator import Paginator
 from django.db.models import Max, Min
 from django.db.models import Q
 from django.http import JsonResponse
-from django.http.response import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden, \
+from django.http.response import HttpResponseBadRequest, HttpResponseForbidden, \
     HttpResponseNotFound
 from django.views.generic import ListView
 
-from ..classes.response import Response
+from ..classes.response import Response, ResponseStatus
 from ..models import Product
 from ..serializers.post_serializer import PostSerializer
 
@@ -55,15 +57,24 @@ class ProductInfo(ListView):
 
         categories = map(lambda obj: obj.get("category"),
                          products.distinct().all().values("category"))
-        max_price = Product.objects.aggregate(max_price=Max("price"))
-        min_price = Product.objects.aggregate(min_price=Min("price"))
-        self.response.data.result.update({"categories": list(categories), "price": [
-            min_price, max_price]})
-        return JsonResponse(self.response, json_dumps_params={'ensure_ascii': False})
+
+        if products.all():
+            max_price = Product.objects.aggregate(max_price=Max("price"))
+            min_price = Product.objects.aggregate(min_price=Min("price"))
+        else:
+            max_price = 0
+            min_price = 0
+
+        self.response.data.result.update({"categories": list(categories), "price": [min_price, max_price]})
+        return JsonResponse(self.response.as_dict(), json_dumps_params={'ensure_ascii': False}, safe=False)
 
 
 class ProductInfoBrands(ListView):
-    response = {"data": {}}
+    response = None
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.response = Response()
 
     def get(self, request, *args, **kw):
         category = request.GET.get("category")
@@ -75,12 +86,16 @@ class ProductInfoBrands(ListView):
             brand = list(Product.objects.distinct().all().values("brand"))
 
         brand = map(lambda v: v.get("brand"), brand)
-        self.response["data"]["brands"] = list(brand)
-        return JsonResponse(self.response, json_dumps_params={'ensure_ascii': False})
+        self.response.data.result.update({"brands": list(brand)})
+        return JsonResponse(self.response.as_dict(), json_dumps_params={'ensure_ascii': False}, safe=False)
 
 
 class ProductAvailableCount(ListView):
-    response = {"data": {}}
+    response = None
+
+    def __init__(self):
+        super(ProductAvailableCount, self).__init__()
+        self.response = Response()
 
     def get(self, request, *args, **kw):
         product_id = request.GET.get('product_id', "")
@@ -89,7 +104,7 @@ class ProductAvailableCount(ListView):
             product = Product.objects.filter(id=product_id).first()
 
             if product:
-                self.response["data"] = {"count": product.count}
+                self.response.data.result.update({"count": product.count})
                 return JsonResponse(self.response, json_dumps_params={'ensure_ascii': False})
             else:
                 return HttpResponseNotFound()
@@ -122,12 +137,14 @@ class ProductView(ListView):
 class ProductSort(ListView):
     params = None
     per_page = 4
-    response = {"data": []}
+    response: Optional[Response] = None
+    sort_by: Dict[str, Callable]
 
     def __init__(self, *args):
         super().__init__(*args)
         self.sort_by = {"price": self.sort_by_price,
                         "brand": self.sort_by_brand, "category": self.sort_by_category}
+        self.response = Response()
 
     def get(self, request, *args, **kwargs):
         self.params = self.request.GET
@@ -157,17 +174,15 @@ class ProductSort(ListView):
             if page <= paginator.num_pages:
                 data_page = paginator.page(page)
                 data = PostSerializer(data_page.object_list, many=True)
-                self.response["data"].extend(data.data)
-                self.response["has_next"] = data_page.has_next()
-
-        return JsonResponse(self.response, json_dumps_params={'ensure_ascii': False})
+                self.response.data.result.update(data.data)
+                self.response.data.result.update({"has_next": data_page.has_next()})
+        return JsonResponse(self.response.as_dict(), json_dumps_params={'ensure_ascii': False}, safe=False)
 
     def sort_by_price(self, obj=Product.objects):
         prices = [self.params.get("min"), self.params.get("max")]
 
         if prices[0].isdigit() and prices[1].isdigit():
-            products_obj = obj.filter(Q(price__lte=prices[1]) & Q(
-                price__gte=prices[0])).order_by("price")
+            products_obj = obj.filter(Q(price__lte=prices[1]) & Q(price__gte=prices[0])).order_by("price")
             return products_obj
         else:
             return obj.all()
@@ -188,6 +203,12 @@ class ProductSort(ListView):
 
 
 class ProductDeleteView(ListView):
+    response = None
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.response = Response()
+
     def get(self, request, *args, **kw):
         product_id = request.GET.get('id')
 
@@ -196,6 +217,12 @@ class ProductDeleteView(ListView):
         elif not product_id or not product_id.isdigit():
             return HttpResponseBadRequest()
 
-        Product.objects.filter(id=product_id).delete()
+        product_exists = Product.objects.exists(id=product_id)
 
-        return HttpResponse()
+        if not product_exists:
+            return HttpResponseNotFound()
+
+        Product.objects.filter(id=product_id).delete()
+        self.response.status(ResponseStatus.SUCCESS)
+
+        return JsonResponse(self.response.as_dict(), safe=False)
