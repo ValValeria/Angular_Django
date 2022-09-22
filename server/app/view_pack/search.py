@@ -22,8 +22,7 @@ class Search(View):
                 short_description__contains=search)).distinct().values())
 
             if len(products):
-                self.response.data.result.update({"results": products})
+                self.response.data.result.update(products)
         else:
-            self.response["errors"].append("Invalid search word")
-
+            self.response.errors.append("Invalid search word")
         return JsonResponse(self.response, json_dumps_params={'ensure_ascii': False})

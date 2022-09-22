@@ -1,3 +1,5 @@
+from typing import Optional
+
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
 from django.core.files import File
@@ -6,6 +8,7 @@ from django.http import JsonResponse
 from django.views import View
 
 from ..classes.UserParser import UserParser
+from ..classes.response import Response, UserStatus
 from ..forms import AuthenticateForm
 from ..models import Avatar, UserData
 
@@ -38,13 +41,17 @@ class LoginView(View):
 
 class SignUpView(View):
     form = AuthenticateForm
-    response = {"errors": [], "messages": [], "data": {}}
+    response: Optional[Response] = None
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.response = Response()
 
     def post(self, request, *args, **kwargs):
         form = self.form(request.POST, True)
 
         if request.user.is_authenticated:
-            self.response['status'] = 'user'
+            self.response.auth_info.status(UserStatus.USER)
         elif form.is_valid():
             user = User.objects.filter(Q(username=form.cleaned_data['username']) | Q(
                 email=form.cleaned_data["email"])).first()
@@ -61,13 +68,12 @@ class SignUpView(View):
                 user.userdata = user_data
                 user.save()
 
-                self.response["data"].update(
-                    {"user": UserParser(user).get_user()})
-                self.response['status'] = "user"
+                self.response.auth_info.user=UserParser(user).get_user()
+                self.response.auth_info.status(UserStatus.USER)
             else:
-                self.response["errors"].append(
-                    "Пользователь с такой почтой или именем уже есть")
+                self.response.errors.append(
+                    "We have already user with such username in our database")
         else:
-            self.response['errors'] = list(form.errors)
+            self.response.errors.extend(list(form.errors))
 
-        return JsonResponse(self.response)
+        return JsonResponse(self.response.as_dict(), safe=False)

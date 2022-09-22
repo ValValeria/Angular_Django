@@ -74,6 +74,7 @@ class Avatar(models.Model):
 
 
 class UserData(models.Model):
+    objects = models.Manager()
     status = models.CharField(choices=[("admin", "Admin"), ("user", "User")], default="user", max_length=40)
     user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE)
 
