@@ -83,3 +83,8 @@ class LetterForm(forms.Form):
     email = forms.EmailField(max_length=30, min_length=10)
     message = forms.CharField(max_length=300, min_length=10)
     cause = forms.CharField(max_length=50)
+
+
+class MenuForm(forms.Form):
+    name = forms.CharField(max_length=50)
+    link = forms.CharField(max_length=250)

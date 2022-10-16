@@ -60,6 +60,13 @@ class Comment(models.Model):
     rating = models.IntegerField(default=5, choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)])
 
 
+class MenuItems(models.Model):
+    name = models.TextField(max_length=50)
+    link = models.TextField(max_length=250)
+    childMenuItem = models.ForeignKey("self", on_delete=models.CASCADE)
+    objects = models.Manager()
+
+
 class Favorite(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
