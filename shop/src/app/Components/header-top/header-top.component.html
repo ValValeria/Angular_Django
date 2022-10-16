@@ -1,13 +1,11 @@
-<ng-container *ngIf="!isAuth">
-<div class="header-top w-100 center bg-super-dark">
-    <div class="header-top__wrap wrap-md  center justify-content-end">
-         <div class="header-top__container">
-              <div class="header-top__auth-links text-light">
-                   <a routerLink="authenticate" [queryParams]="{isLogin: true}">Log in</a>
-                   <span>or</span>
-                   <a routerLink="authenticate"  [queryParams]="{isLogin: false}">sign up</a>
-              </div>
-         </div>
+<div class="header-top w-100 center" *ngIf="!isAuth">
+  <div class="header-top__wrap wrap-md  center justify-content-end">
+    <div class="header-top__container">
+      <div class="header-top__auth-links text-light">
+        <a routerLink="authenticate" [queryParams]="{isLogin: true}">Log in</a>
+        <span>or</span>
+        <a routerLink="authenticate" [queryParams]="{isLogin: false}">sign up</a>
+      </div>
     </div>
+  </div>
 </div>
-</ng-container>

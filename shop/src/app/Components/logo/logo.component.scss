@@ -1,19 +1,24 @@
 @import "src/variables";
 
-.header__brand-name span{
+.header__brand-name span {
   display: inline-block;
   font-weight: 300;
   line-height: 1.2;
 }
 
-.header__brand-name span:nth-child(1){
+.dark-text {
+  color: #A9B9C7 !important;
+  font-weight: 600;
+}
+
+.header__brand-name span:nth-child(1) {
   display: inline-block;
   font-weight: 500;
   margin-right: $margin/8;
 }
 
 
-@media(max-width: $media){
+@media(max-width: $media) {
   .header-media .header__brand-name h4 {
     position: relative;
     top: 4px;

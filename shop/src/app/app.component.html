@@ -1,7 +1,6 @@
 <mat-drawer-container>
   <div class="w-100 center position-relative align-items-start {{user.isSuperUser() ? 'grid' : ''}}" id="app-container">
     <app-admin-nav *ngIf="user.isSuperUser()"></app-admin-nav>
-
     <div class="body-content w-100 position-relative" #body>
       <app-header-top></app-header-top>
       <app-header-main></app-header-main>

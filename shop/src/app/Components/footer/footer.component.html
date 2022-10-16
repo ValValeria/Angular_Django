@@ -1,4 +1,4 @@
-<footer class="footer bg-dark">
+<footer class="footer">
   <app-section-layout *ngIf="!user.isSuperUser()" cssClass="footer" [hasTitle]="false">
     <ul class="footer__info center w-100">
       <li class="footer__link footer__link-md">
@@ -35,7 +35,7 @@
       </div>
     </div>
   </app-section-layout>
-  <div class="w-100 bg-super-dark">
+  <div class="w-100 footer__main">
     <app-section-layout [hasTitle]="false" cssClass="footer">
         <div class="footer__brand w-100 center  text-center">
           &copy; <app-logo></app-logo> 2019 - 2021

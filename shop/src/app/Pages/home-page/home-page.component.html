@@ -1,2 +1,26 @@
 <div class="home">
+  <div class="home__wrap">
+    <div class="home__content">
+      <section class="home__main">
+        <app-section-layout title="Find everything you want">
+          <div class="home__search w-100 center">
+            <div class="home__search-box">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Search</mat-label>
+                <input matInput placeholder="..." value="Notebook">
+              </mat-form-field>
+              <button mat-icon-button color="accent" class="home__search-icon">
+                <mat-icon>search</mat-icon>
+              </button>
+            </div>
+            <div class="home__products">
+              <app-grid-layout>
+                <app-product-card *ngFor="let product of ads" [product]="product"></app-product-card>
+              </app-grid-layout>
+            </div>
+          </div>
+        </app-section-layout>
+      </section>
+    </div>
+  </div>
 </div>

@@ -1,91 +1,96 @@
 @import "src/base";
 
-footer{
+footer {
   color: white;
+  background-color: $sl-light !important;
 }
 
-a, .footer__call-time li{
-  font-weight:400;
+a, .footer__call-time li {
+  font-weight: 400;
 }
 
-a{
+a {
   border-bottom: 1px solid white;
   padding-bottom: 0.6rem;
 }
 
-a:hover{
+a:hover {
   color: white;
   border: none;
 }
 
-.footer__info, .footer__contacts{
+.footer__info, .footer__contacts {
   width: 100% !important;
   justify-content: space-between !important;
   padding-left: 0;
 }
 
-.footer__link-active{
+.footer__main {
+  background-color: #405263 !important;
+}
+
+.footer__link-active {
   border-color: transparent !important;
 }
 
-.footer__info li, .footer__contacts ul li{
-  list-style:none;
+.footer__info li, .footer__contacts ul li {
+  list-style: none;
 }
 
-.footer__call-time li{
+.footer__call-time li {
   padding-bottom: $margin/3;
 }
 
-.footer__contacts{
+.footer__contacts {
   width: 100%;
-  margin-bottom : 0 !important;
+  margin-bottom: 0 !important;
 }
 
-.footer__contacts ul{
+.footer__contacts ul {
   flex: 1 1 33%;
   padding-left: 0;
 }
 
-.footer__phone{
+.footer__phone {
   flex: 1 1 24%;
 }
 
 
-:host ::ng-deep .footer__wrap{
+:host ::ng-deep .footer__wrap {
   padding: $margin*2 0 !important;
 }
 
-.footer__brand ::ng-deep .header__brand-name span, .footer__brand{
+.footer__brand ::ng-deep .header__brand-name span, .footer__brand {
   @extend .h6;
 }
 
-.footer__brand ::ng-deep .header__brand-name{
+.footer__brand ::ng-deep .header__brand-name {
   margin: 0 $margin/4;
 }
 
-.footer__brand{
+.footer__brand {
   color: white;
 }
 
 
-@media(max-width: $media){
-  .footer__info{
+@media(max-width: $media) {
+  .footer__info {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
     grid-auto-rows: 50px;
     grid-gap: $margin;
     justify-items: center;
 
-    li{
-      width:100%;
+    li {
+      width: 100%;
       height: 100%;
     }
 
     li a {
-      width:100%;
+      width: 100%;
       text-align: center;
       height: 100%;
-      border:none;
+      border: none;
       display: flex;
       align-items: center;
       justify-content: center;
